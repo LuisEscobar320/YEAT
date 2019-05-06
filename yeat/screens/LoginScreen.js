@@ -32,7 +32,7 @@ export default class LoginScrren extends React.Component {
       try{
         const result = await Expo.Google.logInAsync({
           behavior: 'web',
-          //androidClientId: HERE,
+          androidClientId: '790782934000-qnrgh51jc2bhjmid7ltcqu1uu9pctr36.apps.googleusercontent.com',
           iosClientId: '790782934000-229ca1tq0h4l1n9dibvotu4qluiuv8gc.apps.googleusercontent.com',
           scopes: ['profile','email'],
         });
