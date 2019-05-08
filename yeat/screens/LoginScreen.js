@@ -21,14 +21,36 @@ var config = {
   };
 firebase.initializeApp(config);
 
+/*
+ * login screen uses Google login API calls
+ * and updates the loading image accordingly
+ * 
+ * the user will either be logged in through Google
+ * and be taken to the homepage (feed)
+ * or will stay on 
+ */
 export default class LoginScrren extends React.Component {
+  /* sets the title of the page */
   static navigationOptions = {
     title: 'Register and Login',
   };
 
-    // handling login with google
+  /* initializes the state(s) of login
+   *
+   * flag: true  -- processing login info, should display loading gif
+   *       false -- not processing login, should display default img
+   */
+  constructor(props){
+    super(props);
+    this.state = { flag: false }
+  }
 
+    /* handles login with google and uses onsignin to connect to firebase */
     signin = async () => {
+
+      // toggles the flag to display loading gif
+      this.setState({ flag : true });
+
       try{
         const result = await Expo.Google.logInAsync({
           behavior: 'web',
@@ -38,16 +60,19 @@ export default class LoginScrren extends React.Component {
         });
   
         if(result.type==='success'){
+          // updates firebase realtime database
           this.onSignIn(result);
           return result.accessToken;
         } else{
+          // resets the flag to display the default img
+          this.setState({ flag : false });
           return {cancelled: true};
         }
       } catch(e){
-  
       }
     }
   
+    /* retrieves Google user info and updates firebase */
     onSignIn = (googleUser) => {
       console.log('Google Auth Response', googleUser);
       // We need to register an Observer on Firebase Auth to make sure auth is initialized.
@@ -106,18 +131,20 @@ export default class LoginScrren extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-          
-          <Image
-              source={require('../assets/images/robot-dev.png')}
-              style={styles.welcomeImage}/>
 
           <Text style={styles.getStartedText}> yEAT@UCSD </Text>
+
+          <Image
+              source={this.state.flag ? require('../assets/images/loading.gif') 
+                                      : require('../assets/images/robot-dev.png')}
+              style={styles.welcomeImage}/>
           
           <View><Button
               onPress={()=> this.signin()}
               title="Login"
               color="#841584"
               /></View>
+              
       </ScrollView>
     );
   }
