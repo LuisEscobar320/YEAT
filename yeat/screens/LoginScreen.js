@@ -21,7 +21,7 @@ var config = {
   };
 firebase.initializeApp(config);
 
-export default class LoginScrren extends React.Component {
+export default class LoginScreen extends React.Component {
   static navigationOptions = {
     title: 'Register and Login',
   };
@@ -111,7 +111,7 @@ export default class LoginScrren extends React.Component {
               source={require('../assets/images/robot-dev.png')}
               style={styles.welcomeImage}/>
 
-          <Text style={styles.getStartedText}> yEAT@UCSD </Text>
+          <Text style={styles.getStartedText}>YEAT@UCSD</Text>
           
           <View><Button
               onPress={()=> this.signin()}
