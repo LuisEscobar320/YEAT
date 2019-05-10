@@ -6,7 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import FeedScreen from '../screens/FeedScreen';
+//import FeedScreen from '../screens/FeedScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -40,11 +40,11 @@ LinksStack.navigationOptions = {
   ),
 };
 
-const FeedStack = createStackNavigator({
-  Feeds: FeedScreen,
-});
+//const FeedStack = createStackNavigator({
+//  Feeds: FeedScreen,
+//});
 
-FeedStack.navigationOptions = {
+/*FeedStack.navigationOptions = {
   tabBarLabel: 'Settings',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -52,7 +52,7 @@ FeedStack.navigationOptions = {
       name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
     />
   ),
-};
+};*/
 
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
@@ -72,5 +72,5 @@ export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
-  FeedScreen,
+ // FeedScreen,
 });
