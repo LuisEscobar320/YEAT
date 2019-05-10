@@ -1,4 +1,6 @@
 import React from 'react';
+import MapView from 'react-native-maps'
+
 import {
   Image,
   Platform,
@@ -19,6 +21,8 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
+      
+      
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
@@ -61,7 +65,10 @@ export default class HomeScreen extends React.Component {
           </View>
         </View>
       </View>
+      
     );
+
+
   }
 
   _maybeRenderDevelopmentModeWarning() {
