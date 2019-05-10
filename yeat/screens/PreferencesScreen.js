@@ -2,12 +2,13 @@ import firebase from 'firebase';
 import React from 'react';
 import {Button, Image, StyleSheet, ScrollView, Text, View} from 'react-native';
 import { CheckBox } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+//import Icon from 'react-native-vector-icons/FontAwesome';
+//import {Icon} from 'react-native-elements';
 
 export default class PreferencesScreen extends React.Component {
     static navigationOptions = {
         title: 'Preferences',
-	headerStyle: {
+    	headerStyle:{
       	    backgroundColor: '#fff',
 	    elevation: 0.
         },
@@ -19,6 +20,10 @@ export default class PreferencesScreen extends React.Component {
 	    color: '#153b50',
 	    fontSize: 35
         }
+        /*<Icon 
+            name='heartbeat'
+            type='font-awesome'
+        />*/
       };
 
     constructor(props) {
@@ -50,7 +55,7 @@ export default class PreferencesScreen extends React.Component {
     render() {
         return (
 	    <ScrollView style={styles.container}>
-            <View style={{ flex: 1, justifyContent: "center"/*, alignItems: "center"*/ }}>
+            <View style={{ flex: 1, justifyContent: "center" }}>
             <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
 
             <CheckBox
@@ -158,6 +163,12 @@ export default class PreferencesScreen extends React.Component {
                 onPress={() => this.setState({checkbox17: !this.state.checkbox17})}
             />
 
+            <Button
+                color='#39cbd6'
+                title='Save'
+                type="solid"
+            />
+
         </View>
 	</ScrollView>
         );
@@ -165,10 +176,13 @@ export default class PreferencesScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    textAlign: 'center'
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        textAlign: 'center'
+    },
+    buttonStyle: {
+        backgroundColor: '#ecebe4'
+    },
 })
 
