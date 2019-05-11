@@ -53,7 +53,7 @@ export default class PreferencesScreen extends React.Component {
                 if(state.check1 === 'true'){
                     test = 'pp';
                 }*/
-                firebase.database().ref('/users/' + user.uid+'/preferences/').update(
+                firebase.database().ref('/users/' + user.uid + '/preferences/').update(
                     {
                         vegetarianCheck: true
 
