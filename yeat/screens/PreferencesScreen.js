@@ -45,7 +45,8 @@ export default class PreferencesScreen extends React.Component {
     }
 
     // Method saves the user's preferences to Firebase
-    savePrefs(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11, ch12, ch13, ch14, ch15, ch16, ch17) {
+    savePrefs(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11,
+            ch12, ch13, ch14, ch15, ch16, ch17) {
         firebase.auth().onAuthStateChanged(user=> {
             if(user) {
                 /*var test = 'hhe';
@@ -197,7 +198,7 @@ export default class PreferencesScreen extends React.Component {
                 backgroundColor="39cbd6"
                 title="Save"
                 type="solid"
-                onPress={this.savePrefs(this.state.checkbox1, this.state.checkbox2, 
+                onPress={() => this.savePrefs(this.state.checkbox1, this.state.checkbox2, 
                     this.state.checkbox3, this.state.checkbox4, this.state.checkbox5, 
                     this.state.checkbox6, this.state.checkbox7, this.state.checkbox8, 
                     this.state.checkbox9, this.state.checkbox10, this.state.checkbox11, 
