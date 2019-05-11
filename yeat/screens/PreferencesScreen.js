@@ -1,8 +1,8 @@
-import firebase from 'firebase';
+import firebase, {UserCredential as cred} from 'firebase';
 import React from 'react';
-import {Button, Image, StyleSheet, ScrollView, Text, View} from 'react-native';
+import {Image, StyleSheet, ScrollView, Text, View} from 'react-native';
 import { CheckBox } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {Button} from 'react-native-elements';
 
 export default class PreferencesScreen extends React.Component {
     static navigationOptions = {
@@ -19,7 +19,7 @@ export default class PreferencesScreen extends React.Component {
 	    color: '#153b50',
 	    fontSize: 35
         }
-      };
+    };
 
     constructor(props) {
         super(props);
@@ -42,10 +42,30 @@ export default class PreferencesScreen extends React.Component {
             checkbox15: false,
             checkbox16: false,
             checkbox17: false,
-
-
         };
     }
+
+    // Method saves the user's preferences to Firebase
+    savePrefs() {
+        firebase.auth().onAuthStateChanged(user=> {
+            if(user) {
+                /*var test = 'hhe';
+                var check1 = this.state.checkbox1;
+                if(state.check1 === 'true'){
+                    test = 'pp';
+                }*/
+                firebase.database().ref('/users/' + user.uid+'/preferences/').update(
+                    {
+                        vegetarianCheck: true
+
+                        // The line below is is what we tried to do but it doesn't work
+                        //vegetarianCheck = this.state.checkbox1;
+                    });
+            }
+        })
+
+    }
+
 
     render() {
         return (
@@ -72,19 +92,19 @@ export default class PreferencesScreen extends React.Component {
             />
 
             <CheckBox
-                title='Seafood'
+                title='No Seafood'
                 checked={this.state.checkbox4}
                 onPress={() => this.setState({checkbox4: !this.state.checkbox4})}
             />
 
             <CheckBox
-                title='Dairy'
+                title='No Dairy'
                 checked={this.state.checkbox5}
                 onPress={() => this.setState({checkbox5: !this.state.checkbox5})}
             />
 
             <CheckBox
-                title='Nuts'
+                title='No Nuts'
                 checked={this.state.checkbox6}
                 onPress={() => this.setState({checkbox6: !this.state.checkbox6})}
              />
@@ -156,6 +176,13 @@ export default class PreferencesScreen extends React.Component {
                 title='Low-sugar'
                 checked={this.state.checkbox17}
                 onPress={() => this.setState({checkbox17: !this.state.checkbox17})}
+            />
+
+            <Button
+                backgroundColor="39cbd6"
+                title="Save"
+                type="solid"
+                onPress={this.savePrefs}
             />
 
         </View>

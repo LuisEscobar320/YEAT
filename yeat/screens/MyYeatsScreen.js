@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import React from 'react';
 import {Button, Image, StyleSheet, ScrollView, Text, View} from "react-native";
-import { CheckBox } from 'react-native-elements'
+import { Card } from 'react-native-elements';
 
 export default class MyYeatsScreen extends React.Component {
     static navigationOptions = {
@@ -20,9 +20,9 @@ export default class MyYeatsScreen extends React.Component {
         return (
 	    <ScrollView style={styles.container}>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <Text>Hello, world!</Text>
-        </View>
-	</ScrollView>
+
+            </View>
+	    </ScrollView>
     );
     }
 }
