@@ -45,7 +45,7 @@ export default class PreferencesScreen extends React.Component {
     }
 
     // Method saves the user's preferences to Firebase
-    savePrefs() {
+    savePrefs(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11, ch12, ch13, ch14, ch15, ch16, ch17) {
         firebase.auth().onAuthStateChanged(user=> {
             if(user) {
                 /*var test = 'hhe';
@@ -55,7 +55,23 @@ export default class PreferencesScreen extends React.Component {
                 }*/
                 firebase.database().ref('/users/' + user.uid+'/preferences/').update(
                     {
-                        vegetarianCheck: true
+                        vegetarianCheck: ch1,
+                        veganCheck: ch2,
+                        glutenFreeCheck: ch3,
+                        noSeafoodCheck: ch4,
+                        noDairyCheck: ch5,
+                        noNutsCheck: ch6,
+                        americanCheck: ch7,
+                        asianCheck: ch8,
+                        indianCheck: ch9,
+                        italianCheck: ch10,
+                        mediterraneanCheck: ch11,
+                        mexicanCheck: ch12,
+                        lowCalorieCheck: ch13,
+                        lowCarbCheck: ch14,
+                        lowFatCheck: ch15,
+                        lowSodiumCheck: ch16,
+                        lowSugarCheck: ch17
 
                         // The line below is is what we tried to do but it doesn't work
                         //vegetarianCheck = this.state.checkbox1;
@@ -181,7 +197,12 @@ export default class PreferencesScreen extends React.Component {
                 backgroundColor="39cbd6"
                 title="Save"
                 type="solid"
-                onPress={this.savePrefs}
+                onPress={this.savePrefs(this.state.checkbox1, this.state.checkbox2, 
+                    this.state.checkbox3, this.state.checkbox4, this.state.checkbox5, 
+                    this.state.checkbox6, this.state.checkbox7, this.state.checkbox8, 
+                    this.state.checkbox9, this.state.checkbox10, this.state.checkbox11, 
+                    this.state.checkbox12, this.state.checkbox13, this.state.checkbox14, 
+                    this.state.checkbox15, this.state.checkbox16, this.state.checkbox17)}
             />
         </View>
 	</ScrollView>
