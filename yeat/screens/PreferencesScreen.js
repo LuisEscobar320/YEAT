@@ -1,8 +1,8 @@
 import firebase from 'firebase';
 import React from 'react';
-import {StyleSheet, ScrollView, Text, View} from 'react-native';
+import {Button, StyleSheet, ScrollView, Text, View} from 'react-native';
 import { CheckBox } from 'react-native-elements';
-import {Button} from 'react-native-elements';
+//import {Button} from 'react-native-elements';
 
 
 export default class PreferencesScreen extends React.Component {
@@ -72,9 +72,6 @@ export default class PreferencesScreen extends React.Component {
                         lowFatCheck: ch15,
                         lowSodiumCheck: ch16,
                         lowSugarCheck: ch17
-
-                        // The line below is is what we tried to do but it doesn't work
-                        //vegetarianCheck = this.state.checkbox1;
                     });
             }
         })
@@ -197,7 +194,7 @@ export default class PreferencesScreen extends React.Component {
                 backgroundColor="39cbd6"
                 title="Save"
                 type="solid"
-                onPress={this.savePrefs(this.state.checkbox1, this.state.checkbox2, 
+                onPress={savePrefs(this.state.checkbox1, this.state.checkbox2,
                     this.state.checkbox3, this.state.checkbox4, this.state.checkbox5, 
                     this.state.checkbox6, this.state.checkbox7, this.state.checkbox8, 
                     this.state.checkbox9, this.state.checkbox10, this.state.checkbox11, 
