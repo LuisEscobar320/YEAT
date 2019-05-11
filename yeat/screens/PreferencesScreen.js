@@ -1,25 +1,24 @@
-import firebase, {UserCredential as cred} from 'firebase';
+import firebase from 'firebase';
 import React from 'react';
-import {Image, StyleSheet, ScrollView, Text, View} from 'react-native';
+import {StyleSheet, ScrollView, Text, View} from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import {Button} from 'react-native-elements';
+
 
 export default class PreferencesScreen extends React.Component {
     static navigationOptions = {
         title: 'Preferences',
-	headerStyle: {
-      	    backgroundColor: '#fff',
+    	headerStyle:{
+        backgroundColor: '#fff',
 	    elevation: 0.
         },
-    	headerTitleStyle: {
-      	fontWeight: 'bold',
 
-    	},
         headerTitleStyle: {
 	    color: '#153b50',
 	    fontSize: 35
         }
     };
+
 
     constructor(props) {
         super(props);
@@ -70,7 +69,7 @@ export default class PreferencesScreen extends React.Component {
     render() {
         return (
 	    <ScrollView style={styles.container}>
-            <View style={{ flex: 1, justifyContent: "center"/*, alignItems: "center"*/ }}>
+            <View style={{ flex: 1, justifyContent: "center" }}>
             <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
 
             <CheckBox
@@ -184,7 +183,6 @@ export default class PreferencesScreen extends React.Component {
                 type="solid"
                 onPress={this.savePrefs}
             />
-
         </View>
 	</ScrollView>
         );
@@ -192,10 +190,13 @@ export default class PreferencesScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    textAlign: 'center'
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        textAlign: 'center'
+    },
+    buttonStyle: {
+        backgroundColor: '#ecebe4'
+    },
 })
 
