@@ -9,13 +9,14 @@ export default class PreferencesScreen extends React.Component {
     static navigationOptions = {
         title: 'Preferences',
     	headerStyle:{
-        backgroundColor: '#fff',
-	    elevation: 0.
+            backgroundColor: '#fff',
+    	    elevation: 0,
+            borderBottomWidth: 0,
         },
 
         headerTitleStyle: {
-	    color: '#153b50',
-	    fontSize: 35
+	        color: '#153b50',
+    	    fontSize: 35,
         }
     };
 
@@ -24,7 +25,7 @@ export default class PreferencesScreen extends React.Component {
         super(props);
 
         this.state = {
-            checkbox1: false,
+            checkbox1: false, /*this.readUserData("vegetarianCheck"),*/  
             checkbox2: false,
             checkbox3: false,
             checkbox4: false,
@@ -42,19 +43,67 @@ export default class PreferencesScreen extends React.Component {
             checkbox16: false,
             checkbox17: false,
         };
+        //ret = this.readUserData("vegetarianCheck"),
+        console.log(this.checkbox1);
+        this.setChecks();
+        console.log("logging");
+        //console.log(ret);
+        console.log(this.checkbox1);
+        console.log(this.checkbox2);
     }
+
+            
+    
+    readUserData(param) {
+        var userId = firebase.auth().currentUser.uid;
+        var ref = firebase.database().ref("users/" + userId);
+        ref.once("value")
+          .then(function(snapshot) {
+            var ch = snapshot.child("name").val(); //Gets Use's name from ID
+            var ch2 = snapshot.child("preferences/" + param).val(); //Gets check val
+            //this.state.checkbox1 = ch2;
+            /*console.log("logging");
+            console.log(ch)*/;
+            console.log("PRINTING");
+            console.log("PRINTING");
+            console.log("PRINTING");
+            console.log("PRINTING");
+            console.log("PRINTING");
+            console.log(ch2);
+            console.log("PRINTING");
+            console.log("PRINTING");
+            console.log("PRINTING");
+            console.log("PRINTING");
+            return(ch2);
+            /*if (ch2 == true) {
+                return(true);
+            } else {
+                return(false);
+            }*/
+            //return ch2;
+            //console.log(userId);
+        })
+            /*console.log("PRINTING");
+            console.log(ch2);*/
+        //return ch2
+    };
+    
+    setChecks(){
+        this.setState({checkbox1: this.readUserData("vegetarianCheck")});
+        console.log("PRINTING ONE");
+        console.log(this.state.checkbox1);
+    };
+
 
     // Method saves the user's preferences to Firebase
     savePrefs(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11,
             ch12, ch13, ch14, ch15, ch16, ch17) {
         firebase.auth().onAuthStateChanged(user=> {
             if(user) {
-                /*var test = 'hhe';
-                var check1 = this.state.checkbox1;
-                if(state.check1 === 'true'){
-                    test = 'pp';
-                }*/
-                firebase.database().ref('/users/' + user.uid + '/preferences/').update(
+                console.log("PRINTINGGGGGGGGG");
+                console.log(ch1);
+                console.log(ch2);
+                firebase.database().ref('/users/' + user.uid+'/preferences/').update(
                     {
                         vegetarianCheck: ch1,
                         veganCheck: ch2,
