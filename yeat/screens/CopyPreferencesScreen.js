@@ -23,29 +23,26 @@ export default class PreferencesScreen extends React.Component {
 
 
     constructor(props) {
+        /*let bool = false;
+        var userId = firebase.auth().currentUser.uid;
+        var ref = firebase.database().ref("users/" + userId);
+        ref.once("value")
+            .then(function(snapshot) {
+              var ch = snapshot.child("name").val(); //Gets Use's name from ID
+              bool = snapshot.child("preferences/" + param).val();
+            console.log(bool);
+        })*/
+
         super(props);
-       
-        // Gets the boolean for all of the boxes
-        this.readUserData("vegetarianCheck");
-        this.readUserData("veganCheck");
-        this.readUserData("glutenFreeCheck");
-        this.readUserData("noSeafoodCheck");
-        this.readUserData("noDairyCheck");
-        this.readUserData("noNutsCheck");
-        this.readUserData("americanCheck");
-        this.readUserData("asianCheck");
-        this.readUserData("indianCheck");
-        this.readUserData("italianCheck");
-        this.readUserData("mediterraneanCheck");
-        this.readUserData("mexicanCheck");
-        this.readUserData("lowCalorieCheck");
-        this.readUserData("lowCarbCheck");
-        this.readUserData("lowFatCheck");
-        this.readUserData("lowSodiumCheck");
-        this.readUserData("lowSugarCheck");
+        let bool = false;
+        bool = this.readUserData("vegetarianCheck", bool);
+        //bool = this.readUserData("vegetarianCheck", bool).then(bool => ;
+        console.log("RET VAL IS");
+        console.log(bool);
 
         this.state = {
             
+            //checkbox1: this.readUserData("vegetarianCheck"),
             checkbox1: false,
             checkbox2: false,
             checkbox3: false,
@@ -64,87 +61,80 @@ export default class PreferencesScreen extends React.Component {
             checkbox15: false,
             checkbox16: false,
             checkbox17: false,
+            /*checkbox1: this.readUserData("vegetarianCheck"),
+            checkbox2: this.readUserData("veganCheck"),
+            checkbox3: this.readUserData("glutenFreeCheck"),
+            checkbox4: this.readUserData("noSeafoodCheck"),
+            checkbox5: this.readUserData("noDairyCheck"),
+            checkbox6: this.readUserData("noNutsCheck"),
+            checkbox7: this.readUserData("americanCheck"),
+            checkbox8: this.readUserData("asianCheck"),
+            checkbox9: this.readUserData("indianCheck"),
+            checkbox10: this.readUserData("italianCheck"),
+            checkbox11: this.readUserData("mediterraneanCheck"),
+            checkbox12: this.readUserData("mexicanCheck"),
+            checkbox13: this.readUserData("lowCalorieCheck"),
+            checkbox14: this.readUserData("lowCarbCheck"),
+            checkbox15: this.readUserData("lowFatCheck"),
+            checkbox16: this.readUserData("lowSodiumCheck"),
+            checkbox17: this.readUserData("lowSugarCheck"),*/
         };
     }
 
             
-    async readUserData(param) {
+    readUserData(param, bool) {
+//        let bool = false;
+        return new Promise(function(resolve, reject) {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId);
-        let arr = [];
-        await ref.once("value")
+        ref.once("value")
 
           .then(function(snapshot) {
-            arr[0] = snapshot.child("preferences/" + param).val(); //Gets check val
+            //var ch = snapshot.child("name").val(); //Gets Use's name from ID
+            bool = snapshot.child("preferences/" + param).val(); //Gets check val
+            //this.state.checkbox1 = ch2;
             console.log("logging");
             console.log("preference/" + param);
-            console.log(arr[0]);
-            //return(arr[0]);
+            console.log(bool);
+            //return(ch2);
+            /*if (ret === true) {
+                console.log("RETURNING TRUE");
+                return(true);
+            } else {
+                console.log("RETURNING FALSE");
+
+                return(false);
+            }*/
+            console.log(userId);
         })
-        console.log("RETURNING");
-        console.log(arr[0]);
+        console.log("bool is");
+        console.log(bool);
+        });
+        //return(bool);
 
-        // Sets the corresponding checkbox to be true or false
-        // Can't figure out how to pass in checkbox, put the if statements for now
-        if (param === "vegetarianCheck") {
-            this.setState({checkbox1: arr[0]});
-        }
-        else if (param === "veganCheck") {
-            this.setState({checkbox2: arr[0]});
-        }
-        else if (param === "glutenFreeCheck") {
-            this.setState({checkbox3: arr[0]});
-        }
-        else if (param === "noSeafoodCheck") {
-            this.setState({checkbox4: arr[0]});
-        }
-        else if (param === "noDairyCheck") {
-            this.setState({checkbox5: arr[0]});
-        }
-        else if (param === "noNutsCheck") {
-            this.setState({checkbox6: arr[0]});
-        }
-        else if (param === "americanCheck") {
-            this.setState({checkbox7: arr[0]});
-        }
-        else if (param === "asiaanCheck") {
-            this.setState({checkbox8: arr[0]});
-        }
-        else if (param === "indianCheck") {
-            this.setState({checkbox9: arr[0]});
-        }
-        else if (param === "italianCheck") {
-            this.setState({checkbox10: arr[0]});
-        }
-        else if (param === "mediterraneanCheck") {
-            this.setState({checkbox11: arr[0]});
-        }
-        else if (param === "mexicanCheck") {
-            this.setState({checkbox12: arr[0]});
-        }
-        else if (param === "lowCalorieCheck") {
-            this.setState({checkbox13: arr[0]});
-        }
-        else if (param === "lowCarbCheck") {
-            this.setState({checkbox14: arr[0]});
-        }
-        else if (param === "lowFatCheck") {
-            this.setState({checkbox15: arr[0]});
-        }
-        else if (param === "lowSodiumCheck") {
-            this.setState({checkbox16: arr[0]});
-        }
-        else if (param === "lowSugarCheck") {
-            this.setState({checkbox17: arr[0]});
-        }
-
+            /*console.log("PRINTING");
+            console.log(ch2);*/
+        //return ch2
     };
     
+    /*setChecks(){
+        var ret = this.readUserData("vegetarianCheck");
+        this.setState({checkbox1: this.readUserData("vegetarianCheck")});
+        console.log("PRINTING ONE");
+        console.log(ret);
+        console.log(this.state.checkbox1);
+    };*/
+
+
     // Method saves the user's preferences to Firebase
     savePrefs(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11,
             ch12, ch13, ch14, ch15, ch16, ch17) {
         firebase.auth().onAuthStateChanged(user=> {
             if(user) {
+                console.log("PRINTINGGGGGGGGG");
+                console.log(ch1);
+                console.log(ch2);
+                console.log(ch3);
                 firebase.database().ref('/users/' + user.uid+'/preferences/').update(
                     {
                         vegetarianCheck: ch1,
@@ -173,6 +163,12 @@ export default class PreferencesScreen extends React.Component {
 
 
     render() {
+//        this.setState({checkbox1: this.readUserData("vegetarianCheck")});
+        console.log("CHECKBOX1 VALUE");
+        console.log("CHECKBOX1 VALUE");
+        console.log("CHECKBOX1 VALUE");
+        console.log("CHECKBOX1 VALUE");
+        console.log(this.state.checkbox1);
         return (
 	    <ScrollView style={styles.container}>
             <View style={{ flex: 1, justifyContent: "center" }}>
