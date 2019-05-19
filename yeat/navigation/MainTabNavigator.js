@@ -9,6 +9,7 @@ import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import BudgetScreen from '../screens/BudgetScreen';
 import TritonCardLoginScreen from "../screens/TritonCardLoginScreen";
+import StartingBudgetScreen from "../screens/StartingBudgetScreen"
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -56,16 +57,17 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-
 const BudgetStack = createSwitchNavigator({
-    TritonCard: TritonCardLoginScreen,
-    Budget: BudgetScreen
-  },
-    {
-      //initialRouteName: isLoggedIn ? "Budget": "TritonCard"
-      initialRouteName: "TritonCard"
-    }
+            Starting: StartingBudgetScreen,
+            TritonCard: TritonCardLoginScreen,
+            Budget: BudgetScreen
+        },
+        {
+            //initialRouteName: isLoggedIn ? "Budget": "TritonCard"
+            initialRouteName: "Starting"
+        }
 );
+
 
 BudgetStack.navigationOptions = {
   tabBarLabel: 'Budget',

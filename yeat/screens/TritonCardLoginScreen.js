@@ -1,17 +1,24 @@
 import React from 'react'
 import firebase from 'firebase'
-import { StyleSheet, Text, TextInput, View, Button, Linking } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button, Linking, AsyncStorage } from 'react-native'
+
 export default class TritonCardLoginScreen extends React.Component {
-    state = { username: '', password: '', errorMessage: null }
-    handleLogin = () => {
+    constructor(props) {
+        super(props);
+        this.state = { username: '', password: '', errorMessage: null,};
+    }
+
+    handleLogin = async() => {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId);
         ref.child("tritoncard").set({
             username: this.state.username,
             password: this.state.password
         })
+        await AsyncStorage.setItem('loggedIn', 'true')
         this.props.navigation.navigate('Budget')
     }
+
 
     render() {
         return (
