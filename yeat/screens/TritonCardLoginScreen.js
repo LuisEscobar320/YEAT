@@ -1,7 +1,7 @@
 import React from 'react'
 import firebase from 'firebase'
 import { StyleSheet, Text, TextInput, View, Button, Linking } from 'react-native'
-export default class Login extends React.Component {
+export default class TritonCardLoginScreen extends React.Component {
     state = { username: '', password: '', errorMessage: null }
     handleLogin = () => {
         var userId = firebase.auth().currentUser.uid;
@@ -10,7 +10,7 @@ export default class Login extends React.Component {
             username: this.state.username,
             password: this.state.password
         })
-        this.props.navigation.navigate('BudgetScreen')
+        this.props.navigation.navigate('Budget')
     }
 
     render() {
@@ -25,7 +25,7 @@ export default class Login extends React.Component {
             style={styles.textInput}
             keyboardType={'numeric'}
             autoCapitalize="none"
-            placeholder="PID (replace 'A' with '9'"
+            placeholder="PID (replace 'A' with '9')"
             onChangeText={username => this.setState({ username })}
             value={this.state.username}
             />

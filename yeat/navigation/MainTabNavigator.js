@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import firebase from 'firebase';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -57,12 +57,13 @@ SettingsStack.navigationOptions = {
 };
 
 
-const BudgetStack = createStackNavigator({
+const BudgetStack = createSwitchNavigator({
     TritonCard: TritonCardLoginScreen,
     Budget: BudgetScreen
   },
     {
-      initialRouteName: isLoggedIn ? "Budget": "TritonCard"
+      //initialRouteName: isLoggedIn ? "Budget": "TritonCard"
+      initialRouteName: "TritonCard"
     }
 );
 
