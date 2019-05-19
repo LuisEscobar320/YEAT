@@ -281,9 +281,10 @@ export default class PreferencesScreen extends React.Component {
                     />
 
                     <Button
-                        backgroundColor="39cbd6"
                         title="Save"
                         type="solid"
+                        color="#841584"
+                        buttonStyle={styles.button}
                         onPress={() => this.savePrefs(this.state.checkbox1, this.state.checkbox2,
                             this.state.checkbox3, this.state.checkbox4, this.state.checkbox5,
                             this.state.checkbox6, this.state.checkbox7, this.state.checkbox8,

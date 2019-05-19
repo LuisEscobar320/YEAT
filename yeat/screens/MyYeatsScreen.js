@@ -57,7 +57,7 @@ export default class MyYeatsScreen extends React.Component {
                 <Button
                     title='Profile'
                     buttonStyle={styles.button}
-                    //onPress={()=> this.props.navigation.navigate('Profile')}
+                    onPress={()=> this.props.navigation.navigate('Profile')}
                 />
             </View>
 	    </ScrollView>
