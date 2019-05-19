@@ -5,15 +5,17 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import PreferencesScreen from '../screens/PreferencesScreen';
 import MyYeatsScreen from '../screens/MyYeatsScreen';
+import PreferencesScreen from '../screens/PreferencesScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
+// Creates the Feed page
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: 'Feed',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -28,7 +30,7 @@ HomeStack.navigationOptions = {
 
 
 const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+    Settings: SettingsScreen,
 });
 
 SettingsStack.navigationOptions = {
@@ -41,8 +43,24 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+// Creates the My Yeats page
+const MyYeatsStack = createStackNavigator({
+    MyYeats: MyYeatsScreen,
+});
+
+MyYeatsStack.navigationOptions = {
+    tabBarLabel: 'My Yeats',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+        />
+    ),
+};
+
+// Creates the Preferences page
 const PreferencesStack = createStackNavigator({
-    Settings: PreferencesScreen,
+    Preferences: PreferencesScreen,
 });
 
 PreferencesStack.navigationOptions = {
@@ -55,23 +73,23 @@ PreferencesStack.navigationOptions = {
     ),
 };
 
-const MyYeatsStack = createStackNavigator({
-    Settings: MyYeatsScreen,
+const ProfileStack = createStackNavigator({
+    Profile: ProfileScreen,
 });
 
-MyYeatsStack.navigationOptions = {
-    tabBarLabel: 'My Yeats',
+ProfileStack.navigationOptions = {
+    tabBarLabel: 'Profile',
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
-        focused={focused}
-        name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+        />
     ),
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
-  SettingsStack,
-    PreferencesStack,
-    MyYeatsStack
+    HomeStack,
+    SettingsStack,
+    MyYeatsStack,
+    PreferencesStack
 });

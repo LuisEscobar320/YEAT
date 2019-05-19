@@ -1,18 +1,20 @@
 import firebase from 'firebase';
 import React from 'react';
-import {Button, Image, StyleSheet, ScrollView, Text, View} from "react-native";
-import { Card } from 'react-native-elements';
+import {Image, StyleSheet, ScrollView, Text, View} from "react-native";
+import {Button, Card} from 'react-native-elements';
 
 export default class MyYeatsScreen extends React.Component {
     static navigationOptions = {
         title: 'My Yeats',
-        headerStyle: {
+        headerStyle:{
             backgroundColor: '#fff',
-	    elevation : 0,
+            elevation: 0,
+            borderBottomWidth: 0,
         },
+
         headerTitleStyle: {
-            color: '#153b50',
-	    fontSize: 35
+            color: '#00C6D7',
+            fontSize: 35,
         }
     };
 
@@ -20,7 +22,11 @@ export default class MyYeatsScreen extends React.Component {
         return (
 	    <ScrollView style={styles.container}>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-
+                <Button
+                    title='Profile'
+                    buttonStyle={styles.button}
+                    //onPress={()=> this.props.navigation.navigate('Profile')}
+                />
             </View>
 	    </ScrollView>
     );
@@ -28,10 +34,15 @@ export default class MyYeatsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    textAlign: 'center'
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        textAlign: 'center'
+    },
+    button: {
+        backgroundColor: '#153b50',
+        borderRadius: 15,
+    }
+
 })
 

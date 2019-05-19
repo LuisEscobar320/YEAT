@@ -1,8 +1,7 @@
 import firebase from 'firebase';
 import React from 'react';
 import {StyleSheet, ScrollView, Text, View} from 'react-native';
-import { CheckBox } from 'react-native-elements';
-import {Button} from 'react-native-elements';
+import {Button, CheckBox} from 'react-native-elements';
 
 
 export default class PreferencesScreen extends React.Component {
@@ -15,7 +14,7 @@ export default class PreferencesScreen extends React.Component {
         },
 
         headerTitleStyle: {
-	        color: '#153b50',
+	        color: '#00C6D7',
     	    fontSize: 35,
         }
     };
@@ -103,7 +102,7 @@ export default class PreferencesScreen extends React.Component {
                 console.log("PRINTINGGGGGGGGG");
                 console.log(ch1);
                 console.log(ch2);
-                firebase.database().ref('/users/' + user.uid+'/preferences/').update(
+                firebase.database().ref('/users/' + user.uid + '/preferences/').update(
                     {
                         vegetarianCheck: ch1,
                         veganCheck: ch2,
@@ -131,128 +130,127 @@ export default class PreferencesScreen extends React.Component {
 
     render() {
         return (
-	    <ScrollView style={styles.container}>
-            <View style={{ flex: 1, justifyContent: "center" }}>
-            <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
+	        <ScrollView style={styles.container}>
+                <View style={{ flex: 1, justifyContent: "center" }}>
+                    <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
 
-            <CheckBox
-                title='Vegetarian'
-                checked={this.state.checkbox1}
-                onPress={() => this.setState({checkbox1: !this.state.checkbox1})}
-            />
+                    <CheckBox
+                        title='Vegetarian'
+                        checked={this.state.checkbox1}
+                        onPress={() => this.setState({checkbox1: !this.state.checkbox1})}
+                    />
 
-            <CheckBox
-                title='Vegan'
-                checked={this.state.checkbox2}
-                onPress={() => this.setState({checkbox2: !this.state.checkbox2})}
-            />
+                    <CheckBox
+                        title='Vegan'
+                        checked={this.state.checkbox2}
+                        onPress={() => this.setState({checkbox2: !this.state.checkbox2})}
+                    />
 
-            <CheckBox
-                title='Gluten-free'
-                checked={this.state.checkbox3}
-                onPress={() => this.setState({checkbox3: !this.state.checkbox3})}
-            />
+                    <CheckBox
+                        title='Gluten-free'
+                        checked={this.state.checkbox3}
+                        onPress={() => this.setState({checkbox3: !this.state.checkbox3})}
+                    />
 
-            <CheckBox
-                title='No Seafood'
-                checked={this.state.checkbox4}
-                onPress={() => this.setState({checkbox4: !this.state.checkbox4})}
-            />
+                    <CheckBox
+                        title='No Seafood'
+                        checked={this.state.checkbox4}
+                        onPress={() => this.setState({checkbox4: !this.state.checkbox4})}
+                    />
 
-            <CheckBox
-                title='No Dairy'
-                checked={this.state.checkbox5}
-                onPress={() => this.setState({checkbox5: !this.state.checkbox5})}
-            />
+                    <CheckBox
+                        title='No Dairy'
+                        checked={this.state.checkbox5}
+                        onPress={() => this.setState({checkbox5: !this.state.checkbox5})}
+                    />
 
-            <CheckBox
-                title='No Nuts'
-                checked={this.state.checkbox6}
-                onPress={() => this.setState({checkbox6: !this.state.checkbox6})}
-             />
+                    <CheckBox
+                        title='No Nuts'
+                        checked={this.state.checkbox6}
+                        onPress={() => this.setState({checkbox6: !this.state.checkbox6})}
+                     />
 
-	        <Text style = {{color: '#153b50', fontSize: 25, padding: 20}}>Cuisines</Text>
-            
-            <CheckBox
-                title='American'
-                checked={this.state.checkbox7}
-                onPress={() => this.setState({checkbox7: !this.state.checkbox7})}
-            />
+                    <Text style = {{color: '#153b50', fontSize: 25, padding: 20}}>Cuisines</Text>
 
-            <CheckBox
-                title='Asian'
-                checked={this.state.checkbox8}
-                onPress={() => this.setState({checkbox8: !this.state.checkbox8})}
-            />
+                    <CheckBox
+                        title='American'
+                        checked={this.state.checkbox7}
+                        onPress={() => this.setState({checkbox7: !this.state.checkbox7})}
+                    />
 
-            <CheckBox
-                title='Indian'
-                checked={this.state.checkbox9}
-                onPress={() => this.setState({checkbox9: !this.state.checkbox9})}
-            />
+                    <CheckBox
+                        title='Asian'
+                        checked={this.state.checkbox8}
+                        onPress={() => this.setState({checkbox8: !this.state.checkbox8})}
+                    />
 
-            <CheckBox
-                title='Italian'
-                checked={this.state.checkbox10}
-                onPress={() => this.setState({checkbox10: !this.state.checkbox10})}
-            />
+                    <CheckBox
+                        title='Indian'
+                        checked={this.state.checkbox9}
+                        onPress={() => this.setState({checkbox9: !this.state.checkbox9})}
+                    />
 
-            <CheckBox
-                title='Mediterranean'
-                checked={this.state.checkbox11}
-                onPress={() => this.setState({checkbox11: !this.state.checkbox11})}
-            />
+                    <CheckBox
+                        title='Italian'
+                        checked={this.state.checkbox10}
+                        onPress={() => this.setState({checkbox10: !this.state.checkbox10})}
+                    />
 
-            <CheckBox
-                title='Mexican'
-                checked={this.state.checkbox12}
-                onPress={() => this.setState({checkbox12: !this.state.checkbox12})}
-             />
+                    <CheckBox
+                        title='Mediterranean'
+                        checked={this.state.checkbox11}
+                        onPress={() => this.setState({checkbox11: !this.state.checkbox11})}
+                    />
 
-            <Text style = {{color: '#153b50', fontSize: 25, padding: 20}}>Nutrition</Text>
-            <CheckBox
-                title='Low-calorie'
-                checked={this.state.checkbox13}
-                onPress={() => this.setState({checkbox13: !this.state.checkbox13})}
-            />
+                    <CheckBox
+                        title='Mexican'
+                        checked={this.state.checkbox12}
+                        onPress={() => this.setState({checkbox12: !this.state.checkbox12})}
+                     />
 
-            <CheckBox
-                title='Low-carb'
-                checked={this.state.checkbox14}
-                onPress={() => this.setState({checkbox14: !this.state.checkbox14})}
-            />
+                    <Text style = {{color: '#153b50', fontSize: 25, padding: 20}}>Nutrition</Text>
+                    <CheckBox
+                        title='Low-calorie'
+                        checked={this.state.checkbox13}
+                        onPress={() => this.setState({checkbox13: !this.state.checkbox13})}
+                    />
 
-            <CheckBox
-                title='Low-fat'
-                checked={this.state.checkbox15}
-                onPress={() => this.setState({checkbox15: !this.state.checkbox15})}
-            />
+                    <CheckBox
+                        title='Low-carb'
+                        checked={this.state.checkbox14}
+                        onPress={() => this.setState({checkbox14: !this.state.checkbox14})}
+                    />
 
-            <CheckBox
-                title='Low-sodium'
-                checked={this.state.checkbox16}
-                onPress={() => this.setState({checkbox16: !this.state.checkbox16})}
-            />
+                    <CheckBox
+                        title='Low-fat'
+                        checked={this.state.checkbox15}
+                        onPress={() => this.setState({checkbox15: !this.state.checkbox15})}
+                    />
 
-            <CheckBox
-                title='Low-sugar'
-                checked={this.state.checkbox17}
-                onPress={() => this.setState({checkbox17: !this.state.checkbox17})}
-            />
+                    <CheckBox
+                        title='Low-sodium'
+                        checked={this.state.checkbox16}
+                        onPress={() => this.setState({checkbox16: !this.state.checkbox16})}
+                    />
 
-            <Button
-                color="#39cbd6"
-                title="Save"
-                type="solid"
-                onPress={() => this.savePrefs(this.state.checkbox1, this.state.checkbox2,
-                    this.state.checkbox3, this.state.checkbox4, this.state.checkbox5, 
-                    this.state.checkbox6, this.state.checkbox7, this.state.checkbox8, 
-                    this.state.checkbox9, this.state.checkbox10, this.state.checkbox11, 
-                    this.state.checkbox12, this.state.checkbox13, this.state.checkbox14, 
-                    this.state.checkbox15, this.state.checkbox16, this.state.checkbox17)}
-            />
-        </View>
-	</ScrollView>
+                    <CheckBox
+                        title='Low-sugar'
+                        checked={this.state.checkbox17}
+                        onPress={() => this.setState({checkbox17: !this.state.checkbox17})}
+                    />
+
+                    <Button
+                        title="Save"
+                        buttonStyle={styles.button}
+                        onPress={() => this.savePrefs(this.state.checkbox1, this.state.checkbox2,
+                            this.state.checkbox3, this.state.checkbox4, this.state.checkbox5,
+                            this.state.checkbox6, this.state.checkbox7, this.state.checkbox8,
+                            this.state.checkbox9, this.state.checkbox10, this.state.checkbox11,
+                            this.state.checkbox12, this.state.checkbox13, this.state.checkbox14,
+                            this.state.checkbox15, this.state.checkbox16, this.state.checkbox17)}
+                    />
+                </View>
+	        </ScrollView>
         );
     }
 }
@@ -263,8 +261,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         textAlign: 'center'
     },
-    buttonStyle: {
-        backgroundColor: '#ecebe4'
-    },
+    button: {
+        backgroundColor: '#153b50',
+        borderRadius: 15,
+    }
 })
 
