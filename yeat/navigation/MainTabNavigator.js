@@ -1,10 +1,14 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import firebase from 'firebase';
+import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import BudgetScreen from '../screens/BudgetScreen';
+import TritonCardLoginScreen from "../screens/TritonCardLoginScreen";
+import StartingBudgetScreen from "../screens/StartingBudgetScreen"
 import MyYeatsScreen from '../screens/MyYeatsScreen';
 import PreferencesScreen from '../screens/PreferencesScreen';
 
@@ -72,9 +76,28 @@ PreferencesStack.navigationOptions = {
     ),
 };
 
+const BudgetStack = createSwitchNavigator({
+    Starting: StartingBudgetScreen,
+    TritonCard: TritonCardLoginScreen,
+    Budget: BudgetScreen,
+    }, {
+        initialRouteName: 'Starting'
+});
+
+BudgetStack.navigationOptions = {
+    tabBarLabel: 'Budget',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={'logo-usd'}
+        />
+    ),
+}
+
 export default createBottomTabNavigator({
     HomeStack,
     SettingsStack,
     MyYeatsStack,
     PreferencesStack,
+    BudgetStack,
 });
