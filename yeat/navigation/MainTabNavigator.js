@@ -4,15 +4,17 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import MyYeatsScreen from '../screens/MyYeatsScreen';
+import PreferencesScreen from '../screens/PreferencesScreen';
 
+// Creates the Feed page
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: 'Feed',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -25,22 +27,9 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
-});
-
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};
 
 const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+    Settings: SettingsScreen,
 });
 
 SettingsStack.navigationOptions = {
@@ -53,8 +42,39 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+// Creates the My Yeats page
+const MyYeatsStack = createStackNavigator({
+    MyYeats: MyYeatsScreen,
+});
+
+MyYeatsStack.navigationOptions = {
+    tabBarLabel: 'My Yeats',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+        />
+    ),
+};
+
+// Creates the Preferences page
+const PreferencesStack = createStackNavigator({
+    Preferences: PreferencesScreen,
+});
+
+PreferencesStack.navigationOptions = {
+    tabBarLabel: 'Preferences',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+    />
+    ),
+};
+
 export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+    HomeStack,
+    SettingsStack,
+    MyYeatsStack,
+    PreferencesStack,
 });
