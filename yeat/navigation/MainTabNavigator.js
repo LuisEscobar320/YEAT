@@ -73,23 +73,9 @@ PreferencesStack.navigationOptions = {
     ),
 };
 
-const ProfileStack = createStackNavigator({
-    Profile: ProfileScreen,
-});
-
-ProfileStack.navigationOptions = {
-    tabBarLabel: 'Profile',
-    tabBarIcon: ({ focused }) => (
-        <TabBarIcon
-            focused={focused}
-            name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-        />
-    ),
-};
-
 export default createBottomTabNavigator({
     HomeStack,
     SettingsStack,
     MyYeatsStack,
-    PreferencesStack
+    PreferencesStack,
 });

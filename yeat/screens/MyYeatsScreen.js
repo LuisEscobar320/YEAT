@@ -2,8 +2,9 @@ import firebase from 'firebase';
 import React from 'react';
 import {Image, StyleSheet, ScrollView, Text, View} from "react-native";
 import {Button, Card} from 'react-native-elements';
+import {createAppContainer, createStackNavigator} from 'react-navigation';
 
-export default class MyYeatsScreen extends React.Component {
+class MyYeatsScreen extends React.Component {
     static navigationOptions = {
         title: 'My Yeats',
         headerStyle:{
@@ -13,7 +14,7 @@ export default class MyYeatsScreen extends React.Component {
         },
 
         headerTitleStyle: {
-            color: '#00C6D7',
+            color: '#153b50',
             fontSize: 35,
         }
     };
@@ -57,13 +58,59 @@ export default class MyYeatsScreen extends React.Component {
                 <Button
                     title='Profile'
                     buttonStyle={styles.button}
-                    onPress={()=> this.props.navigation.navigate('Profile')}
+                    onPress={()=> {
+                        return this.props.navigation.navigate('Profile');
+                    }}
                 />
             </View>
 	    </ScrollView>
     );
     }
 }
+
+class ProfileScreen extends React.Component {
+    static navigationOptions = {
+        title: 'Profile',
+        headerStyle:{
+            backgroundColor: '#fff',
+            elevation: 0,
+            borderBottomWidth: 0,
+        },
+
+        headerTitleStyle: {
+            color: '#00C6D7',
+            fontSize: 35,
+        }
+    };
+
+    render() {
+        return (
+            <ScrollView style={styles.container}>
+                <View>
+                    <Button
+                        title="Logout"
+                        color="#841584"
+                        buttonStyle={styles.button}
+                        onPress={()=> firebase.auth().signOut()}
+                    />
+                </View>
+            </ScrollView>
+        );
+    }
+}
+
+const AppNavigator = createStackNavigator({
+    MyYeats: {
+        screen: MyYeatsScreen,
+    },
+    Profile: {
+        screen: ProfileScreen,
+    },
+}, {
+    initialRouteName: 'MyYeats',
+});
+
+export default createAppContainer(AppNavigator);
 
 const styles = StyleSheet.create({
     container: {
@@ -76,5 +123,5 @@ const styles = StyleSheet.create({
         borderRadius: 15,
     }
 
-})
+});
 

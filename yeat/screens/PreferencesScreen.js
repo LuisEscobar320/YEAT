@@ -15,7 +15,7 @@ export default class PreferencesScreen extends React.Component {
         },
 
         headerTitleStyle: {
-	        color: '#00C6D7',
+	        color: '#153b50',
     	    fontSize: 35,
         }
     };
