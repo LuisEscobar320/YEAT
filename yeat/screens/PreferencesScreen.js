@@ -166,6 +166,7 @@ export default class PreferencesScreen extends React.Component {
         return (
             <ScrollView style={styles.container}>
                 <View style={{ flex: 1, justifyContent: "center" }}>
+
                     <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
 
                     <CheckBox
