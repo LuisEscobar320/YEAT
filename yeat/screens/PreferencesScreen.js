@@ -3,8 +3,6 @@ import React from 'react';
 import {StyleSheet, ScrollView, Text, View} from 'react-native';
 import {Button, CheckBox} from 'react-native-elements';
 
-let b = true;
-
 export default class PreferencesScreen extends React.Component {
     static navigationOptions = {
         title: 'Preferences',
@@ -69,71 +67,66 @@ export default class PreferencesScreen extends React.Component {
     async readUserData(param) {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId);
-        let arr = [];
+        let bool = false;
         await ref.once("value")
 
           .then(function(snapshot) {
-            arr[0] = snapshot.child("preferences/" + param).val(); //Gets check val
+            bool = snapshot.child("preferences/" + param).val(); //Gets check val
             console.log("logging");
             console.log("preference/" + param);
-            console.log(arr[0]);
-            //return(arr[0]);
         });
-        console.log("RETURNING");
-        console.log(arr[0]);
 
         // Sets the corresponding checkbox to be true or false
-        // Can't figure out how to pass in checkbox, put the if statements for now
         if (param === "vegetarianCheck") {
-            this.setState({checkbox1: arr[0]});
+            this.setState({checkbox1: bool});
         }
         else if (param === "veganCheck") {
-            this.setState({checkbox2: arr[0]});
+            this.setState({checkbox2: bool});
         }
         else if (param === "glutenFreeCheck") {
-            this.setState({checkbox3: arr[0]});
+            this.setState({checkbox3: bool});
         }
         else if (param === "noSeafoodCheck") {
-            this.setState({checkbox4: arr[0]});
+            this.setState({checkbox4: bool});
         }
         else if (param === "noDairyCheck") {
-            this.setState({checkbox5: arr[0]});
+            this.setState({checkbox5: bool});
         }
         else if (param === "noNutsCheck") {
-            this.setState({checkbox6: arr[0]});
+            this.setState({checkbox6: bool});
         }
         else if (param === "americanCheck") {
-            this.setState({checkbox7: arr[0]});
+            this.setState({checkbox7: bool});
         }
-        else if (param === "asiaanCheck") {
-            this.setState({checkbox8: arr[0]});
+        else if (param === "asianCheck") {
+            this.setState({checkbox8: bool});
         }
         else if (param === "indianCheck") {
-            this.setState({checkbox9: arr[0]});
+            this.setState({checkbox9: bool});
         }
         else if (param === "italianCheck") {
-            this.setState({checkbox10: arr[0]});
+            this.setState({checkbox10: bool});
         }
         else if (param === "mediterraneanCheck") {
-            this.setState({checkbox11: arr[0]});
+            this.setState({checkbox11: bool});
         }
         else if (param === "mexicanCheck") {
-            this.setState({checkbox12: arr[0]});
+            this.setState({checkbox12: bool});
         }
         else if (param === "lowCalorieCheck") {
-            this.setState({checkbox13: arr[0]});
+            this.setState({checkbox13: bool});
         }
         else if (param === "lowCarbCheck") {
-            this.setState({checkbox14: arr[0]});
+            this.setState({checkbox14: bool});
         }
         else if (param === "lowFatCheck") {
-            this.setState({checkbox15: arr[0]});
+            this.setState({checkbox15: bool});
         }
         else if (param === "lowSodiumCheck") {
-            this.setState({checkbox16: arr[0]});
+            this.setState({checkbox16: bool});
         }
         else if (param === "lowSugarCheck") {
-            this.setState({checkbox17: arr[0]});
+            this.setState({checkbox17: bool});
         }
 
     };
