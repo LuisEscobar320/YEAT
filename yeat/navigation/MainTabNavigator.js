@@ -6,14 +6,11 @@ import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator }
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-<<<<<<< HEAD
 import BudgetScreen from '../screens/BudgetScreen';
 import TritonCardLoginScreen from "../screens/TritonCardLoginScreen";
 import StartingBudgetScreen from "../screens/StartingBudgetScreen"
-=======
 import MyYeatsScreen from '../screens/MyYeatsScreen';
 import PreferencesScreen from '../screens/PreferencesScreen';
->>>>>>> f6214ef127497ada08d7b6f2a6e092263c15d8ca
 
 // Creates the Feed page
 const HomeStack = createStackNavigator({
@@ -79,9 +76,28 @@ PreferencesStack.navigationOptions = {
     ),
 };
 
+const BudgetStack = createSwitchNavigator({
+    Starting: StartingBudgetScreen,
+    TritonCard: TritonCardLoginScreen,
+    Budget: BudgetScreen,
+    }, {
+        initialRouteName: 'Starting'
+});
+
+BudgetStack.navigationOptions = {
+    tabBarLabel: 'Budget',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={'logo-usd'}
+        />
+    ),
+}
+
 export default createBottomTabNavigator({
     HomeStack,
     SettingsStack,
     MyYeatsStack,
     PreferencesStack,
+    BudgetStack,
 });

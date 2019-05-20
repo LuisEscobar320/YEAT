@@ -1,7 +1,6 @@
 import React from 'react'
 import firebase from 'firebase'
 import { StyleSheet, Text, TextInput, View, Button, Linking, ActivityIndicator, AsyncStorage} from 'react-native'
-import { createSwitchNavigator } from "react-navigation";
 
 export default class StartingBudgetScreen extends React.Component {
     constructor(props) {
