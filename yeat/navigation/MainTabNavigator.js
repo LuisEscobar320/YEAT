@@ -22,11 +22,7 @@ HomeStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
+      name={'md-home'}
     />
   ),
 };
@@ -56,7 +52,7 @@ MyYeatsStack.navigationOptions = {
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
             focused={focused}
-            name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+            name={'md-person'}
         />
     ),
 };
@@ -71,7 +67,7 @@ PreferencesStack.navigationOptions = {
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
         focused={focused}
-        name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+        name={'md-settings'}
     />
     ),
 };
@@ -96,8 +92,7 @@ BudgetStack.navigationOptions = {
 
 export default createBottomTabNavigator({
     HomeStack,
-    SettingsStack,
-    MyYeatsStack,
-    PreferencesStack,
     BudgetStack,
+    MyYeatsStack,
+    PreferencesStack
 });
