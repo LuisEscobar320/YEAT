@@ -105,7 +105,7 @@ export default class PreferencesScreen extends React.Component {
         else if (param === "americanCheck") {
             this.setState({checkbox7: arr[0]});
         }
-        else if (param === "asiaanCheck") {
+        else if (param === "asianCheck") {
             this.setState({checkbox8: arr[0]});
         }
         else if (param === "indianCheck") {

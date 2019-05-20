@@ -7,7 +7,6 @@ import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import MyYeatsScreen from '../screens/MyYeatsScreen';
 import PreferencesScreen from '../screens/PreferencesScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 
 // Creates the Feed page
 const HomeStack = createStackNavigator({

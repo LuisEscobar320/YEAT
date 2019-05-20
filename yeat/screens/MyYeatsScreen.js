@@ -54,7 +54,7 @@ class MyYeatsScreen extends React.Component {
     render() {
         return (
 	    <ScrollView style={styles.container}>
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            <View>
                 <Button
                     title='Profile'
                     buttonStyle={styles.button}
@@ -78,7 +78,7 @@ class ProfileScreen extends React.Component {
         },
 
         headerTitleStyle: {
-            color: '#00C6D7',
+            color: '#153b50',
             fontSize: 35,
         }
     };
