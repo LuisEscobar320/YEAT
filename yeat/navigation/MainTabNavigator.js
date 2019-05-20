@@ -1,6 +1,5 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import firebase from 'firebase';
 import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
@@ -19,6 +18,9 @@ const HomeStack = createStackNavigator({
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Feed',
+  tabBarOptions: {
+      activeTintColor: '#00C6D7'
+  },
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -49,6 +51,9 @@ const MyYeatsStack = createStackNavigator({
 
 MyYeatsStack.navigationOptions = {
     tabBarLabel: 'My Yeats',
+    tabBarOptions: {
+        activeTintColor: '#00C6D7'
+    },
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
             focused={focused}
@@ -64,6 +69,9 @@ const PreferencesStack = createStackNavigator({
 
 PreferencesStack.navigationOptions = {
     tabBarLabel: 'Preferences',
+    tabBarOptions: {
+        activeTintColor: '#00C6D7'
+    },
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
         focused={focused}
@@ -72,6 +80,7 @@ PreferencesStack.navigationOptions = {
     ),
 };
 
+// Creates the Budget page
 const BudgetStack = createSwitchNavigator({
     Starting: StartingBudgetScreen,
     TritonCard: TritonCardLoginScreen,
@@ -82,6 +91,9 @@ const BudgetStack = createSwitchNavigator({
 
 BudgetStack.navigationOptions = {
     tabBarLabel: 'Budget',
+    tabBarOptions: {
+        activeTintColor: '#00C6D7'
+    },
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
             focused={focused}
