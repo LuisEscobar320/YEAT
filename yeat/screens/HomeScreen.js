@@ -8,16 +8,120 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
-
+import { Constants, Location, Permissions, WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 
+/*
+ * HomeScreen.js
+ * 
+ * aka FeedScreen. It displays the yeatiest and yuckiest meal of the day,
+ * sorts dining halls by user's current location,
+ * and allows horizontal scrolling view of the dining items
+ * using Firebase Realtime Database
+ */
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
 
+  state = {
+    location: null,       // location tracks the user's current location
+    errorMessage: null,   // error message to be displayed when status is not granted
+    diningHalls: [
+      { name: 'Foodworx', longitude: -117.230415, latitude: 32.878806, dis: -1},
+      { name: 'Pines', longitude: -117.242558, latitude: 32.878979, dis: -1},
+      { name: '64 Degrees', longitude: -117.242060, latitude: 32.874665, dis: -1},
+      { name: 'The Bistro', longitude: -117.242044, latitude: 32.888023, dis: -1},
+      { name: 'Goody\'s', longitude: -117.240411, latitude:32.883016, dis: -1},
+      { name: 'Oceanview Terrace', longitude: -117.242750, latitude: 32.883268, dis: -1}
+    ]
+  }
+
+  /*
+   * handles the potential error message
+   * and evokes get location function
+   */
+  componentWillMount() {
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        errorMessage: 'This function is not supported in android emulator',
+      });
+    } else {
+      this._getLocationAsync();
+    }
+  }
+
+  /*
+   * gets user's current location info
+   */
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ location });
+  };
+
+  /*
+   * updates user's current location info
+   * and updates the dining hall locations accordingly
+   */
+  componentDidMount() {
+    var _this=this;
+    Location.watchPositionAsync({
+      enableHighAccuracy:true
+    }, location => {
+      _this.setState({location});
+      _this.updateDiningHalls();
+    });
+  }
+
+  /*
+   * handles dining hall sorting operation
+   * and updates the order in which they
+   * are displayed on the screen
+   */
+  updateDiningHalls(){
+    let location = this.state.location;
+    var self = this;
+    const arr = this.state.diningHalls;
+
+    arr.forEach(function(item){
+      if(location!=null){
+        // set the distance of each dining hall to 
+        // the current location
+        item.dis = self.getDistance(location, item);
+      }
+    });
+
+    // sort arr based on relative distance
+    arr.sort(function(a,b){
+      return a.dis - b.dis;
+    })
+
+    // update the state and display the information on screen
+    this.setState( {
+      diningHalls: arr
+    })
+  }
+
+  getDistance(location, diningLocation){
+    return Math.pow(location.coords.latitude - diningLocation.latitude, 2) + 
+           Math.pow(location.coords.longitude - diningLocation.longitude, 2);
+  }
+
   render() {
+    /* let text = 'Waiting..';
+    if (this.state.errorMessage) {
+      text = this.state.errorMessage;
+    } else if (this.state.location) {
+      text = JSON.stringify(this.state.location);
+    } */
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -44,6 +148,17 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.getStartedText}> yEAT@UCSD </Text>
           </View>
           
+          {/*  
+          <View style={styles.container}>
+            <Text style={styles.paragraph}>{text}</Text>
+          </View>
+          */}
+
+          <View style={styles.container}>
+            { this.state.diningHalls.map((item, key)=>(
+            <Text key={key} style={styles.getStartedText}> { item.name } </Text>)
+            )}
+          </View>
 
 
           <View style={styles.helpContainer}>
@@ -61,7 +176,10 @@ export default class HomeScreen extends React.Component {
           </View>
         </View>
       </View>
+      
     );
+
+
   }
 
   _maybeRenderDevelopmentModeWarning() {
