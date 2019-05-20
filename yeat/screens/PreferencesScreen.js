@@ -165,6 +165,10 @@ export default class PreferencesScreen extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
+                   
+                <View style={{ flex: 1, justifyContent: "center" }}>
+                
+                    <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
                     <Button
                         title="Save"
                         type="solid"
@@ -177,10 +181,6 @@ export default class PreferencesScreen extends React.Component {
                             this.state.checkbox12, this.state.checkbox13, this.state.checkbox14,
                             this.state.checkbox15, this.state.checkbox16, this.state.checkbox17)}
                     />
-                <View style={{ flex: 1, justifyContent: "center" }}>
-
-                    <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
-
                     <CheckBox
                         title='Vegetarian'
                         checked={this.state.checkbox1}
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-end',
         position: 'absolute',
-        top: 15,
+        top: -55,
         right: 15,
     }
 });
