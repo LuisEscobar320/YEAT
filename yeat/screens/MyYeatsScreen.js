@@ -83,10 +83,36 @@ class ProfileScreen extends React.Component {
         }
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            name: '',
+        };
+
+        this.readUserName();
+    }
+
+
+    // Get the user's name from database
+    readUserName() {
+        var userId = firebase.auth().currentUser.uid;
+        var ref = firebase.database().ref("users/" + userId);
+
+        ref.once("value")
+            .then(function(snapshot) {
+                console.log(snapshot.child("name").val());
+                this.setState({name: snapshot.child("name").val()});
+            });
+    }
+
     render() {
         return (
             <ScrollView style={styles.container}>
                 <View>
+                    <Text>{this.state.name}</Text>
+                    <Text>{this.state.email}</Text>
+
                     <Button
                         title="Logout"
                         color="#841584"
