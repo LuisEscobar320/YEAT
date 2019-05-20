@@ -158,6 +158,7 @@ export default class PreferencesScreen extends React.Component {
                     });
             }
         })
+        alert('Preferences saved!')
 
     }
 
