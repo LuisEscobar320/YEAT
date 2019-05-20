@@ -1,4 +1,4 @@
-import { Button } from 'react-native';
+import { Button } from 'react-native-elements';
 import firebase from 'firebase';
 
 import React from 'react';
@@ -21,10 +21,20 @@ var config = {
   };
 firebase.initializeApp(config);
 
-export default class LoginScrren extends React.Component {
-  static navigationOptions = {
-    title: 'Register and Login',
-  };
+export default class LoginScreen extends React.Component {
+  /*static navigationOptions = {
+    title: 'Login',
+    headerStyle:{
+      backgroundColor: '#fff',
+      elevation: 0,
+      borderBottomWidth: 0,
+    },
+
+    headerTitleStyle: {
+      color: '#153b50',
+      fontSize: 35,
+     }
+  };*/
 
     // handling login with google
 
@@ -32,7 +42,7 @@ export default class LoginScrren extends React.Component {
       try{
         const result = await Expo.Google.logInAsync({
           behavior: 'web',
-          //androidClientId: HERE,
+          androidClientId: '790782934000-qnrgh51jc2bhjmid7ltcqu1uu9pctr36.apps.googleusercontent.com',
           iosClientId: '790782934000-229ca1tq0h4l1n9dibvotu4qluiuv8gc.apps.googleusercontent.com',
           scopes: ['profile','email'],
         });
@@ -106,18 +116,18 @@ export default class LoginScrren extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-          
-          <Image
-              source={require('../assets/images/robot-dev.png')}
-              style={styles.welcomeImage}/>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Image
+                  source={require('../assets/images/yeatlogo.png')}
+                  style={styles.welcomeImage}
+              />
 
-          <Text style={styles.getStartedText}> yEAT@UCSD </Text>
-          
-          <View><Button
-              onPress={()=> this.signin()}
-              title="Login"
-              color="#841584"
-              /></View>
+              <Button
+                onPress={()=> this.signin()}
+                title="Login Using Google"
+                buttonStyle={styles.button}
+              />
+          </View>
       </ScrollView>
     );
   }
@@ -129,15 +139,19 @@ export default class LoginScrren extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    textAlign: 'center'
-  },  
-  welcomeImage: {
-    width: 200,
-    height: 160,
-    resizeMode: 'contain',
-    paddingTop: 30
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#00C6D7',
+        textAlign: 'center',
+    },
+    welcomeImage: {
+        width: 550,
+        height: 350,
+        resizeMode: 'contain',
+        paddingTop: 30,
+    },
+    button: {
+        backgroundColor: '#153b50',
+        borderRadius: 15,
+    }
 })

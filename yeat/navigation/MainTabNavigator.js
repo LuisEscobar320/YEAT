@@ -5,18 +5,23 @@ import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator }
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+<<<<<<< HEAD
 import BudgetScreen from '../screens/BudgetScreen';
 import TritonCardLoginScreen from "../screens/TritonCardLoginScreen";
 import StartingBudgetScreen from "../screens/StartingBudgetScreen"
+=======
+import MyYeatsScreen from '../screens/MyYeatsScreen';
+import PreferencesScreen from '../screens/PreferencesScreen';
+>>>>>>> f6214ef127497ada08d7b6f2a6e092263c15d8ca
 
+// Creates the Feed page
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: 'Feed',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -29,22 +34,9 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
-});
-
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};
 
 const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+    Settings: SettingsScreen,
 });
 
 SettingsStack.navigationOptions = {
@@ -57,31 +49,39 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-const BudgetStack = createSwitchNavigator({
-            Starting: StartingBudgetScreen,
-            TritonCard: TritonCardLoginScreen,
-            Budget: BudgetScreen
-        },
-        {
-            //initialRouteName: isLoggedIn ? "Budget": "TritonCard"
-            initialRouteName: "Starting"
-        }
-);
+// Creates the My Yeats page
+const MyYeatsStack = createStackNavigator({
+    MyYeats: MyYeatsScreen,
+});
 
+MyYeatsStack.navigationOptions = {
+    tabBarLabel: 'My Yeats',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+        />
+    ),
+};
 
-BudgetStack.navigationOptions = {
-  tabBarLabel: 'Budget',
-  tabBarIcon: ({ focused }) => (
-      <TabBarIcon
-          focused={focused}
-          name={'logo-usd'}
-      />
-  ),
+// Creates the Preferences page
+const PreferencesStack = createStackNavigator({
+    Preferences: PreferencesScreen,
+});
+
+PreferencesStack.navigationOptions = {
+    tabBarLabel: 'Preferences',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+    />
+    ),
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
-  BudgetStack,
+    HomeStack,
+    SettingsStack,
+    MyYeatsStack,
+    PreferencesStack,
 });
