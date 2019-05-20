@@ -28,7 +28,7 @@ export default class HomeScreen extends React.Component {
     location: null,       // location tracks the user's current location
     errorMessage: null,   // error message to be displayed when status is not granted
     diningHalls: [
-      { name: 'Foodwarx', longitude: -117.230415, latitude: 32.878806, dis: -1},
+      { name: 'Foodworx', longitude: -117.230415, latitude: 32.878806, dis: -1},
       { name: 'Pines', longitude: -117.242558, latitude: 32.878979, dis: -1},
       { name: '64 Degrees', longitude: -117.242060, latitude: 32.874665, dis: -1},
       { name: 'The Bistro', longitude: -117.242044, latitude: 32.888023, dis: -1},
