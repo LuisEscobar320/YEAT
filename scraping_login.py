@@ -12,8 +12,8 @@ from selenium.webdriver.chrome.options import Options
 def main():
     LOGIN_URL = 'https://services.jsatech.com/login.php?cid=212&'
     URL = 'https://services.jsatech.com/index.php?skey=6456f832e86903dbf79bd4b45d0dd117&cid=212&#'
-    USER_NAME = '914544308'
-    PASSWORD = '166d5316'
+    USER_NAME = '914473686'
+    PASSWORD = 'c86e8065'
 
     #result = requests.get(LOGIN_URL)
     #tree = html.fromstring(result.text)
@@ -61,7 +61,6 @@ def main():
     balance = rows.text.strip()
     balance = balance.replace("$","")
     balance = balance.replace(",","")
-    balance = float(balance) *2
     print(balance)
     #balance = soup.find('')
     #balance = [td.get_text() for td in table.find("tr").find_all("td")]
