@@ -165,7 +165,20 @@ export default class PreferencesScreen extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
+                    <Button
+                        title="Save"
+                        type="solid"
+                        color="#841584"
+                        buttonStyle={styles.button}
+                        onPress={() => this.savePrefs(this.state.checkbox1, this.state.checkbox2,
+                            this.state.checkbox3, this.state.checkbox4, this.state.checkbox5,
+                            this.state.checkbox6, this.state.checkbox7, this.state.checkbox8,
+                            this.state.checkbox9, this.state.checkbox10, this.state.checkbox11,
+                            this.state.checkbox12, this.state.checkbox13, this.state.checkbox14,
+                            this.state.checkbox15, this.state.checkbox16, this.state.checkbox17)}
+                    />
                 <View style={{ flex: 1, justifyContent: "center" }}>
+
                     <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
 
                     <CheckBox
@@ -273,18 +286,6 @@ export default class PreferencesScreen extends React.Component {
                         onPress={() => this.setState({checkbox17: !this.state.checkbox17})}
                     />
 
-                    <Button
-                        title="Save"
-                        type="solid"
-                        color="#841584"
-                        buttonStyle={styles.button}
-                        onPress={() => this.savePrefs(this.state.checkbox1, this.state.checkbox2,
-                            this.state.checkbox3, this.state.checkbox4, this.state.checkbox5,
-                            this.state.checkbox6, this.state.checkbox7, this.state.checkbox8,
-                            this.state.checkbox9, this.state.checkbox10, this.state.checkbox11,
-                            this.state.checkbox12, this.state.checkbox13, this.state.checkbox14,
-                            this.state.checkbox15, this.state.checkbox16, this.state.checkbox17)}
-                    />
                 </View>
             </ScrollView>
         );
@@ -300,6 +301,15 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#153b50',
         borderRadius: 15,
+        //my stuff
+        width: 66,
+        flex : 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+        position: 'absolute',
+        top: 15,
+        right: 15,
     }
 });
 
