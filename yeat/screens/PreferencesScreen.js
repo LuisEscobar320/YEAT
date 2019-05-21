@@ -157,7 +157,7 @@ export default class PreferencesScreen extends React.Component {
                         lowSugarCheck: ch17
                     });
             }
-        })
+        });
         alert('Preferences saved!')
 
     }
