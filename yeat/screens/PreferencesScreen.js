@@ -14,14 +14,16 @@ export default class PreferencesScreen extends React.Component {
 
         headerTitleStyle: {
 	        color: '#153b50',
-    	    fontSize: 35,
+            fontSize: 35,
+            alignSelf: 'flex-end'
         },
         
         headerRight: (
-            <Icon size={40} style={{ right: 50}}
-                name='gear'
-                type='evilicon'
-                color='#517fa4'
+            <Icon size={40} 
+            iconStyle = {{ right: 150, top: 7}}
+            name='gear'
+            type='evilicon'
+            color='#517fa4'
             />
         ),
     };
@@ -174,6 +176,7 @@ export default class PreferencesScreen extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, justifyContent: "center" }}>
+                
                 <ScrollView style={styles.container}>
 
                     <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
@@ -181,6 +184,7 @@ export default class PreferencesScreen extends React.Component {
                     <CheckBox
                         title='Vegetarian'
                         checked={this.state.checkbox1}
+                        checkboxStyle={{justifyContent: 'flex-start', width:200}}
                         onPress={() => this.setState({checkbox1: !this.state.checkbox1})}
                     />
 
@@ -294,7 +298,7 @@ export default class PreferencesScreen extends React.Component {
                             this.state.checkbox9, this.state.checkbox10, this.state.checkbox11,
                             this.state.checkbox12, this.state.checkbox13, this.state.checkbox14,
                             this.state.checkbox15, this.state.checkbox16, this.state.checkbox17)}
-                />
+                />   
 
             </View>
 
@@ -320,6 +324,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: -55,
         right: 15,
+    },
+    check:{
+        //flex : 1,
+        //flexDirection: 'row',
+        //justifyContent: 'center',
+        //alignItems: 'flex-end',
+        //position: 'absolute',
+        top: -20,
+        right: -30,
     }
 });
 
