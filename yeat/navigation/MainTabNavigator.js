@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
+import { TabNavigator, createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -106,5 +106,5 @@ export default createBottomTabNavigator({
     HomeStack,
     BudgetStack,
     MyYeatsStack,
-    PreferencesStack
+    PreferencesStack,
 });
