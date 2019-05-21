@@ -1,7 +1,8 @@
 import firebase from 'firebase';
 import React from 'react';
 import {StyleSheet, ScrollView, Text, View} from 'react-native';
-import {Button, CheckBox, Icon} from 'react-native-elements';
+import {Button, CheckBox} from 'react-native-elements';
+import TabBarIcon from '../components/TabBarIcon';
 
 export default class PreferencesScreen extends React.Component {
     static navigationOptions = {
@@ -16,14 +17,14 @@ export default class PreferencesScreen extends React.Component {
 	        color: '#153b50',
     	    fontSize: 35,
         },
-        
-        headerRight: (
-            <Icon size={40} style={{ right: 50}}
-                name='gear'
-                type='evilicon'
-                color='#517fa4'
-            />
-        ),
+
+        centerComponent={
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles.title}>MY TITLE</Text>
+              <Ionicons name="md-settings" size={26} color="#fff" />
+            </View>
+        }
+
     };
 
 
