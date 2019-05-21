@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import React from 'react';
 import {Image, StyleSheet, ScrollView, Text, View} from "react-native";
-import {Button, Card} from 'react-native-elements';
+import {Button, Card, Icon} from 'react-native-elements';
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 
 class MyYeatsScreen extends React.Component {
@@ -16,7 +16,15 @@ class MyYeatsScreen extends React.Component {
         headerTitleStyle: {
             color: '#153b50',
             fontSize: 35,
-        }
+        },
+
+        headerRight: (
+            <Icon size={40} style={{ right: 50}}
+                name='user'
+                type='evilicon'
+                color='#153b50'
+            />
+        ),
     };
 
     listenForItems(itemsRef) {
