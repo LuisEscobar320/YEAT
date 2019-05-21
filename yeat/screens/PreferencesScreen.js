@@ -17,9 +17,7 @@ export default class PreferencesScreen extends React.Component {
             fontSize: 35,
             alignSelf: 'flex-end'
         },
-        /*headerLeft:(
-            <Text style = {{color: '#153b50', fontSize: 40, padding: 0}} >Preferences</Text>
-        ),*/ 
+        
         headerRight: (
             <Icon size={40} 
             iconStyle = {{ right: 150, top: 7}}
