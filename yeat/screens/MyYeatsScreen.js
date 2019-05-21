@@ -62,7 +62,7 @@ class MyYeatsScreen extends React.Component {
     render() {
         return (
 	    <ScrollView style={styles.container}>
-            <View>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Button
                     title='Profile'
                     buttonStyle={styles.button}
@@ -80,13 +80,13 @@ class ProfileScreen extends React.Component {
     static navigationOptions = {
         title: 'Profile',
         headerStyle:{
-            backgroundColor: '#fff',
+            backgroundColor: '#153b50',
             elevation: 0,
             borderBottomWidth: 0,
         },
 
         headerTitleStyle: {
-            color: '#153b50',
+            color: '#fff',
             fontSize: 35,
         }
     };
@@ -94,38 +94,51 @@ class ProfileScreen extends React.Component {
     constructor(props) {
         super(props);
 
+        this.readUserNameEmail();
+
         this.state = {
             name: '',
+            email: '',
         };
 
-        this.readUserName();
     }
 
 
-    // Get the user's name from database
-    readUserName() {
+    // Get the user's name and email from database
+    async readUserNameEmail() {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId);
+        var userName = '';
+        var userEmail = '';
 
-        ref.once("value")
+        await ref.once("value")
             .then(function(snapshot) {
-                console.log(snapshot.child("name").val());
-                this.setState({name: snapshot.child("name").val()});
-            });
+                userName = snapshot.child("name").val();
+                userEmail = snapshot.child("gmail").val();
+        });
+
+        this.setState({name: userName});
+        this.setState({email: userEmail});
     }
 
     render() {
         return (
-            <ScrollView style={styles.container}>
-                <View>
-                    <Text>{this.state.name}</Text>
-                    <Text>{this.state.email}</Text>
+            <ScrollView style={styles.profileContainer}>
+                <View style={{ justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style = {styles.nameStyle}>{this.state.name}</Text>
+                    <Text style = {styles.emailStyle}>{this.state.email}</Text>
 
                     <Button
                         title="Logout"
-                        color="#841584"
-                        buttonStyle={styles.button}
+                        buttonStyle={styles.profileButton}
                         onPress={()=> firebase.auth().signOut()}
+                    />
+
+                    <Text style={{ fontSize: 18, color: '#fff', paddingTop: 150}}>Made by Team</Text>
+
+                    <Image
+                        source={require('../assets/images/oof.png')}
+                        style={styles.oofImage}
                     />
                 </View>
             </ScrollView>
@@ -152,10 +165,38 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         textAlign: 'center'
     },
+    profileContainer: {
+        flex: 1,
+        backgroundColor: '#153b50',
+        textAlign: 'center'
+    },
     button: {
         backgroundColor: '#153b50',
         borderRadius: 15,
+        width: 200,
+    },
+    profileButton: {
+        backgroundColor: '#00C6D7',
+        borderRadius: 15,
+        width: 200,
+    },
+    nameStyle: {
+        color: '#fff',
+        fontSize: 40,
+        textAlign: "center",
+        paddingTop: 35,
+    },
+    emailStyle: {
+        color: '#00C6D7',
+        textAlign: "center",
+        fontSize: 20,
+        paddingBottom: 50
+    },
+    oofImage: {
+        width: 200,
+        height: 100,
+        resizeMode: 'contain',
+        paddingTop: 30
     }
-
 });
 

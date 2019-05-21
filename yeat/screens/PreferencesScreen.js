@@ -175,11 +175,10 @@ export default class PreferencesScreen extends React.Component {
         return (
             <View style={{ flex: 1, justifyContent: "center" }}>
                 <ScrollView style={styles.container}>
-                   
 
                     <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
 
-                                        <CheckBox
+                    <CheckBox
                         title='Vegetarian'
                         checked={this.state.checkbox1}
                         onPress={() => this.setState({checkbox1: !this.state.checkbox1})}
