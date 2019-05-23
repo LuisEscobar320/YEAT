@@ -80,8 +80,6 @@ export default class PreferencesScreen extends React.Component {
 
           .then(function(snapshot) {
             bool = snapshot.child("preferences/" + param).val(); //Gets check val
-            console.log("logging");
-            console.log("preference/" + param);
         });
 
         // Sets the corresponding checkbox to be true or false
