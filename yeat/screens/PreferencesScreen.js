@@ -166,7 +166,7 @@ export default class PreferencesScreen extends React.Component {
                         lowSugarCheck: ch17
                     });
             }
-        })
+        });
         alert('Preferences saved!')
 
     }
@@ -177,7 +177,6 @@ export default class PreferencesScreen extends React.Component {
             <View style={{ flex: 1, justifyContent: "center" }}>
                 
                 <ScrollView style={styles.container}>
-                   
 
                     <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
 
