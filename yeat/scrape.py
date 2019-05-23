@@ -16,7 +16,6 @@ from firebase import firebase
 import json
 
 fb = firebase.FirebaseApplication('https://yeat-dc4bc.firebaseio.com/', None)
-
 #firebase.put('64Degrees','test',79)
 
 
@@ -46,11 +45,11 @@ class NutritionBoi:
 
 
 # create a new Firefox session
-driver = webdriver.Firefox(executable_path=r'C:\Users\jeem\Documents\CSE110\geckodriver.exe')
+driver = webdriver.Firefox(executable_path=r'/usr/local/bin/geckodriver')
 
 # launch url
-url = "https://hdh-web.ucsd.edu/dining/apps/diningservices/Restaurants/MenuItem/05"
-binary = FirefoxBinary(r'C:\Program Files (x86)\Mozilla Firefox\firefox.exe')
+url = "https://hdh-web.ucsd.edu/dining/apps/diningservices/Restaurants/MenuItem/15"
+binary = FirefoxBinary(r'/Applications/Firefox.app/Contents/MacOS/firefox')
 
 driver = webdriver.Firefox(firefox_binary=binary)
 driver.get(url)
@@ -129,5 +128,5 @@ for i in range(3):
 
         print(newNutritionList)
 
-        fb.put(f'/CafeVentas-{times[i]}', head, {'cost': sep + tail, 'Nutrition' : newNutritionList})
+        fb.put(f'/Club Med-{times[i]}', head, {'cost': sep + tail, 'Nutrition' : newNutritionList},params=None, headers=None, connection=None)
         #fb.post(f'/64Degrees-{times[i]}' , {head: nutrition_json } )
