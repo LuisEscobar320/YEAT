@@ -77,7 +77,11 @@ class MyYeatsScreen extends React.Component {
 
         return returnArr;
     };
-    
+
+    removeFav(fav) {
+        let ref = firebase.database().ref("users/" + userId + "/preferences/" + fav);
+        ref.remove()
+    }
     render() {
         console.log(this.state.arr[1]);
         return (
@@ -90,17 +94,66 @@ class MyYeatsScreen extends React.Component {
                         return this.props.navigation.navigate('Profile');
                     }}
                 />
-            <Card title = {this.state.arr[0]}>
-            <Text> {this.state.arr[1]} </Text>
+            <Card  containerStyle={{ backgroundColor: '#39cbd6' }} 
+                title = {
+                    <View style = {{ alignItems: 'center' }}>
+                        <Text style = {{ color: '#fff', fontSize: 20 }} > Cheeseburger </Text>
+
+                    </View>
+                }>
+                <Icon
+                    name='location-on'
+                    color='#153b50'
+                    size={15}
+                    onPress={() => console.log('hello')} />
+            <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> 64 Degrees </Text>
+                <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> $7.50 </Text>
+
+                <Icon
+                    name='heart'
+                    type='font-awesome'
+                    color='#153b50'
+                    onPress={() => console.log('hello')} />
+
             </Card>
-            <Card title = {this.state.arr[2]}>
-            <Text> {this.state.arr[3]} </Text>
+            <Card  containerStyle={{ backgroundColor: '#39cbd6' }} 
+                title = {
+                    <View style = {{ alignItems: 'center' }}>
+                        <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[2]} </Text>
+                    </View>
+                }>
+            <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[3]} </Text>
+                <Icon
+                    name='heart'
+                    type='font-awesome'
+                    color='#153b50'
+                    onPress={() => console.log('hello')} />
             </Card>
-            <Card title = {this.state.arr[4]}>
-            <Text> {this.state.arr[5]} </Text>
+            <Card  containerStyle={{ backgroundColor: '#39cbd6' }} 
+                title = {
+                    <View style = {{ alignItems: 'center' }}>
+                        <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[4]} </Text>
+                    </View>
+                }>
+            <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[5]} </Text>
+                <Icon
+                    name='heart'
+                    type='font-awesome'
+                    color='#153b50'
+                    onPress={() => console.log('hello')} />
             </Card>
-            <Card title = {this.state.arr[6]}>
-            <Text> {this.state.arr[7]} </Text>
+            <Card  containerStyle={{ backgroundColor: '#39cbd6' }} 
+                title = {
+                    <View style = {{ alignItems: 'center' }}>
+                        <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[6]} </Text>
+                    </View>
+                }>
+            <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[7]} </Text>
+                <Icon
+                    name='heart'
+                    type='font-awesome'
+                    color='#153b50'
+                    onPress={() => console.log('hello')} />
             </Card>
 
 
