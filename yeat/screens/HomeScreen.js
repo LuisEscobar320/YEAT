@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Constants, Location, Permissions, WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
+import firebase from 'firebase';
 
 /*
  * HomeScreen.js
@@ -34,6 +35,19 @@ export default class HomeScreen extends React.Component {
       { name: 'The Bistro', longitude: -117.242044, latitude: 32.888023, dis: -1},
       { name: 'Goody\'s', longitude: -117.240411, latitude:32.883016, dis: -1},
       { name: 'Oceanview Terrace', longitude: -117.242750, latitude: 32.883268, dis: -1}
+    ],
+    preferences: [
+      "vegetarianCheck",
+      "veganCheck",
+      "glutenFreeCheck",
+      "noSeafoodCheck",
+      "noDairyCheck",
+      "noNutsCheck",
+      "americanCheck",
+      "asianCheck",
+      "indianCheck",
+      "italianCheck",
+      "mexicanCheck"
     ]
   }
 
@@ -78,6 +92,7 @@ export default class HomeScreen extends React.Component {
       _this.setState({location});
       _this.updateDiningHalls();
     });
+    _this.checkUser();
   }
 
   /*
@@ -112,6 +127,32 @@ export default class HomeScreen extends React.Component {
   getDistance(location, diningLocation){
     return Math.pow(location.coords.latitude - diningLocation.latitude, 2) + 
            Math.pow(location.coords.longitude - diningLocation.longitude, 2);
+  }
+
+  checkUser(){
+    var arr = this.state.preferences;
+    firebase.auth().onAuthStateChanged(user=> {
+      if(user){
+        // get the pereferences and initialize preferences array
+        firebase.database().ref('/users/'+user.uid+'/preferences')
+        .on('value', function(data){
+          if(data!=null){
+            data.forEach(function(child){
+              // removes the preferences according to firebase
+              if(child.val() == false){
+                arr.splice(arr.indexOf(child.key)) 
+              }
+            })
+          }
+        })
+        // update the state of preferences
+        this.setState({
+          preferences: arr
+        })
+        console.log(this.state.preferences)
+      } else{
+      }
+    })
   }
 
   render() {
