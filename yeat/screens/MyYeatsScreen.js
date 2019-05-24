@@ -278,7 +278,6 @@ class ProfileScreen extends React.Component {
     render() {
         return (
             <ScrollView style={styles.profileContainer}>
-                console.log(pepasdasdade);
                 <View style={{ justifyContent: 'center', alignItems: 'center'}}>
                     <Text style = {styles.nameStyle}>{this.state.name}</Text>
                     <Text style = {styles.emailStyle}>{this.state.email}</Text>
