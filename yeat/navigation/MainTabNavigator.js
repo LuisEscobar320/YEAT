@@ -49,6 +49,10 @@ const MyYeatsStack = createStackNavigator({
     MyYeats: MyYeatsScreen,
 });
 
+const AppNavigator = createStackNavigator({
+
+});
+
 MyYeatsStack.navigationOptions = {
     tabBarLabel: 'My Yeats',
     tabBarOptions: {

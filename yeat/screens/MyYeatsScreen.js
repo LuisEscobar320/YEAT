@@ -19,7 +19,7 @@ class MyYeatsScreen extends React.Component {
         },
 
         headerRight: (
-            <Icon size={40} iconStyle={{ right: 200}}
+            <Icon size={40} iconStyle={{right: 200}}
                 name='user'
                 type='evilicon'
                 color='#153b50'
