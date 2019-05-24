@@ -17,7 +17,6 @@ export default class PreferencesScreen extends React.Component {
             fontSize: 35,
             alignSelf: 'flex-end'
         },
-        
         headerRight: (
             <Icon size={40} 
             iconStyle = {{ right: 150, top: 7}}
@@ -89,7 +88,7 @@ export default class PreferencesScreen extends React.Component {
         else if (param === "vegetarianCheck") {
             this.setState({checkbox2: bool});
         }
-        else if (param === "noDairyCheck") {
+        else if (param === "noDaFiryCheck") {
             this.setState({checkbox3: bool});
         }
         else if (param === "noTreeNutsCheck") {
@@ -139,9 +138,13 @@ export default class PreferencesScreen extends React.Component {
             ch12, ch13, ch14, ch15, ch16) {
         firebase.auth().onAuthStateChanged(user=> {
             if(user) {
-                firebase.database().ref('/users/' + user.uid + '/preferences/').update(
+                //firebase.database().ref('/users/' + user.uid + '/preferences/').update(
+                firebase.database().ref('/users/' + user.uid + '/Favorites/foodItem1').update(
                     {
-                        veganCheck: ch1,
+                        diningHall: "Goody's",
+                        item: "Burrito",
+                        price: "$7.50"
+                        /*veganCheck: ch1,
                         vegetarianCheck: ch2,
                         noDairyCheck: ch3,
                         noTreeNutsCheck: ch4,
@@ -156,8 +159,21 @@ export default class PreferencesScreen extends React.Component {
                         asianCheck: ch13,
                         indianCheck: ch14,
                         italianCheck: ch15,
-                        mexicanCheck: ch16,
+                        mexicanCheck: ch16,*/
                     });
+                    //delete this afterwards
+                    firebase.database().ref('/users/' + user.uid + '/Favorites/foodItem2').update(
+                        {
+                            diningHall: "Pines",
+                            item: "Stir Fry",
+                            price: "$7.00"
+                        });
+                    firebase.database().ref('/users/' + user.uid + '/Favorites/foodItem3').update(
+                        {
+                            diningHall: "64 Degrees",
+                            item: "Cheeseburger",
+                            price: "$8.00"
+                        });
             }
         });
         alert('Preferences saved!')
