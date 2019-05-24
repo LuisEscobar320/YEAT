@@ -48,6 +48,7 @@ class MyYeatsScreen extends React.Component {
         snap.forEach((child) => {
                 const pbj = {'check': child.key, 'bool': child.val()};
                 items.push(             
+                    child.key,
                     child.val().item,
                     child.val().diningHall,
                     child.val().price
@@ -56,31 +57,19 @@ class MyYeatsScreen extends React.Component {
                 console.log(child.val());
                 console.log(child.key);
             });
-            console.log("ITEMSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-            console.log(items[0]);
             this.setState({
                 arr: items
             });
         });
     }
 
-    snapshotToArray(snapshot) {
-        var returnArr = [];
-
-        snapshot.forEach(function(childSnapshot) {
-            var item = childSnapshot.val();
-            item.key = childSnapshot.key;
-
-
-            returnArr.push(item);
-        });
-
-        return returnArr;
-    };
-
-    removeFav(fav) {
-        let ref = firebase.database().ref("users/" + userId + "/preferences/" + fav);
-        ref.remove()
+    removeFav(itemNum, fav) {
+        var userId = firebase.auth().currentUser.uid;
+        let ref = firebase.database().ref("users/" + userId + "/Favorites/" + itemNum);
+        console.log("REF ISSSSSSSSSSSSSSSSSS");
+        console.log(ref);
+        ref.remove();
+        alert(fav + ' Removed!')
     }
     render() {
         console.log(this.state.arr[1]);
@@ -98,7 +87,7 @@ class MyYeatsScreen extends React.Component {
                 <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'flex-start' }}>
-                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 35, right: 10, top: -10 }} > {this.state.arr[0]} </Text>
+                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 35, right: 10, top: -10 }} > {this.state.arr[1]} </Text>
                         </View>
                     }>
                     <Icon
@@ -118,14 +107,14 @@ class MyYeatsScreen extends React.Component {
                         right: 100,
                         top:10 
                         }}> 
-                        {this.state.arr[1]} </Text>
+                        {this.state.arr[2]} </Text>
 
                     <Text style = {{color: '#fff', 
                         fontSize: 15, 
                         padding: 20, 
                         textAlign: 'center', 
                         right: 115,
-                        top: -110}}> {this.state.arr[2]} </Text>
+                        top: -110}}> {this.state.arr[3]} </Text>
 
                     <Icon
                         name='heart'
@@ -135,13 +124,15 @@ class MyYeatsScreen extends React.Component {
                             top:-180,
                             right: -110
                         }}
+
+                        onPress={() => this.removeFav(this.state.arr[0], this.state.arr[1])} 
                     />
                 </Card>
                 
                 <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'flex-start' }}>
-                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 35, right: 10, top: -10 }} > {this.state.arr[3]} </Text>
+                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 35, right: 10, top: -10 }} > {this.state.arr[5]} </Text>
                         </View>
                     }>
                     
@@ -161,13 +152,13 @@ class MyYeatsScreen extends React.Component {
                         padding: 20, 
                         textAlign: 'center',
                         right: 100,
-                        top:10 }}> {this.state.arr[4]} </Text>
+                        top:10 }}> {this.state.arr[6]} </Text>
                     <Text style = {{color: '#fff', 
                         fontSize: 15, 
                         padding: 20, 
                         textAlign: 'center', 
                         right: 115,
-                        top: -110}}> {this.state.arr[5]} </Text>
+                        top: -110}}> {this.state.arr[7]} </Text>
         
                     <Icon
                         name='heart'
@@ -202,7 +193,7 @@ class MyYeatsScreen extends React.Component {
                         padding: 20, 
                         textAlign: 'center',
                         right: 100,
-                        top:10 }}> {this.state.arr[7]} </Text>
+                        top:10 }}> {this.state.arr[9]} </Text>
                         
                     <Text style = {{color: '#fff', 
                         fontSize: 15, 
@@ -210,7 +201,7 @@ class MyYeatsScreen extends React.Component {
                         justifyContent : 'flex-end',
                         textAlign: 'center', 
                         right: 115,
-                        top: -110}}> {this.state.arr[8]} </Text>
+                        top: -110}}> {this.state.arr[10]} </Text>
      
                     <Icon
                         name='heart'
