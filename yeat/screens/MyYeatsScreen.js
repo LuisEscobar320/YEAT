@@ -4,11 +4,6 @@ import {Image, StyleSheet, ScrollView, Text, View} from "react-native";
 import {Button, Card, Icon} from 'react-native-elements';
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 
-const pepe = {
-    name: 'hehe',
-    age: 10
-};
-console.log(pepe);
 class MyYeatsScreen extends React.Component {
     static navigationOptions = {
         title: 'My Yeats',
@@ -56,7 +51,6 @@ class MyYeatsScreen extends React.Component {
                     child.val().item,
                     child.val().diningHall,
                     child.val().price
-
             //pbj
                 );
                 console.log(child.val());
