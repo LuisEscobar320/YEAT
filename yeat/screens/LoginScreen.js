@@ -22,19 +22,18 @@ var config = {
 firebase.initializeApp(config);
 
 export default class LoginScreen extends React.Component {
-  /*static navigationOptions = {
-    title: 'Login',
+  static navigationOptions = {
     headerStyle:{
-      backgroundColor: '#fff',
+      backgroundColor: '#00C6D7',
       elevation: 0,
       borderBottomWidth: 0,
     },
 
-    headerTitleStyle: {
+    /*headerTitleStyle: {
       color: '#153b50',
       fontSize: 35,
-     }
-  };*/
+     }*/
+  };
 
     // handling login with google
 
@@ -153,5 +152,6 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#153b50',
         borderRadius: 15,
+        width: 200
     }
 })
