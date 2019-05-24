@@ -96,7 +96,7 @@ class MyYeatsScreen extends React.Component {
                     }}
                 />        
 
-                <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6' }}
+                <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'center' }}>
                             <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[0]} </Text>
@@ -118,7 +118,7 @@ class MyYeatsScreen extends React.Component {
                     />
                 </Card>
                 
-                <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6' }}
+                <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'center' }}>
                             <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[3]} </Text>
@@ -140,7 +140,7 @@ class MyYeatsScreen extends React.Component {
                     />
                 </Card>
  
-                <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6' }}
+                <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'center' }}>
                             <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[6]} </Text>
