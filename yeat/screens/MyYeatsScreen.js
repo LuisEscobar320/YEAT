@@ -31,23 +31,42 @@ class MyYeatsScreen extends React.Component {
             />
         ),
     };
+    
+    constructor(props) {
+        super(props);
+        this.listenForItems();
 
-    listenForItems(itemsRef) {
-        itemsRef.on('value', (snap) => {
+        this.state = {
+            arr: []
+        };
+
+    }
+
+    async listenForItems() {
+        var userId = firebase.auth().currentUser.uid;
+        var ref = firebase.database().ref("users/" + userId + "/Favorites");
+        let bool = false;
+        await ref.on('value', (snap) => {
 
         // get children as an array
         var items = [];
         snap.forEach((child) => {
-            items.push({
-                title: child.val().title,
-                _key: child.key
+                const pbj = {'check': child.key, 'bool': child.val()};
+                items.push(             
+                    child.val().item,
+                    child.val().diningHall,
+                    child.val().price
+
+            //pbj
+                );
+                console.log(child.val());
+                console.log(child.key);
             });
-        });
-
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(items)
-        });
-
+            console.log("ITEMSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+            console.log(items[0]);
+            this.setState({
+                arr: items
+            });
         });
     }
 
@@ -58,13 +77,19 @@ class MyYeatsScreen extends React.Component {
             var item = childSnapshot.val();
             item.key = childSnapshot.key;
 
+
             returnArr.push(item);
         });
 
         return returnArr;
     };
-    
+
+    removeFav(fav) {
+        let ref = firebase.database().ref("users/" + userId + "/preferences/" + fav);
+        ref.remove()
+    }
     render() {
+        console.log(this.state.arr[1]);
         return (
 	    <ScrollView style={styles.container}>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -74,7 +99,75 @@ class MyYeatsScreen extends React.Component {
                     onPress={()=> {
                         return this.props.navigation.navigate('Profile');
                     }}
-                />
+                />        
+
+                <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6' }}
+                    title = {
+                        <View style = {{ alignItems: 'center' }}>
+                            <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[0]} </Text>
+                        </View>
+                    }>
+                    <Icon
+                        name='location-on'
+                        color='#153b50'
+                        size={15}
+                    />
+
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[1]} </Text>
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[2]} </Text>
+        
+                    <Icon
+                        name='heart'
+                        type='font-awesome'
+                        color='#153b50'
+                    />
+                </Card>
+                
+                <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6' }}
+                    title = {
+                        <View style = {{ alignItems: 'center' }}>
+                            <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[3]} </Text>
+                        </View>
+                    }>
+                    <Icon
+                        name='location-on'
+                        color='#153b50'
+                        size={15}
+                    />
+
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[4]} </Text>
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[5]} </Text>
+        
+                    <Icon
+                        name='heart'
+                        type='font-awesome'
+                        color='#153b50'
+                    />
+                </Card>
+ 
+                <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6' }}
+                    title = {
+                        <View style = {{ alignItems: 'center' }}>
+                            <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[6]} </Text>
+                        </View>
+                    }>
+                    <Icon
+                        name='location-on'
+                        color='#153b50'
+                        size={15}
+                    />
+
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[7]} </Text>
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[8]} </Text>
+        
+                    <Icon
+                        name='heart'
+                        type='font-awesome'
+                        color='#153b50'
+                    />
+                </Card>
+          
+
             </View>
 	    </ScrollView>
     );
