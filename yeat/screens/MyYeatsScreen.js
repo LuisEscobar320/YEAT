@@ -48,6 +48,7 @@ class MyYeatsScreen extends React.Component {
         snap.forEach((child) => {
                 const pbj = {'check': child.key, 'bool': child.val()};
                 items.push(             
+                    child.key,
                     child.val().item,
                     child.val().diningHall,
                     child.val().price
@@ -79,9 +80,13 @@ class MyYeatsScreen extends React.Component {
         return returnArr;
     };
 
-    removeFav(fav) {
-        let ref = firebase.database().ref("users/" + userId + "/preferences/" + fav);
-        ref.remove()
+    removeFav(itemNum, fav) {
+        var userId = firebase.auth().currentUser.uid;
+        let ref = firebase.database().ref("users/" + userId + "/Favorites/" + itemNum);
+        console.log("REF ISSSSSSSSSSSSSSSSSS");
+        console.log(ref);
+        ref.remove();
+        alert(fav + ' Removed!')
     }
     render() {
         console.log(this.state.arr[1]);
@@ -96,10 +101,10 @@ class MyYeatsScreen extends React.Component {
                     }}
                 />        
 
-                <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                <Card  containerStyle={{ width: 300, height: 300, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'center' }}>
-                            <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[0]} </Text>
+                            <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[1]} </Text>
                         </View>
                     }>
                     <Icon
@@ -108,20 +113,21 @@ class MyYeatsScreen extends React.Component {
                         size={15}
                     />
 
-                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[1]} </Text>
                     <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[2]} </Text>
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[3]} </Text>
         
                     <Icon
                         name='heart'
                         type='font-awesome'
                         color='#153b50'
+                        onPress={() => this.removeFav(this.state.arr[0], this.state.arr[1])} 
                     />
                 </Card>
                 
                 <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'center' }}>
-                            <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[3]} </Text>
+                            <Text style = {{ color: '#fff', fontSize: 20 }} > {this.state.arr[5]} </Text>
                         </View>
                     }>
                     <Icon
@@ -130,8 +136,8 @@ class MyYeatsScreen extends React.Component {
                         size={15}
                     />
 
-                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[4]} </Text>
-                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[5]} </Text>
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[6]} </Text>
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[7]} </Text>
         
                     <Icon
                         name='heart'
@@ -152,8 +158,8 @@ class MyYeatsScreen extends React.Component {
                         size={15}
                     />
 
-                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[7]} </Text>
-                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[8]} </Text>
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[9]} </Text>
+                    <Text style = {{color: '#fff', fontSize: 15, padding: 20, textAlign: 'center'}}> {this.state.arr[10]} </Text>
         
                     <Icon
                         name='heart'

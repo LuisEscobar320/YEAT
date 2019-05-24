@@ -196,22 +196,6 @@ export default class PreferencesScreen extends React.Component {
                         title='No Tree Nuts'
                         checked={this.state.checkbox4}
                         onPress={() => this.setState({checkbox4: !this.state.checkbox4})}
-                    />
-
-                    <CheckBox
-                        title='No Soy'
-                        checked={this.state.checkbox5}
-                        onPress={() => this.setState({checkbox5: !this.state.checkbox5})}
-                    />
-
-                    <CheckBox
-                        title='No Wheat'
-                        checked={this.state.checkbox6}
-                        onPress={() => this.setState({checkbox6: !this.state.checkbox6})}
-                     />
-
-                    <CheckBox
-                        title='No Fish'
                         checked={this.state.checkbox7}
                         onPress={() => this.setState({checkbox7: !this.state.checkbox7})}
                     />
