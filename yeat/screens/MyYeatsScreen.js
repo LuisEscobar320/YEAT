@@ -116,17 +116,16 @@ class MyYeatsScreen extends React.Component {
                         right: 115,
                         top: -110}}> {this.state.arr[3]} </Text>
 
-                    <Icon
-                        name='heart'
-                        type='font-awesome'
-                        color='#153b50'
-                        iconStyle={{
-                            top:-180,
-                            right: -110
-                        }}
-
-                        onPress={() => this.removeFav(this.state.arr[0], this.state.arr[1])} 
-                    />
+                    
+                    <View style = {{ top: -180, right: -110 }}>
+                        <Icon
+                            name='heart'
+                            type='font-awesome'
+                            color='#153b50'
+        
+                            onPress={() => this.removeFav(this.state.arr[0], this.state.arr[1])} 
+                        />
+                    </View>
                 </Card>
                 
                 <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
@@ -159,22 +158,23 @@ class MyYeatsScreen extends React.Component {
                         textAlign: 'center', 
                         right: 115,
                         top: -110}}> {this.state.arr[7]} </Text>
+                
+                    <View style = {{ top: -180, right: -110 }}>
+                        <Icon
+                            name='heart'
+                            type='font-awesome'
+                            color='#153b50'
         
-                    <Icon
-                        name='heart'
-                        type='font-awesome'
-                        color='#153b50'
-                        iconStyle={{
-                            top:-180,
-                            right: -110
-                        }}
-                    />
+                            onPress={() => this.removeFav(this.state.arr[4], this.state.arr[5])} 
+                        />
+                    </View>
+
                 </Card>
  
                 <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'flex-start' }}>
-                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 35, top: -10, right: 10 }} > {this.state.arr[6]} </Text>
+                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 35, top: -10, right: 10 }} > {this.state.arr[9]} </Text>
                         </View>
                     }>
                     <Icon
@@ -193,7 +193,7 @@ class MyYeatsScreen extends React.Component {
                         padding: 20, 
                         textAlign: 'center',
                         right: 100,
-                        top:10 }}> {this.state.arr[9]} </Text>
+                        top:10 }}> {this.state.arr[10]} </Text>
                         
                     <Text style = {{color: '#fff', 
                         fontSize: 15, 
@@ -201,17 +201,18 @@ class MyYeatsScreen extends React.Component {
                         justifyContent : 'flex-end',
                         textAlign: 'center', 
                         right: 115,
-                        top: -110}}> {this.state.arr[10]} </Text>
-     
-                    <Icon
-                        name='heart'
-                        type='font-awesome'
-                        color='#153b50'
-                        iconStyle={{
-                            top:-180,
-                            right: -110
-                        }}
-                    />
+                        top: -110}}> {this.state.arr[11]} </Text>
+            
+                    <View style = {{ top: -180, right: -110 }}>
+                        <Icon
+                            name='heart'
+                            type='font-awesome'
+                            color='#153b50'
+        
+                            onPress={() => this.removeFav(this.state.arr[8], this.state.arr[9])} 
+                        />
+                    </View>
+
                 </Card>
           
 
