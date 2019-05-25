@@ -114,7 +114,6 @@ class MyYeatsScreen extends React.Component {
                     }}
                 />        
 
-                // if showCard1 is set to true then it is show, if heart is pressed, showCard is set to false, card is removed
                 {this.state.showCard1 ? (
                     <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                         title = {
