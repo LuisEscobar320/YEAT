@@ -33,7 +33,8 @@ class MyYeatsScreen extends React.Component {
         this.listenForItems();
 
         this.state = {
-            arr: []
+            arr: [],
+            hideCard: false,
         };
 
     }
@@ -53,7 +54,6 @@ class MyYeatsScreen extends React.Component {
                     child.val().item,
                     child.val().diningHall,
                     child.val().price
-            //pbj
                 );
                 console.log(child.val());
                 console.log(child.key);
@@ -64,7 +64,8 @@ class MyYeatsScreen extends React.Component {
         });
     }
 
-    removeFav(itemNum, fav) {
+    // Removes food item from my yeats
+    static removeFav(itemNum, fav) {
         var userId = firebase.auth().currentUser.uid;
         let ref = firebase.database().ref("users/" + userId + "/Favorites/" + itemNum);
         console.log("REF ISSSSSSSSSSSSSSSSSS");
@@ -72,6 +73,14 @@ class MyYeatsScreen extends React.Component {
         ref.remove();
         alert(fav + ' Removed!')
     }
+
+    // Removes the card component when food is removed from my yeats
+    removeCard() {
+        this.setState({
+            hideCard: true,
+        });
+    }
+
     render() {
         console.log(this.state.arr[1]);
         return (
@@ -88,7 +97,7 @@ class MyYeatsScreen extends React.Component {
                 <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'flex-start' }}>
-                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 35, right: 10, top: -10 }} > {this.state.arr[1]} </Text>
+                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[1]} </Text>
                         </View>
                     }>
                     <Icon
@@ -96,29 +105,16 @@ class MyYeatsScreen extends React.Component {
                         color='#153b50'
                         size={15}
                         iconStyle={{
-                            top: 50,
+                            top: 71,
                             right: 130
                         }}
                     />
-                    <Text style = {{
-                        color: '#fff',
-                        fontSize: 15, 
-                        padding: 20, 
-                        textAlign: 'center',
-                        right: 100,
-                        top:10 
-                        }}> 
-                        {this.state.arr[2]} </Text>
+                    <Text style = {styles.diningHallStyle}>{this.state.arr[2]} </Text>
 
-                    <Text style = {{color: '#fff', 
-                        fontSize: 15, 
-                        padding: 20, 
-                        textAlign: 'center', 
-                        right: 115,
-                        top: -110}}> {this.state.arr[3]} </Text>
+                    <Text style = {styles.priceStyle}> {this.state.arr[3]} </Text>
 
                     
-                    <View style = {{ top: -180, right: -110 }}>
+                    <View style = {{ top: -180, right: -120 }}>
                         <Icon
                             name='heart'
                             type='font-awesome'
@@ -132,7 +128,7 @@ class MyYeatsScreen extends React.Component {
                 <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'flex-start' }}>
-                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 35, right: 10, top: -10 }} > {this.state.arr[5]} </Text>
+                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[5]} </Text>
                         </View>
                     }>
                     
@@ -141,26 +137,16 @@ class MyYeatsScreen extends React.Component {
                         color='#153b50'
                         size={15}
                         iconStyle={{
-                            top: 50,
+                            top: 71,
                             right: 130
                         }}
                     />
 
-                    <Text style = {{
-                        color: '#fff',
-                        fontSize: 15, 
-                        padding: 20, 
-                        textAlign: 'center',
-                        right: 100,
-                        top:10 }}> {this.state.arr[6]} </Text>
-                    <Text style = {{color: '#fff', 
-                        fontSize: 15, 
-                        padding: 20, 
-                        textAlign: 'center', 
-                        right: 115,
-                        top: -110}}> {this.state.arr[7]} </Text>
+                    <Text style = {styles.diningHallStyle}> {this.state.arr[6]} </Text>
+
+                    <Text style = {styles.priceStyle}> {this.state.arr[7]} </Text>
                 
-                    <View style = {{ top: -180, right: -110 }}>
+                    <View style = {{ top: -180, right: -120 }}>
                         <Icon
                             name='heart'
                             type='font-awesome'
@@ -175,7 +161,7 @@ class MyYeatsScreen extends React.Component {
                 <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                     title = {
                         <View style = {{ alignItems: 'flex-start' }}>
-                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 35, top: -10, right: 10 }} > {this.state.arr[9]} </Text>
+                            <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[9]} </Text>
                         </View>
                     }>
                     <Icon
@@ -183,28 +169,16 @@ class MyYeatsScreen extends React.Component {
                         color='#153b50'
                         size={15}
                         iconStyle={{
-                            top: 50,
+                            top: 71,
                             right: 130
                         }}
                     />
 
-                    <Text style = {{
-                        color: '#fff',
-                        fontSize: 15, 
-                        padding: 20, 
-                        textAlign: 'center',
-                        right: 100,
-                        top:10 }}> {this.state.arr[10]} </Text>
+                    <Text style = {styles.diningHallStyle}> {this.state.arr[10]} </Text>
                         
-                    <Text style = {{color: '#fff', 
-                        fontSize: 15, 
-                        padding: 20, 
-                        justifyContent : 'flex-end',
-                        textAlign: 'center', 
-                        right: 115,
-                        top: -110}}> {this.state.arr[11]} </Text>
+                    <Text style = {styles.priceStyle}> {this.state.arr[11]} </Text>
             
-                    <View style = {{ top: -180, right: -110 }}>
+                    <View style = {{ top: -180, right: -120 }}>
                         <Icon
                             name='heart'
                             type='font-awesome'
@@ -344,6 +318,21 @@ const styles = StyleSheet.create({
         height: 100,
         resizeMode: 'contain',
         paddingTop: 30
+    },
+    diningHallStyle: {
+        color: '#fff',
+        fontSize: 15,
+        padding: 20,
+        textAlign: 'center',
+        right: 80,
+        top: 35
+    },
+    priceStyle: {
+        color: '#fff',
+        fontSize: 20,
+        padding: 20,
+        textAlign: 'center',
+        right: 112,
+        top: -110
     }
 });
-
