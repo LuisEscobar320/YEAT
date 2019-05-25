@@ -6,6 +6,7 @@ import {createAppContainer, createStackNavigator} from 'react-navigation';
 
 class MyYeatsScreen extends React.Component {
     static navigationOptions = {
+
         title: 'My Yeats',
         headerStyle:{
             backgroundColor: '#fff',
