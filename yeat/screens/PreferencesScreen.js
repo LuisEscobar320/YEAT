@@ -50,7 +50,6 @@ export default class PreferencesScreen extends React.Component {
         this.readUserData("mexicanCheck");
 
         this.state = {
-            
             checkbox1: false,
             checkbox2: false,
             checkbox3: false,
@@ -88,7 +87,7 @@ export default class PreferencesScreen extends React.Component {
         else if (param === "vegetarianCheck") {
             this.setState({checkbox2: bool});
         }
-        else if (param === "noDaFiryCheck") {
+        else if (param === "noDairyCheck") {
             this.setState({checkbox3: bool});
         }
         else if (param === "noTreeNutsCheck") {
@@ -195,6 +194,22 @@ export default class PreferencesScreen extends React.Component {
                         title='No Tree Nuts'
                         checked={this.state.checkbox4}
                         onPress={() => this.setState({checkbox4: !this.state.checkbox4})}
+                    />
+
+                    <CheckBox
+                        title='No Soy'
+                        checked={this.state.checkbox5}
+                        onPress={() => this.setState({checkbox5: !this.state.checkbox5})}
+                    />
+
+                    <CheckBox
+                        title='No Wheat'
+                        checked={this.state.checkbox6}
+                        onPress={() => this.setState({checkbox6: !this.state.checkbox6})}
+                    />
+
+                    <CheckBox
+                        title='No Fish'
                         checked={this.state.checkbox7}
                         onPress={() => this.setState({checkbox7: !this.state.checkbox7})}
                     />
@@ -283,7 +298,6 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#153b50',
         borderRadius: 15,
-        //my stuff
         width: 66,
         flex : 1,
         flexDirection: 'row',
