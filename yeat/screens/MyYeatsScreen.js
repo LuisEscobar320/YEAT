@@ -19,7 +19,7 @@ class MyYeatsScreen extends React.Component {
         },
 
         headerRight: (
-            <Icon size={40} iconStyle={{ right: 200}}
+            <Icon size={40} iconStyle={{right: 200}}
                 name='user'
                 type='evilicon'
                 color='#153b50'
@@ -270,7 +270,6 @@ class ProfileScreen extends React.Component {
     render() {
         return (
             <ScrollView style={styles.profileContainer}>
-                console.log(pepasdasdade);
                 <View style={{ justifyContent: 'center', alignItems: 'center'}}>
                     <Text style = {styles.nameStyle}>{this.state.name}</Text>
                     <Text style = {styles.emailStyle}>{this.state.email}</Text>
