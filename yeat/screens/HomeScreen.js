@@ -36,19 +36,10 @@ export default class HomeScreen extends React.Component {
       { name: 'Goody\'s', longitude: -117.240411, latitude:32.883016, dis: -1},
       { name: 'Oceanview Terrace', longitude: -117.242750, latitude: 32.883268, dis: -1}
     ],
-    preferences: [
-      "vegetarianCheck",
-      "veganCheck",
-      "glutenFreeCheck",
-      "noSeafoodCheck",
-      "noDairyCheck",
-      "noNutsCheck",
-      "americanCheck",
-      "asianCheck",
-      "indianCheck",
-      "italianCheck",
-      "mexicanCheck"
-    ]
+    preferences: [],
+    hasVege: null,
+    hasVega: null,
+    food: []
   }
 
   /*
@@ -90,9 +81,14 @@ export default class HomeScreen extends React.Component {
       enableHighAccuracy:true
     }, location => {
       _this.setState({location});
-      _this.updateDiningHalls();
+      _this.updateDiningHalls(()=>{
+        _this.checkUser( ()=> {
+          _this.getFood( ()=>{
+            _this.filter()
+          });
+        });
+      });
     });
-    _this.checkUser();
   }
 
   /*
@@ -100,7 +96,7 @@ export default class HomeScreen extends React.Component {
    * and updates the order in which they
    * are displayed on the screen
    */
-  updateDiningHalls(){
+  updateDiningHalls(callback){
     let location = this.state.location;
     var self = this;
     const arr = this.state.diningHalls;
@@ -122,6 +118,7 @@ export default class HomeScreen extends React.Component {
     this.setState( {
       diningHalls: arr
     })
+    callback();
   }
 
   getDistance(location, diningLocation){
@@ -129,8 +126,11 @@ export default class HomeScreen extends React.Component {
            Math.pow(location.coords.longitude - diningLocation.longitude, 2);
   }
 
-  checkUser(){
+  checkUser(callback){
     var arr = this.state.preferences;
+    var _this = this;
+    var vege = false;
+    var vega = false;
     firebase.auth().onAuthStateChanged(user=> {
       if(user){
         // get the pereferences and initialize preferences array
@@ -139,21 +139,90 @@ export default class HomeScreen extends React.Component {
           if(data!=null){
             data.forEach(function(child){
               // removes the preferences according to firebase
-              if(child.val() == false){
-                arr.splice(arr.indexOf(child.key)) 
+              if(child.val() == true){
+                arr.push(child.key.toLowerCase()) 
+                if(!vege && child.key.includes('vege')){
+                  vege = true;
+                }
+                if(!vega && child.key.includes('vega')){
+                  vega = true;
+                }
               }
             })
           }
+          // update the state of preferences
+          _this.setState({
+            preferences: arr,
+            hasVega: vega,
+            hasVege: vege
+          })
+          callback();
         })
-        // update the state of preferences
-        this.setState({
-          preferences: arr
-        })
-        console.log(this.state.preferences)
       } else{
       }
+    });
+  }
+
+  getFood(callback){
+    var foodarr = this.state.food;
+    var vege = !this.state.hasVege;
+    var vega = !this.state.hasVega;
+    var _this = this;
+
+    firebase.database().ref('/').on('value', function(data){
+      data.forEach(function(child){
+        if(child.key!='users'){ // traverse through all dining halls
+          var arr = [];
+          child.forEach(function(item){ // traverse through food items
+            arr.push({
+              name: item.key,
+              info: item
+            });
+          })
+          foodarr.push({
+            name: child.key,
+            items: arr 
+          })
+        }
+      })
+      _this.setState({
+        food: foodarr
+      })
+      console.log(_this.state.food)
+      callback();
+    });
+
+  }
+
+  filter(){
+    var foodarr = this.state.food;
+    for(var i=0; i<foodarr.length;i++){ //traverse through dining halls/categories
+      for(var j=0; j<foodarr[i].items.length;j++){ //traverse through each food
+        // var vege = !this.state.hasVege;
+        // var vega = !this.state.hasVega;
+        
+        // console.log(foodarr[i].items[j].info)
+
+        // foodarr[i].items[j].info["Nutrition"].forEach(function(nutinfo){
+        //   if(vege && nutinfo.key.includes('vege')){
+        //     vege = true; //found vegetarian
+        //   } else if(vega && nutinfo.key.includes('vega')){
+        //     vega = true; //found vegetarian
+        //   }
+        // })
+
+        // if(!vega || !vege){ //nonvegetarian food for vegetarian user or
+        //                     //nonvegan food for nonvegan user
+        //   foodarr[i].items.splice(j--,1); //remove this food item
+        // }
+      }
+    }
+
+    this.setState({
+      food: foodarr
     })
   }
+
 
   render() {
     /* let text = 'Waiting..';
