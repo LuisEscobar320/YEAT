@@ -50,7 +50,6 @@ export default class PreferencesScreen extends React.Component {
         this.readUserData("mexicanCheck");
 
         this.state = {
-            
             checkbox1: false,
             checkbox2: false,
             checkbox3: false,
@@ -88,7 +87,7 @@ export default class PreferencesScreen extends React.Component {
         else if (param === "vegetarianCheck") {
             this.setState({checkbox2: bool});
         }
-        else if (param === "noDaFiryCheck") {
+        else if (param === "noDairyCheck") {
             this.setState({checkbox3: bool});
         }
         else if (param === "noTreeNutsCheck") {
@@ -138,12 +137,18 @@ export default class PreferencesScreen extends React.Component {
             ch12, ch13, ch14, ch15, ch16) {
         firebase.auth().onAuthStateChanged(user=> {
             if(user) {
+<<<<<<< HEAD
                 firebase.database().ref('/users/' + user.uid + '/Favorites/foodItems1').update(
                     {
                         diningHall: "Goody's",
                         item: "Burrito",
                         price: "$4.20"
                         /*veganCheck: ch1,
+=======
+                firebase.database().ref('/users/' + user.uid + '/preferences/').update(
+                    {
+                        veganCheck: ch1,
+>>>>>>> 66d727fcfe836a76ac54b24dc46a7c7cb1d7b025
                         vegetarianCheck: ch2,
                         noDairyCheck: ch3,
                         noTreeNutsCheck: ch4,
@@ -158,7 +163,7 @@ export default class PreferencesScreen extends React.Component {
                         asianCheck: ch13,
                         indianCheck: ch14,
                         italianCheck: ch15,
-                        mexicanCheck: ch16,*/
+                        mexicanCheck: ch16,
                     });
             }
         });
@@ -198,6 +203,22 @@ export default class PreferencesScreen extends React.Component {
                         title='No Tree Nuts'
                         checked={this.state.checkbox4}
                         onPress={() => this.setState({checkbox4: !this.state.checkbox4})}
+                    />
+
+                    <CheckBox
+                        title='No Soy'
+                        checked={this.state.checkbox5}
+                        onPress={() => this.setState({checkbox5: !this.state.checkbox5})}
+                    />
+
+                    <CheckBox
+                        title='No Wheat'
+                        checked={this.state.checkbox6}
+                        onPress={() => this.setState({checkbox6: !this.state.checkbox6})}
+                    />
+
+                    <CheckBox
+                        title='No Fish'
                         checked={this.state.checkbox7}
                         onPress={() => this.setState({checkbox7: !this.state.checkbox7})}
                     />
@@ -286,7 +307,6 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#153b50',
         borderRadius: 15,
-        //my stuff
         width: 66,
         flex : 1,
         flexDirection: 'row',
