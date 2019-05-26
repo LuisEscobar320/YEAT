@@ -10,12 +10,8 @@ import {
 } from 'react-native';
 import { Constants, Location, Permissions, WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
-<<<<<<< HEAD
-import firebase from 'firebase';
-=======
 import firebase from 'firebase'
 import {Button, CheckBox, Icon} from 'react-native-elements';
->>>>>>> 0086eddd31c64cf9c74333c758bf17bfdb796ad7
 
 /*
  * HomeScreen.js
