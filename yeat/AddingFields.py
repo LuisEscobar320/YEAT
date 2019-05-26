@@ -139,9 +139,48 @@ def ChangeNutritionToChild():
               print(hall + ' which has '+ food_item + ' now has ' + fact_item + '!')
 
 
-updateTimeFood('Dinner')
+#Move a food item to a specific user
+def addInfoToFoodItemInFavorites(user,food_item, init=False):
+    
+  #Initialize the firebase
+  if init is False:
+    # Fetch the service account key JSON file content
+    cred = credentials.Certificate('/Users/luisescobar/YEAT/yeat-dc4bc-firebase-adminsdk-4alun-1010432132.json')
 
-            
-        
+    # Initialize the app with a service account
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://yeat-dc4bc.firebaseio.com/'
+    })
+  #Get the users to add an item
+  ref = db.reference()
+  
+  #Getting all the items in the database
+  all_list = ref.get()
 
+  #Go through all the diningHalls to find food item
+  for diningHall in all_list:
+
+    hall = ref.get()[diningHall]
+
+    #Find the item in teh hall
+    for food in hall:
+
+      #check where the is
+      if food == food_item:
+
+        #get the cost
+        cost = ref.get()[diningHall][food]['cost']
+
+        #Add items to food in favorites
+        FavoriteItem = ref.get()['users'][user]['Favorites']
+
+        #Add the item
+        for item in FavoriteItem:
+          if item == food_item:
+            ref.child('users').child(user).child('Favorites').child(food_item).update({
+              'DiningHall': hall,
+              'Cost': cost
+            })
+            print('User with favorite food: '+ food + ' is from ' + hall + ' and costs '+cost)
+            return
 
