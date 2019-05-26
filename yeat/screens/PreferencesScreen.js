@@ -1,11 +1,13 @@
 import firebase from 'firebase';
 import React from 'react';
+import {Platform} from 'react-native';
 import {StyleSheet, ScrollView, Text, View} from 'react-native';
 import {Button, CheckBox, Icon} from 'react-native-elements';
 
 export default class PreferencesScreen extends React.Component {
     static navigationOptions = {
         title: 'Preferences',
+
     	headerStyle:{
             backgroundColor: '#fff',
     	    elevation: 0,
@@ -15,13 +17,15 @@ export default class PreferencesScreen extends React.Component {
         headerTitleStyle: {
 	        color: '#153b50',
             fontSize: 35,
-            alignSelf: 'flex-end'
+            alignSelf: 'flex-end',
+            //code to change it dynamically for android or ios
+            right: Platform.OS ==='android' ? 0 : 93,
         },
         headerRight: (
             <Icon size={40} 
-            iconStyle = {{ right: 150, top: 7}}
-            name='gear'
-            type='evilicon'
+            iconStyle = {{ right: 150, top: Platform.OS === 'android' ? 7 : 3}}
+            name='cog'
+            type='font-awesome'
             color='#517fa4'
             />
         ),
@@ -137,18 +141,9 @@ export default class PreferencesScreen extends React.Component {
             ch12, ch13, ch14, ch15, ch16) {
         firebase.auth().onAuthStateChanged(user=> {
             if(user) {
-<<<<<<< HEAD
-                firebase.database().ref('/users/' + user.uid + '/Favorites/foodItems1').update(
-                    {
-                        diningHall: "Goody's",
-                        item: "Burrito",
-                        price: "$4.20"
-                        /*veganCheck: ch1,
-=======
                 firebase.database().ref('/users/' + user.uid + '/preferences/').update(
                     {
                         veganCheck: ch1,
->>>>>>> 66d727fcfe836a76ac54b24dc46a7c7cb1d7b025
                         vegetarianCheck: ch2,
                         noDairyCheck: ch3,
                         noTreeNutsCheck: ch4,

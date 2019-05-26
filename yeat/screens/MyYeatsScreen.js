@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import React from 'react';
+import {Platform} from 'react-native';
 import {Image, StyleSheet, ScrollView, Text, View} from "react-native";
 import {Button, Card, Icon} from 'react-native-elements';
 import {createAppContainer, createStackNavigator} from 'react-navigation';
@@ -8,6 +9,7 @@ class MyYeatsScreen extends React.Component {
     static navigationOptions = {
 
         title: 'My Yeats',
+
         headerStyle:{
             backgroundColor: '#fff',
             elevation: 0,
@@ -17,12 +19,13 @@ class MyYeatsScreen extends React.Component {
         headerTitleStyle: {
             color: '#153b50',
             fontSize: 35,
+            right: Platform.OS ==='android' ? 0 : 120,
         },
 
         headerRight: (
-            <Icon size={40} iconStyle={{right: 200}}
+            <Icon size={40} iconStyle={{right:200}}
                 name='user'
-                type='evilicon'
+                type='font-awesome'
                 color='#153b50'
             />
         ),
