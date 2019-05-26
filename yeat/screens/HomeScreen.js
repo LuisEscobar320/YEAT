@@ -58,6 +58,15 @@ export default class HomeScreen extends React.Component {
     } else {
       this._getLocationAsync();
     }
+    var _this = this;
+      _this.updateDiningHalls(()=>{
+        _this.checkUser( ()=> {
+          _this.getFood( ()=>{
+            _this.filter()
+          });
+        });
+      });
+
   }
 
   /*
@@ -168,7 +177,7 @@ export default class HomeScreen extends React.Component {
   }
 
   getFood(callback){
-    var foodarr = this.state.food;
+    var foodarr = [];
     var vege = !this.state.hasVege;
     var vega = !this.state.hasVega;
     var _this = this;
@@ -191,8 +200,9 @@ export default class HomeScreen extends React.Component {
       })
       _this.setState({
         food: foodarr
-      })
-      console.log(_this.state.food)
+      },
+      function() { console.log("setState completed", this.state.food.length) })
+      //console.log(_this.state.food.items[0].info)
       callback();
     });
 
@@ -260,22 +270,78 @@ async readNumLikes(currDiningHall, food) {
 
 
   // This will add an item to the favorites
-  async addFavorite(food) {
+  async addFavorite(food, currHall, cost) {
     console.log("I am here");
     var userID = firebase.auth().currentUser.uid;
 
-    console.log(userID)
+    //console.log(userID)
 
     
     firebase.database().ref('/users/' + userID + '/Favorites/' + food).set(
       {
         name: food,
-        price: '$3.00',
-        diningHall: '64Degrees-Breakfast'
+        price: "This needs to be implemented still",
+        diningHall: currHall
       });
+  }  
+  
+  /*
+   * Lists out all Dining Halls (currently only 64 degrees) and all
+   * of the food items available there. Beside each item is an option to
+   * add it to their favorites.
+   */
+  printFoodItems() {
+    var diningHalls = this.state.food;
+    var buttonArr = [];
+    var hallArr = [];
+    var costArr = [];
+    let list = [];
+    //console.log(diningHalls.length);
+      
+    // loop through dining halls
+    for (let i = 0; i < 1 && i < diningHalls.length; i++) {
+      var currHall = diningHalls[i];
+      var scrollList = [];
+      buttonArr[i] = [];
+      costArr[i] = [];
+      hallArr[i] = currHall.name;
+      list.push(
+        // Print out Dining Hall name
+        <View style={styles.topDiningHall}>
+          <Text style={styles.topDiningHall}> { currHall.name } </Text>
+        </View>
+      );
+      // Loop through all items in said dining hall
+      for (let j = 0; j < currHall.items.length; j++) {
+        var food = currHall.items[j];
+        //console.log(food.info["cost"]);
+        buttonArr[i][j] = food.name;
+        //costArr[i][j] = food.info[0];
+        // Add in food item with its favorite button
+        scrollList.push(
+          <View style={styles.foodItem}>
+            <Text>
+              { food.name }
+            </Text>
+            
+            <Button
+              onPress={()=>
+                this.addFavorite(buttonArr[i][j], hallArr[i], "$10.00")}
+              buttonStyle={styles.likeButton}
+              name={"Favorite" + {j} }
+            />
+          </View>              
+        );
+      }
+      // Add horizontally scrolling food list
+      list.push(
+        <ScrollView horizontal={true}>
+          { scrollList } 
+        </ScrollView>
+      );
+    }
+    return list;
   }
-
-
 
   render() {
     /* let text = 'Waiting..';
@@ -327,25 +393,45 @@ async readNumLikes(currDiningHall, food) {
             )}
           </View>
 
+        {/* Prints out Dining Halls alongside all food items within them */}
+        <View> 
+          { this.printFoodItems() }
+        </View>
+
           {/* Print Closest Dining Hall */}
           <View style={styles.topDiningHall}>
               <Text style={styles.topDiningHall}> {this.state.diningHalls[0].name} </Text>
           </View>
 
-          {/* Janked together a example to add item to favorites 
-              THIS NEEDS TO BE REPLACED WITH SOMETHING THAT ACTUALLY IS DYNAMIC*/}
+       {/* Janked together a example to add item to favorites 
+           THIS NEEDS TO BE REPLACED WITH SOMETHING THAT ACTUALLY IS DYNAMIC*/}
+        <ScrollView horizontal={true}>
           <View style={styles.foodItem}>
-              <Text style={styles.foodItem}>
-                  AvacadoToast
-              </Text>
+            <Text>
+              AvacadoToast
+            </Text>
               
-              <Button
-                onPress={()=>this.addFavorite("AvacadoToast")}
-                buttonStyle={styles.likeButton}
-                name="Favorite1"
-              />
+            <Button
+              onPress={()=>this.addFavorite("AvacadoToast")}
+              buttonStyle={styles.likeButton}
+              name="Favorite1"
+            />
 
           </View>
+
+          <View style={styles.foodItem}>
+            <Text>
+              Why
+            </Text>
+              
+            <Button
+              onPress={()=>this.addFavorite("BelgianWaffles")}
+              buttonStyle={styles.likeButton}
+              name="Favorite2"
+            />
+
+          </View> 
+        </ScrollView>
 
 
           <View style={styles.helpContainer}>
@@ -401,6 +487,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   foodItem: {
+    //height: 130,
+    //width: 130,
+    marginLeft:20,
+    borderWidth:0.5,
+    //borderColor: 'black',
     fontSize: 32,
     textAlign: 'center',
     flexDirection: "row",
