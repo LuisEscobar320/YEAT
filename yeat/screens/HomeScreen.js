@@ -10,7 +10,12 @@ import {
 } from 'react-native';
 import { Constants, Location, Permissions, WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
+<<<<<<< HEAD
 import firebase from 'firebase';
+=======
+import firebase from 'firebase'
+import {Button, CheckBox, Icon} from 'react-native-elements';
+>>>>>>> 0086eddd31c64cf9c74333c758bf17bfdb796ad7
 
 /*
  * HomeScreen.js
@@ -30,8 +35,11 @@ export default class HomeScreen extends React.Component {
     errorMessage: null,   // error message to be displayed when status is not granted
     diningHalls: [
       { name: 'Foodworx', longitude: -117.230415, latitude: 32.878806, dis: -1},
+      { name: 'Cafe Ventanas', longitude:-117.242851, latitude: 32.886182, dis: -1},
       { name: 'Pines', longitude: -117.242558, latitude: 32.878979, dis: -1},
       { name: '64 Degrees', longitude: -117.242060, latitude: 32.874665, dis: -1},
+      { name: '64 Degrees North', longitude: -117.2443437, latitude: 32.8748439, dis: -1},
+      { name: 'Club Med', longitude: -117.237402, latitude: 32.8751508, dis:-1},
       { name: 'The Bistro', longitude: -117.242044, latitude: 32.888023, dis: -1},
       { name: 'Goody\'s', longitude: -117.240411, latitude:32.883016, dis: -1},
       { name: 'Oceanview Terrace', longitude: -117.242750, latitude: 32.883268, dis: -1}
@@ -224,6 +232,55 @@ export default class HomeScreen extends React.Component {
   }
 
 
+
+/* Read current likes */
+async readNumLikes(currDiningHall, food) {
+  var ref = firebase.database().ref(currDiningHall + food + 'Yeats');
+
+  await ref.once("value");
+
+  return ref;
+}
+
+  /* Push likes back to firebase */
+  writeNumLikes(currDiningHall, food, Yeats) {
+    firebase.database().ref(currDiningHall + food).update(Yeats);
+  }
+
+  // This will allow the user to like a food item
+  likeFood(currDiningHall, foodItem) {
+    currentLikes=this.readNumLikes(currDiningHall, foodItem)
+    curentLikes = currentLikes + 1
+    this.writeUserData(currDiningHall, foodItem, currentLikes);
+
+  }
+
+  // This will allow the user to dislike a food item
+
+
+
+  // Get food items from the database
+
+
+
+  // This will add an item to the favorites
+  async addFavorite(food) {
+    console.log("I am here");
+    var userID = firebase.auth().currentUser.uid;
+
+    console.log(userID)
+
+    
+    firebase.database().ref('/users/' + userID + '/Favorites/' + food).set(
+      {
+        name: food,
+        price: '$3.00',
+        diningHall: '64Degrees-Breakfast'
+      });
+  }
+
+
+
   render() {
     /* let text = 'Waiting..';
     if (this.state.errorMessage) {
@@ -233,6 +290,7 @@ export default class HomeScreen extends React.Component {
     } */
 
     return (
+
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
@@ -245,6 +303,8 @@ export default class HomeScreen extends React.Component {
               style={styles.welcomeImage}
             />
           </View>
+          
+              
 
           <View style={styles.getStartedContainer}>
             {this._maybeRenderDevelopmentModeWarning()}
@@ -263,11 +323,32 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.paragraph}>{text}</Text>
           </View>
           */}
-
+          
+          {/* sort dining halls based on location */}
           <View style={styles.container}>
             { this.state.diningHalls.map((item, key)=>(
             <Text key={key} style={styles.getStartedText}> { item.name } </Text>)
             )}
+          </View>
+
+          {/* Print Closest Dining Hall */}
+          <View style={styles.topDiningHall}>
+              <Text style={styles.topDiningHall}> {this.state.diningHalls[0].name} </Text>
+          </View>
+
+          {/* Janked together a example to add item to favorites 
+              THIS NEEDS TO BE REPLACED WITH SOMETHING THAT ACTUALLY IS DYNAMIC*/}
+          <View style={styles.foodItem}>
+              <Text style={styles.foodItem}>
+                  AvacadoToast
+              </Text>
+              
+              <Button
+                onPress={()=>this.addFavorite("AvacadoToast")}
+                buttonStyle={styles.likeButton}
+                name="Favorite1"
+              />
+
           </View>
 
 
@@ -277,14 +358,6 @@ export default class HomeScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
       </View>
       
     );
@@ -330,6 +403,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  foodItem: {
+    fontSize: 32,
+    textAlign: 'center',
+    flexDirection: "row",
+  },
+  likeButton: {
+    height: 48,
+    width: 48,
+  },
+  topDiningHall: {
+
+    fontSize: 48,
+    textAlign: 'left',
+    flexDirection: "row",
   },
   developmentModeText: {
     marginBottom: 20,
