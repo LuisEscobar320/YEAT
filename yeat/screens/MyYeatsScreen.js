@@ -19,16 +19,16 @@ class MyYeatsScreen extends React.Component {
         headerTitleStyle: {
             color: '#153b50',
             fontSize: 35,
-            right: Platform.OS ==='android' ? 0 : 120,
+            //right: Platform.OS ==='android' ? 0 : 120,
         },
 
-        headerRight: (
+        /*headerRight: (
             <Icon size={40} iconStyle={{right:200}}
                 name='user'
                 type='font-awesome'
                 color='#153b50'
             />
-        ),
+        ),*/
     };
     
     constructor(props) {
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     },
     nameStyle: {
         color: '#fff',
-        fontSize: 40,
+        fontSize: 35,
         textAlign: "center",
         paddingTop: 35,
     },

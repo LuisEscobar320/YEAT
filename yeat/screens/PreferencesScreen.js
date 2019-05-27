@@ -19,16 +19,16 @@ export default class PreferencesScreen extends React.Component {
             fontSize: 35,
             alignSelf: 'flex-end',
             //code to change it dynamically for android or ios
-            right: Platform.OS ==='android' ? 0 : 93,
+            //right: Platform.OS ==='android' ? 0 : 93,
         },
-        headerRight: (
+        /*headerRight: (
             <Icon size={40} 
             iconStyle = {{ right: 150, top: Platform.OS === 'android' ? 7 : 3}}
             name='cog'
             type='font-awesome'
             color='#517fa4'
             />
-        ),
+        ),*/
     };
 
 
