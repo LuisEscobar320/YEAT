@@ -30,7 +30,7 @@ class MyYeatsScreen extends React.Component {
             />
         ),*/
     };
-    
+
     constructor(props) {
         super(props);
         this.listenForItems();
@@ -59,14 +59,14 @@ class MyYeatsScreen extends React.Component {
         let bool = false;
         await ref.on('value', (snap) => {
 
-        // get children as an array
-        var items = [];
-        var num = 0;
-        snap.forEach((child) => {
+            // get children as an array
+            var items = [];
+            var num = 0;
+            snap.forEach((child) => {
                 num++;
                 this.showCards(num);
                 const pbj = {'check': child.key, 'bool': child.val()};
-                items.push(             
+                items.push(
                     child.key,
                     child.val().item,
                     child.val().diningHall,
@@ -79,7 +79,10 @@ class MyYeatsScreen extends React.Component {
                 arr: items,
                 numCards: num
             });
+<<<<<<< HEAD
             console.log("Num cards issssssssssssssssss");
+=======
+>>>>>>> f710db6fe32c61bc4f11333de302f21fefdaf66a
 
         });
     }
@@ -143,7 +146,7 @@ class MyYeatsScreen extends React.Component {
         }
     }
 
-    
+
     showCards(num) {
         if (num > 0) {
             this.setState ({
@@ -199,7 +202,7 @@ class MyYeatsScreen extends React.Component {
 
     noCards() {
         if (this.state.numCards == 0) {
-            return ( 
+            return (
                 <Text style= {{ color: '#9da9aa', fontSize: 20, left: 15 }}>
                     You have no favorites. Tap on a heart for any food item and it will be added to My Yeats!
                 </Text>
@@ -212,376 +215,384 @@ class MyYeatsScreen extends React.Component {
         console.log("Num cards is");
         console.log(this.state.numCards);
         return (
-	    <ScrollView style={styles.container}>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Button
-                    title='Profile'
-                    buttonStyle={styles.button}
-                    onPress={()=> {
-                        return this.props.navigation.navigate('Profile');
-                    }}
-                />        
-                {this.noCards()}
-                {this.state.showCard1 ? (
-                    <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
-                        title = {
-                            <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[1]} </Text>
-                            </View>
-                        }>
-                        <Icon
-                            name='location-on'
-                            color='#153b50'
-                            size={15}
-                            iconStyle={{
-                                top: 71,  
-                                right: 130
-                            }}
-                        />
-                        <Text style = {styles.diningHallStyle}>{this.state.arr[2]} </Text>
-    
-                        <Text style = {styles.priceStyle}> {this.state.arr[3]} </Text>
+            <View style={{ flex: 1, justifyContent: "center" }}>
+                <ScrollView style={styles.container}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        {this.noCards()}
+                        {this.state.showCard1 ? (
+                            <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                                   title = {
+                                       <View style = {{ alignItems: 'flex-start' }}>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[1]} </Text>
+                                       </View>
+                                   }>
+                                <Icon
+                                    name='location-on'
+                                    color='#153b50'
+                                    size={15}
+                                    iconStyle={{
+                                        top: 71,
+                                        right: 130
+                                    }}
+                                />
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[2]} </Text>
 
-                        
-                        <View style = {{ top: -180, right: -120 }}>
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                color='#153b50'
-        
-                                onPress={() => this.removeFav(this.state.arr[0], this.state.arr[1], 1)} 
-                            />
-                        </View>
-                    </Card>
-                ) : null}          
-                
-                {this.state.showCard2 ? (
-                    <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
-                        title = {
-                            <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[5]} </Text>
-                            </View>
-                        }>
-                    
-                        <Icon
-                            name='location-on'
-                            color='#153b50'
-                            size={15}
-                            iconStyle={{
-                                top: 71,
-                                right: 130
-                            }}
-                        />
-
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[6]} </Text>
-    
-                        <Text style = {styles.priceStyle}> {this.state.arr[7]} </Text>
-                    
-                        <View style = {{ top: -180, right: -120 }}>
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                color='#153b50'
-        
-                                onPress={() => this.removeFav(this.state.arr[4], this.state.arr[5], 2)} 
-                            />
-                        </View>
-
-                    </Card>
-                ) : null}          
-
-                {this.state.showCard3 ? (
- 
-                    <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
-                        title = {
-                            <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[9]} </Text>
-                            </View>
-                        }>
-                        <Icon
-                            name='location-on'
-                            color='#153b50'
-                            size={15}
-                            iconStyle={{
-                                top: 71,
-                                right: 130
-                            }}
-                        />
-
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[10]} </Text>
-                        
-                        <Text style = {styles.priceStyle}> {this.state.arr[11]} </Text>
-            
-                        <View style = {{ top: -180, right: -120 }}>
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                color='#153b50'
-        
-                                onPress={() => this.removeFav(this.state.arr[8], this.state.arr[9], 3)} 
-                            />
-                        </View>
-
-                    </Card>
-
-                ) : null}          
-                
-                {this.state.showCard4 ? (
- 
-                    <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
-                        title = {
-                            <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[13]} </Text>
-                            </View>
-                        }>
-                        <Icon
-                            name='location-on'
-                            color='#153b50'
-                            size={15}
-                            iconStyle={{
-                                top: 71,
-                                right: 130
-                            }}
-                        />
-
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[14]} </Text>
-                        
-                        <Text style = {styles.priceStyle}> {this.state.arr[15]} </Text>
-            
-                        <View style = {{ top: -180, right: -120 }}>
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                color='#153b50'
-        
-                                onPress={() => this.removeFav(this.state.arr[12], this.state.arr[13], 4)} 
-                            />
-                        </View>
-
-                    </Card>
-
-                ) : null}          
-
-                {this.state.showCard5 ? (
- 
-                    <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
-                        title = {
-                            <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[17]} </Text>
-                            </View>
-                        }>
-                        <Icon
-                            name='location-on'
-                            color='#153b50'
-                            size={15}
-                            iconStyle={{
-                                top: 71,
-                                right: 130
-                            }}
-                        />
-
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[18]} </Text>
-                        
-                        <Text style = {styles.priceStyle}> {this.state.arr[19]} </Text>
-            
-                        <View style = {{ top: -180, right: -120 }}>
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                color='#153b50'
-        
-                                onPress={() => this.removeFav(this.state.arr[16], this.state.arr[17], 5)} 
-                            />
-                        </View>
-
-                    </Card>
-
-                ) : null}          
-                
-                {this.state.showCard6 ? (
- 
-                    <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
-                        title = {
-                            <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[21]} </Text>
-                            </View>
-                        }>
-                        <Icon
-                            name='location-on'
-                            color='#153b50'
-                            size={15}
-                            iconStyle={{
-                                top: 71,
-                                right: 130
-                            }}
-                        />
-
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[22]} </Text>
-                        
-                        <Text style = {styles.priceStyle}> {this.state.arr[23]} </Text>
-            
-                        <View style = {{ top: -180, right: -120 }}>
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                color='#153b50'
-        
-                                onPress={() => this.removeFav(this.state.arr[20], this.state.arr[21], 6)} 
-                            />
-                        </View>
-
-                    </Card>
-
-                ) : null} 
-                
-                {this.state.showCard7 ? (
- 
-                    <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
-                        title = {
-                            <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[25]} </Text>
-                            </View>
-                        }>
-                        <Icon
-                            name='location-on'
-                            color='#153b50'
-                            size={15}
-                            iconStyle={{
-                                top: 71,
-                                right: 130
-                            }}
-                        />
-
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[26]} </Text>
-                        
-                        <Text style = {styles.priceStyle}> {this.state.arr[27]} </Text>
-            
-                        <View style = {{ top: -180, right: -120 }}>
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                color='#153b50'
-        
-                                onPress={() => this.removeFav(this.state.arr[24], this.state.arr[25], 7)} 
-                            />
-                        </View>
-
-                    </Card>
-
-                ) : null}          
-
-                {this.state.showCard8 ? (
- 
-                    <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
-                        title = {
-                            <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[29]} </Text>
-                            </View>
-                        }>
-                        <Icon
-                            name='location-on'
-                            color='#153b50'
-                            size={15}
-                            iconStyle={{
-                                top: 71,
-                                right: 130
-                            }}
-                        />
-
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[30]} </Text>
-                        
-                        <Text style = {styles.priceStyle}> {this.state.arr[31]} </Text>
-            
-                        <View style = {{ top: -180, right: -120 }}>
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                color='#153b50'
-        
-                                onPress={() => this.removeFav(this.state.arr[28], this.state.arr[29], 8)} 
-                            />
-                        </View>
-
-                    </Card>
-
-                ) : null}          
-
-                {this.state.showCard9 ? (
- 
-                    <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
-                        title = {
-                            <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[33]} </Text>
-                            </View>
-                        }>
-                        <Icon
-                            name='location-on'
-                            color='#153b50'
-                            size={15}
-                            iconStyle={{
-                                top: 71,
-                                right: 130
-                            }}
-                        />
-
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[34]} </Text>
-                        
-                        <Text style = {styles.priceStyle}> {this.state.arr[35]} </Text>
-            
-                        <View style = {{ top: -180, right: -120 }}>
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                color='#153b50'
-        
-                                onPress={() => this.removeFav(this.state.arr[32], this.state.arr[33], 9)} 
-                            />
-                        </View>
-
-                    </Card>
-
-                ) : null}          
-                
-                {this.state.showCard10 ? (
- 
-                    <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
-                        title = {
-                            <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[37]} </Text>
-                            </View>
-                        }>
-                        <Icon
-                            name='location-on'
-                            color='#153b50'
-                            size={15}
-                            iconStyle={{
-                                top: 71,
-                                right: 130
-                            }}
-                        />
-
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[38]} </Text>
-                        
-                        <Text style = {styles.priceStyle}> {this.state.arr[39]} </Text>
-            
-                        <View style = {{ top: -180, right: -120 }}>
-                            <Icon
-                                name='heart'
-                                type='font-awesome'
-                                color='#153b50'
-        
-                                onPress={() => this.removeFav(this.state.arr[36], this.state.arr[37], 10)} 
-                            />
-                        </View>
-
-                    </Card>
-
-                ) : null}          
+                                <Text style = {styles.priceStyle}> {this.state.arr[3]} </Text>
 
 
+                                <View style = {{ top: -180, right: -120 }}>
+                                    <Icon
+                                        name='heart'
+                                        type='font-awesome'
+                                        color='#153b50'
+
+                                        onPress={() => this.removeFav(this.state.arr[0], this.state.arr[1], 1)}
+                                    />
+                                </View>
+                            </Card>
+                        ) : null}
+
+                        {this.state.showCard2 ? (
+                            <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                                   title = {
+                                       <View style = {{ alignItems: 'flex-start' }}>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[5]} </Text>
+                                       </View>
+                                   }>
+
+                                <Icon
+                                    name='location-on'
+                                    color='#153b50'
+                                    size={15}
+                                    iconStyle={{
+                                        top: 71,
+                                        right: 130
+                                    }}
+                                />
+
+                                <Text style = {styles.diningHallStyle}> {this.state.arr[6]} </Text>
+
+                                <Text style = {styles.priceStyle}> {this.state.arr[7]} </Text>
+
+                                <View style = {{ top: -180, right: -120 }}>
+                                    <Icon
+                                        name='heart'
+                                        type='font-awesome'
+                                        color='#153b50'
+
+                                        onPress={() => this.removeFav(this.state.arr[4], this.state.arr[5], 2)}
+                                    />
+                                </View>
+
+                            </Card>
+                        ) : null}
+
+                        {this.state.showCard3 ? (
+
+                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                                   title = {
+                                       <View style = {{ alignItems: 'flex-start' }}>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[9]} </Text>
+                                       </View>
+                                   }>
+                                <Icon
+                                    name='location-on'
+                                    color='#153b50'
+                                    size={15}
+                                    iconStyle={{
+                                        top: 71,
+                                        right: 130
+                                    }}
+                                />
+
+                                <Text style = {styles.diningHallStyle}> {this.state.arr[10]} </Text>
+
+                                <Text style = {styles.priceStyle}> {this.state.arr[11]} </Text>
+
+                                <View style = {{ top: -180, right: -120 }}>
+                                    <Icon
+                                        name='heart'
+                                        type='font-awesome'
+                                        color='#153b50'
+
+                                        onPress={() => this.removeFav(this.state.arr[8], this.state.arr[9], 3)}
+                                    />
+                                </View>
+
+                            </Card>
+
+                        ) : null}
+
+                        {this.state.showCard4 ? (
+
+                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                                   title = {
+                                       <View style = {{ alignItems: 'flex-start' }}>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[13]} </Text>
+                                       </View>
+                                   }>
+                                <Icon
+                                    name='location-on'
+                                    color='#153b50'
+                                    size={15}
+                                    iconStyle={{
+                                        top: 71,
+                                        right: 130
+                                    }}
+                                />
+
+                                <Text style = {styles.diningHallStyle}> {this.state.arr[14]} </Text>
+
+                                <Text style = {styles.priceStyle}> {this.state.arr[15]} </Text>
+
+                                <View style = {{ top: -180, right: -120 }}>
+                                    <Icon
+                                        name='heart'
+                                        type='font-awesome'
+                                        color='#153b50'
+
+                                        onPress={() => this.removeFav(this.state.arr[12], this.state.arr[13], 4)}
+                                    />
+                                </View>
+
+                            </Card>
+
+                        ) : null}
+
+                        {this.state.showCard5 ? (
+
+                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                                   title = {
+                                       <View style = {{ alignItems: 'flex-start' }}>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[17]} </Text>
+                                       </View>
+                                   }>
+                                <Icon
+                                    name='location-on'
+                                    color='#153b50'
+                                    size={15}
+                                    iconStyle={{
+                                        top: 71,
+                                        right: 130
+                                    }}
+                                />
+
+                                <Text style = {styles.diningHallStyle}> {this.state.arr[18]} </Text>
+
+                                <Text style = {styles.priceStyle}> {this.state.arr[19]} </Text>
+
+                                <View style = {{ top: -180, right: -120 }}>
+                                    <Icon
+                                        name='heart'
+                                        type='font-awesome'
+                                        color='#153b50'
+
+                                        onPress={() => this.removeFav(this.state.arr[16], this.state.arr[17], 5)}
+                                    />
+                                </View>
+
+                            </Card>
+
+                        ) : null}
+
+                        {this.state.showCard6 ? (
+
+                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                                   title = {
+                                       <View style = {{ alignItems: 'flex-start' }}>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[21]} </Text>
+                                       </View>
+                                   }>
+                                <Icon
+                                    name='location-on'
+                                    color='#153b50'
+                                    size={15}
+                                    iconStyle={{
+                                        top: 71,
+                                        right: 130
+                                    }}
+                                />
+
+                                <Text style = {styles.diningHallStyle}> {this.state.arr[22]} </Text>
+
+                                <Text style = {styles.priceStyle}> {this.state.arr[23]} </Text>
+
+                                <View style = {{ top: -180, right: -120 }}>
+                                    <Icon
+                                        name='heart'
+                                        type='font-awesome'
+                                        color='#153b50'
+
+                                        onPress={() => this.removeFav(this.state.arr[20], this.state.arr[21], 6)}
+                                    />
+                                </View>
+
+                            </Card>
+
+                        ) : null}
+
+                        {this.state.showCard7 ? (
+
+                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                                   title = {
+                                       <View style = {{ alignItems: 'flex-start' }}>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[25]} </Text>
+                                       </View>
+                                   }>
+                                <Icon
+                                    name='location-on'
+                                    color='#153b50'
+                                    size={15}
+                                    iconStyle={{
+                                        top: 71,
+                                        right: 130
+                                    }}
+                                />
+
+                                <Text style = {styles.diningHallStyle}> {this.state.arr[26]} </Text>
+
+                                <Text style = {styles.priceStyle}> {this.state.arr[27]} </Text>
+
+                                <View style = {{ top: -180, right: -120 }}>
+                                    <Icon
+                                        name='heart'
+                                        type='font-awesome'
+                                        color='#153b50'
+
+                                        onPress={() => this.removeFav(this.state.arr[24], this.state.arr[25], 7)}
+                                    />
+                                </View>
+
+                            </Card>
+
+                        ) : null}
+
+                        {this.state.showCard8 ? (
+
+                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                                   title = {
+                                       <View style = {{ alignItems: 'flex-start' }}>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[29]} </Text>
+                                       </View>
+                                   }>
+                                <Icon
+                                    name='location-on'
+                                    color='#153b50'
+                                    size={15}
+                                    iconStyle={{
+                                        top: 71,
+                                        right: 130
+                                    }}
+                                />
+
+                                <Text style = {styles.diningHallStyle}> {this.state.arr[30]} </Text>
+
+                                <Text style = {styles.priceStyle}> {this.state.arr[31]} </Text>
+
+                                <View style = {{ top: -180, right: -120 }}>
+                                    <Icon
+                                        name='heart'
+                                        type='font-awesome'
+                                        color='#153b50'
+
+                                        onPress={() => this.removeFav(this.state.arr[28], this.state.arr[29], 8)}
+                                    />
+                                </View>
+
+                            </Card>
+
+                        ) : null}
+
+                        {this.state.showCard9 ? (
+
+                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                                   title = {
+                                       <View style = {{ alignItems: 'flex-start' }}>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[33]} </Text>
+                                       </View>
+                                   }>
+                                <Icon
+                                    name='location-on'
+                                    color='#153b50'
+                                    size={15}
+                                    iconStyle={{
+                                        top: 71,
+                                        right: 130
+                                    }}
+                                />
+
+                                <Text style = {styles.diningHallStyle}> {this.state.arr[34]} </Text>
+
+                                <Text style = {styles.priceStyle}> {this.state.arr[35]} </Text>
+
+                                <View style = {{ top: -180, right: -120 }}>
+                                    <Icon
+                                        name='heart'
+                                        type='font-awesome'
+                                        color='#153b50'
+
+                                        onPress={() => this.removeFav(this.state.arr[32], this.state.arr[33], 9)}
+                                    />
+                                </View>
+
+                            </Card>
+
+                        ) : null}
+
+                        {this.state.showCard10 ? (
+
+                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                                   title = {
+                                       <View style = {{ alignItems: 'flex-start' }}>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[37]} </Text>
+                                       </View>
+                                   }>
+                                <Icon
+                                    name='location-on'
+                                    color='#153b50'
+                                    size={15}
+                                    iconStyle={{
+                                        top: 71,
+                                        right: 130
+                                    }}
+                                />
+
+                                <Text style = {styles.diningHallStyle}> {this.state.arr[38]} </Text>
+
+                                <Text style = {styles.priceStyle}> {this.state.arr[39]} </Text>
+
+                                <View style = {{ top: -180, right: -120 }}>
+                                    <Icon
+                                        name='heart'
+                                        type='font-awesome'
+                                        color='#153b50'
+
+                                        onPress={() => this.removeFav(this.state.arr[36], this.state.arr[37], 10)}
+                                    />
+                                </View>
+
+                            </Card>
+
+                        ) : null}
+
+
+                    </View>
+                </ScrollView>
+
+                <View style={{right: 10, alignItems: 'flex-end'}}>
+                    <Icon
+                        reverse
+                        name='user'
+                        type='font-awesome'
+                        color='#153b50'
+                        onPress={()=> {
+                            return this.props.navigation.navigate('Profile');
+                        }}
+                    />
+                </View>
             </View>
-	    </ScrollView>
-    );
+
+        );
     }
 }
 
@@ -624,7 +635,7 @@ class ProfileScreen extends React.Component {
             .then(function(snapshot) {
                 userName = snapshot.child("name").val();
                 userEmail = snapshot.child("gmail").val();
-        });
+            });
 
         this.setState({name: userName});
         this.setState({email: userEmail});
