@@ -575,7 +575,7 @@ class MyYeatsScreen extends React.Component {
                     </View>
                 </ScrollView>
 
-                <View style={{right: 10, alignItems: 'flex-end'}}>
+                <View style={{bottom: 0, right: 10, alignItems: 'flex-end', flex: 1, position: 'absolute'}}>
                     <Icon
                         reverse
                         name='user'
