@@ -173,7 +173,7 @@ export default class PreferencesScreen extends React.Component {
                 
                 <ScrollView style={styles.container}>
 
-                    <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
+                    <Text style = {styles.title} >Dietary Restrictions</Text>
 
                     <CheckBox
                         title='Vegan'
@@ -242,7 +242,7 @@ export default class PreferencesScreen extends React.Component {
                         onPress={() => this.setState({checkbox11: !this.state.checkbox11})}
                     />
 
-                    <Text style = {{color: '#153b50', fontSize: 25, padding: 20}}>Cuisines</Text>
+                    <Text style = {styles.title}>Cuisines</Text>
 
                     <CheckBox
                         title='American'
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
         top: -55,
         right: 15,
     },
-    check:{
+    check: {
         //flex : 1,
         //flexDirection: 'row',
         //justifyContent: 'center',
@@ -319,6 +319,11 @@ const styles = StyleSheet.create({
         //position: 'absolute',
         top: -20,
         right: -30,
+    },
+    title: {
+        color: '#153b50',
+        fontSize: 25,
+        padding: 20
     }
 });
 
