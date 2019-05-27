@@ -11,7 +11,7 @@ import {
 import { Constants, Location, Permissions, WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import firebase from 'firebase'
-import {Button, CheckBox, Icon} from 'react-native-elements';
+import {Button, CheckBox, Icon, Card} from 'react-native-elements';
 
 /*
  * HomeScreen.js
@@ -36,8 +36,16 @@ export default class HomeScreen extends React.Component {
             fontSize: 35,
             alignSelf: 'flex-end',
             //code to change it dynamically for android or ios
-            //right: Platform.OS ==='android' ? 0 : 93,
+            right: Platform.OS ==='android' ? 0 : 93,
         },
+        /*headerRight: (
+            <Icon size={40}
+            iconStyle = {{ right: 150, top: Platform.OS === 'android' ? 7 : 3}}
+            name='cog'
+            type='font-awesome'
+            color='#517fa4'
+            />
+        ),*/
     };
 
     state = {
@@ -333,7 +341,7 @@ export default class HomeScreen extends React.Component {
                 //costArr[i][j] = food.info[0];
                 // Add in food item with its favorite button
                 scrollList.push(
-                    <View style={styles.foodItem}>
+                    <Card containerStyle={{ width: 150, height: 75, backgroundColor: '#fff', borderRadius: 15 }}>
                         <Text>
                             { food.name }
                         </Text>
@@ -344,7 +352,7 @@ export default class HomeScreen extends React.Component {
                             buttonStyle={styles.likeButton}
                             name={"Favorite" + {j} }
                         />
-                    </View>
+                    </Card>
                 );
             }
             // Add horizontally scrolling food list
@@ -368,19 +376,37 @@ export default class HomeScreen extends React.Component {
         return (
 
             <View style={styles.container}>
-                <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}/>
+                <ScrollView style={styles.container} >
 
+                    <Text style = {{fontWeight: 'bold', color: '#153b50', fontSize: 25, left: 20}}>Yeatiest</Text>
+                    <Card  containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                           title = {
+                               <View style = {{ alignItems: 'flex-start' }}>
+                                   <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > YEAT </Text>
+                               </View>
+                           }>
+                    </Card>
+                    <Text style = {{fontWeight: 'bold', color: '#153b50', fontSize: 25, left: 20, top:15 }}>Yuckiest</Text>
+                    <Card  containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, top:10 }}
+                           title = {
+                               <View style = {{ alignItems: 'flex-start' }}>
+                                   <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > YEAT </Text>
+                               </View>
+                           }>
+                    </Card>
+
+                    {/*
+          <View style={styles.container}>
+            <Text style={styles.paragraph}>{text}</Text>
+          </View>
+          */}
 
                     {/* sort dining halls based on location */}
-                {/*<View style={styles.container}>
-                        { this.state.diningHalls.map((item, key)=>(
-                            <Text key={key} style={styles.getStartedText}> { item.name } </Text>)
-                        )}
-                    </View>*/}
-
-                    <Text style={styles.title}>Yeatiest</Text>
-
-                    <Text style={styles.title}>Yuckiest</Text>
+                    {/*<View style={styles.container}>
+            { this.state.diningHalls.map((item, key)=>(
+            <Text key={key} style={styles.getStartedText}> { item.name } </Text>)
+            )}
+            </View>*/}
 
                     {/* Prints out Dining Halls alongside all food items within them */}
                     <View>
@@ -397,11 +423,11 @@ export default class HomeScreen extends React.Component {
                     <ScrollView horizontal={true}>
                         <View style={styles.foodItem}>
                             <Text>
-                                AvocadoToast
+                                AvacadoToast
                             </Text>
 
                             <Button
-                                onPress={()=>this.addFavorite("AvocadoToast")}
+                                onPress={()=>this.addFavorite("AvacadoToast")}
                                 buttonStyle={styles.likeButton}
                                 name="Favorite1"
                             />
@@ -422,7 +448,7 @@ export default class HomeScreen extends React.Component {
                         </View>
                     </ScrollView>
 
-
+                </ScrollView>
             </View>
 
         );
@@ -480,11 +506,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     likeButton: {
-        height: 48,
-        width: 48,
+        height: 20,
+        width: 20,
     },
     topDiningHall: {
-        fontSize: 20,
+
+        fontSize: 48,
         textAlign: 'left',
         flexDirection: "row",
     },
@@ -570,9 +597,4 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#2e78b7',
     },
-    title: {
-        color: '#153b50',
-        fontSize: 25,
-        padding: 20
-    }
 });
