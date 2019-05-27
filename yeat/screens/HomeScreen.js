@@ -11,7 +11,7 @@ import {
 import { Constants, Location, Permissions, WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import firebase from 'firebase'
-import {Button, CheckBox, Icon, Card} from 'react-native-elements';
+import {Button, Icon, Card} from 'react-native-elements';
 
 /*
  * HomeScreen.js
@@ -36,7 +36,7 @@ export default class HomeScreen extends React.Component {
             fontSize: 35,
             alignSelf: 'flex-end',
             //code to change it dynamically for android or ios
-            right: Platform.OS ==='android' ? 0 : 93,
+            //right: Platform.OS ==='android' ? 0 : 93,
         },
         /*headerRight: (
             <Icon size={40}
@@ -341,17 +341,50 @@ export default class HomeScreen extends React.Component {
                 //costArr[i][j] = food.info[0];
                 // Add in food item with its favorite button
                 scrollList.push(
-                    <Card containerStyle={{ width: 150, height: 75, backgroundColor: '#fff', borderRadius: 15 }}>
-                        <Text>
+                    <Card containerStyle={styles.foodItemCard}>
+                        <Text style={styles.foodName}>
                             { food.name }
                         </Text>
 
-                        <Button
+                        {/*<Button
                             onPress={()=>
                                 this.addFavorite(buttonArr[i][j], hallArr[i], "$10.00")}
                             buttonStyle={styles.likeButton}
                             name={"Favorite" + {j} }
-                        />
+                        />*/}
+
+                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                            {/* Thumbs up icon will be the button to like */}
+                            {/* Need to add onPress functionality */}
+                            <Icon
+                                name='thumbs-up'
+                                type='font-awesome'
+                                color='#153b50'
+                                size={30}
+                            />
+
+                            <Text>     </Text>
+
+                            {/* Thumbs down icon will be the button to dislike */}
+                            {/* Need to add onPress functionality */}
+                            <Icon
+                                name='thumbs-down'
+                                type='font-awesome'
+                                color='#153b50'
+                                size={30}
+                            />
+
+                            <Text>     </Text>
+
+                            {/* Heart icon will be the button to add to my yeats */}
+                            {/* Need to add onPress functionality */}
+                            <Icon
+                                name='heart'
+                                type='font-awesome'
+                                color='#153b50'
+                                size={30}
+                            />
+                        </View>
                     </Card>
                 );
             }
@@ -378,7 +411,16 @@ export default class HomeScreen extends React.Component {
             <View style={styles.container}>
                 <ScrollView style={styles.container} >
 
-                    <Text style = {{fontWeight: 'bold', color: '#153b50', fontSize: 25, left: 20}}>Yeatiest</Text>
+                    <Text style = {styles.header}>Yeatiest</Text>
+
+                    <View style={{top: -27, right: 48, marginBottom: -25}}>
+                        <Icon
+                            name='thumbs-up'
+                            type='font-awesome'
+                            color='#153b50'
+                        />
+                    </View>
+
                     <Card  containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                            title = {
                                <View style = {{ alignItems: 'flex-start' }}>
@@ -386,14 +428,25 @@ export default class HomeScreen extends React.Component {
                                </View>
                            }>
                     </Card>
-                    <Text style = {{fontWeight: 'bold', color: '#153b50', fontSize: 25, left: 20, top:15 }}>Yuckiest</Text>
-                    <Card  containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, top:10 }}
+                    <Text style = {styles.headerTwo}>Yuckiest</Text>
+
+                    <View style={{top: -27, right: 48, marginBottom: -25}}>
+                        <Icon
+                            name='thumbs-down'
+                            type='font-awesome'
+                            color='#153b50'
+                        />
+                    </View>
+
+                    <Card  containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                            title = {
                                <View style = {{ alignItems: 'flex-start' }}>
                                    <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > YEAT </Text>
                                </View>
                            }>
                     </Card>
+
+                    <Text style = {styles.headerTwo}>Dining Halls</Text>
 
                     {/*
           <View style={styles.container}>
@@ -423,11 +476,11 @@ export default class HomeScreen extends React.Component {
                     <ScrollView horizontal={true}>
                         <View style={styles.foodItem}>
                             <Text>
-                                AvacadoToast
+                                AvocadoToast
                             </Text>
 
                             <Button
-                                onPress={()=>this.addFavorite("AvacadoToast")}
+                                onPress={()=>this.addFavorite("AvocadoToast")}
                                 buttonStyle={styles.likeButton}
                                 name="Favorite1"
                             />
@@ -444,7 +497,6 @@ export default class HomeScreen extends React.Component {
                                 buttonStyle={styles.likeButton}
                                 name="Favorite2"
                             />
-
                         </View>
                     </ScrollView>
 
@@ -505,15 +557,22 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         flexDirection: "row",
     },
+    foodName: {
+        fontSize: 16,
+        color: '#153b50',
+        textAlign: 'center',
+        paddingBottom: 10,
+    },
     likeButton: {
         height: 20,
         width: 20,
     },
     topDiningHall: {
-
-        fontSize: 48,
-        textAlign: 'left',
+        fontSize: 20,
         flexDirection: "row",
+        color: '#153b50',
+        paddingLeft: 8,
+        paddingTop: 5,
     },
     developmentModeText: {
         marginBottom: 20,
@@ -597,4 +656,21 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#2e78b7',
     },
+    header: {
+        color: '#153b50',
+        fontSize: 28,
+        paddingLeft: 20
+    },
+    headerTwo: {
+        color: '#153b50',
+        fontSize: 28,
+        paddingLeft: 20,
+        paddingTop: 15,
+    },
+    foodItemCard: {
+        width: 175,
+        height: 120,
+        backgroundColor: '#fff',
+        borderRadius: 15,
+    }
 });
