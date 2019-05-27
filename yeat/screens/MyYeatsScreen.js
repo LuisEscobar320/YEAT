@@ -79,11 +79,6 @@ class MyYeatsScreen extends React.Component {
                 arr: items,
                 numCards: num
             });
-<<<<<<< HEAD
-            console.log("Num cards issssssssssssssssss");
-=======
->>>>>>> f710db6fe32c61bc4f11333de302f21fefdaf66a
-
         });
     }
 
@@ -203,10 +198,10 @@ class MyYeatsScreen extends React.Component {
     noCards() {
         if (this.state.numCards == 0) {
             return (
-                <Text style= {{ color: '#9da9aa', fontSize: 20, left: 15 }}>
+                <Text style= {{ color: '#9da9aa', fontSize: 20, left: 15, alignSelf: 'center', justifyContent: 'center'}}>
                     You have no favorites. Tap on a heart for any food item and it will be added to My Yeats!
                 </Text>
-            );
+            );  
         }
     }
 
@@ -215,10 +210,11 @@ class MyYeatsScreen extends React.Component {
         console.log("Num cards is");
         console.log(this.state.numCards);
         return (
+            
             <View style={{ flex: 1, justifyContent: "center" }}>
+                {this.noCards}
                 <ScrollView style={styles.container}>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        {this.noCards()}
                         {this.state.showCard1 ? (
                             <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                                    title = {
