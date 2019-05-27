@@ -47,7 +47,9 @@ SettingsStack.navigationOptions = {
 // Creates the My Yeats page
 const MyYeatsStack = createStackNavigator({
     MyYeats: MyYeatsScreen,
-});
+},
+    { headerMode: 'none'},
+);
 
 MyYeatsStack.navigationOptions = {
     tabBarLabel: 'My Yeats',
