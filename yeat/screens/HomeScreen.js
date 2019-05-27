@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { Constants, Location, Permissions, WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
+import firebase from 'firebase'
+import {Button, CheckBox, Icon} from 'react-native-elements';
 
 /*
  * HomeScreen.js
@@ -29,12 +31,19 @@ export default class HomeScreen extends React.Component {
     errorMessage: null,   // error message to be displayed when status is not granted
     diningHalls: [
       { name: 'Foodworx', longitude: -117.230415, latitude: 32.878806, dis: -1},
+      { name: 'Cafe Ventanas', longitude:-117.242851, latitude: 32.886182, dis: -1},
       { name: 'Pines', longitude: -117.242558, latitude: 32.878979, dis: -1},
       { name: '64 Degrees', longitude: -117.242060, latitude: 32.874665, dis: -1},
+      { name: '64 Degrees North', longitude: -117.2443437, latitude: 32.8748439, dis: -1},
+      { name: 'Club Med', longitude: -117.237402, latitude: 32.8751508, dis:-1},
       { name: 'The Bistro', longitude: -117.242044, latitude: 32.888023, dis: -1},
       { name: 'Goody\'s', longitude: -117.240411, latitude:32.883016, dis: -1},
       { name: 'Oceanview Terrace', longitude: -117.242750, latitude: 32.883268, dis: -1}
-    ]
+    ],
+    preferences: [],
+    hasVege: null,
+    hasVega: null,
+    food: []
   }
 
   /*
@@ -49,6 +58,15 @@ export default class HomeScreen extends React.Component {
     } else {
       this._getLocationAsync();
     }
+    var _this = this;
+      _this.updateDiningHalls(()=>{
+        _this.checkUser( ()=> {
+          _this.getFood( ()=>{
+            _this.filter()
+          });
+        });
+      });
+
   }
 
   /*
@@ -76,7 +94,13 @@ export default class HomeScreen extends React.Component {
       enableHighAccuracy:true
     }, location => {
       _this.setState({location});
-      _this.updateDiningHalls();
+      _this.updateDiningHalls(()=>{
+        _this.checkUser( ()=> {
+          _this.getFood( ()=>{
+            _this.filter()
+          });
+        });
+      });
     });
   }
 
@@ -85,7 +109,7 @@ export default class HomeScreen extends React.Component {
    * and updates the order in which they
    * are displayed on the screen
    */
-  updateDiningHalls(){
+  updateDiningHalls(callback){
     let location = this.state.location;
     var self = this;
     const arr = this.state.diningHalls;
@@ -107,11 +131,216 @@ export default class HomeScreen extends React.Component {
     this.setState( {
       diningHalls: arr
     })
+    callback();
   }
 
   getDistance(location, diningLocation){
     return Math.pow(location.coords.latitude - diningLocation.latitude, 2) + 
            Math.pow(location.coords.longitude - diningLocation.longitude, 2);
+  }
+
+  checkUser(callback){
+    var arr = this.state.preferences;
+    var _this = this;
+    var vege = false;
+    var vega = false;
+    firebase.auth().onAuthStateChanged(user=> {
+      if(user){
+        // get the pereferences and initialize preferences array
+        firebase.database().ref('/users/'+user.uid+'/preferences')
+        .on('value', function(data){
+          if(data!=null){
+            data.forEach(function(child){
+              // removes the preferences according to firebase
+              if(child.val() == true){
+                arr.push(child.key.toLowerCase()) 
+                if(!vege && child.key.includes('vege')){
+                  vege = true;
+                }
+                if(!vega && child.key.includes('vega')){
+                  vega = true;
+                }
+              }
+            })
+          }
+          // update the state of preferences
+          _this.setState({
+            preferences: arr,
+            hasVega: vega,
+            hasVege: vege
+          })
+          callback();
+        })
+      } else{
+      }
+    });
+  }
+
+  getFood(callback){
+    var foodarr = [];
+    var vege = !this.state.hasVege;
+    var vega = !this.state.hasVega;
+    var _this = this;
+
+    firebase.database().ref('/').on('value', function(data){
+      data.forEach(function(child){
+        if(child.key!='users'){ // traverse through all dining halls
+          var arr = [];
+          child.forEach(function(item){ // traverse through food items
+            arr.push({
+              name: item.key,
+              info: item
+            });
+          })
+          foodarr.push({
+            name: child.key,
+            items: arr 
+          })
+        }
+      })
+      _this.setState({
+        food: foodarr
+      },
+      function() { console.log("setState completed", this.state.food.length) })
+      //console.log(_this.state.food.items[0].info)
+      callback();
+    });
+
+  }
+
+  filter(){
+    var foodarr = this.state.food;
+    for(var i=0; i<foodarr.length;i++){ //traverse through dining halls/categories
+      for(var j=0; j<foodarr[i].items.length;j++){ //traverse through each food
+        // var vege = !this.state.hasVege;
+        // var vega = !this.state.hasVega;
+        
+        // console.log(foodarr[i].items[j].info)
+
+        // foodarr[i].items[j].info["Nutrition"].forEach(function(nutinfo){
+        //   if(vege && nutinfo.key.includes('vege')){
+        //     vege = true; //found vegetarian
+        //   } else if(vega && nutinfo.key.includes('vega')){
+        //     vega = true; //found vegetarian
+        //   }
+        // })
+
+        // if(!vega || !vege){ //nonvegetarian food for vegetarian user or
+        //                     //nonvegan food for nonvegan user
+        //   foodarr[i].items.splice(j--,1); //remove this food item
+        // }
+      }
+    }
+
+    this.setState({
+      food: foodarr
+    })
+  }
+
+
+
+/* Read current likes */
+async readNumLikes(currDiningHall, food) {
+  var ref = firebase.database().ref(currDiningHall + food + 'Yeats');
+
+  await ref.once("value");
+
+  return ref;
+}
+
+  /* Push likes back to firebase */
+  writeNumLikes(currDiningHall, food, Yeats) {
+    firebase.database().ref(currDiningHall + food).update(Yeats);
+  }
+
+  // This will allow the user to like a food item
+  likeFood(currDiningHall, foodItem) {
+    currentLikes=this.readNumLikes(currDiningHall, foodItem)
+    curentLikes = currentLikes + 1
+    this.writeUserData(currDiningHall, foodItem, currentLikes);
+
+  }
+
+  // This will allow the user to dislike a food item
+
+
+
+  // Get food items from the database
+
+
+
+  // This will add an item to the favorites
+  async addFavorite(food, currHall, cost) {
+    console.log("I am here");
+    var userID = firebase.auth().currentUser.uid;
+
+    //console.log(userID)
+
+    
+    firebase.database().ref('/users/' + userID + '/Favorites/' + food).set(
+      {
+        name: food,
+        price: "This needs to be implemented still",
+        diningHall: currHall
+      });
+  }  
+  
+  /*
+   * Lists out all Dining Halls (currently only 64 degrees) and all
+   * of the food items available there. Beside each item is an option to
+   * add it to their favorites.
+   */
+  printFoodItems() {
+    var diningHalls = this.state.food;
+    var buttonArr = [];
+    var hallArr = [];
+    var costArr = [];
+    let list = [];
+    //console.log(diningHalls.length);
+      
+    // loop through dining halls
+    for (let i = 0; i < 1 && i < diningHalls.length; i++) {
+      var currHall = diningHalls[i];
+      var scrollList = [];
+      buttonArr[i] = [];
+      costArr[i] = [];
+      hallArr[i] = currHall.name;
+      list.push(
+        // Print out Dining Hall name
+        <View style={styles.topDiningHall}>
+          <Text style={styles.topDiningHall}> { currHall.name } </Text>
+        </View>
+      );
+      // Loop through all items in said dining hall
+      for (let j = 0; j < currHall.items.length; j++) {
+        var food = currHall.items[j];
+        //console.log(food.info["cost"]);
+        buttonArr[i][j] = food.name;
+        //costArr[i][j] = food.info[0];
+        // Add in food item with its favorite button
+        scrollList.push(
+          <View style={styles.foodItem}>
+            <Text>
+              { food.name }
+            </Text>
+            
+            <Button
+              onPress={()=>
+                this.addFavorite(buttonArr[i][j], hallArr[i], "$10.00")}
+              buttonStyle={styles.likeButton}
+              name={"Favorite" + {j} }
+            />
+          </View>              
+        );
+      }
+      // Add horizontally scrolling food list
+      list.push(
+        <ScrollView horizontal={true}>
+          { scrollList } 
+        </ScrollView>
+      );
+    }
+    return list;
   }
 
   render() {
@@ -123,6 +352,7 @@ export default class HomeScreen extends React.Component {
     } */
 
     return (
+
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
@@ -135,6 +365,8 @@ export default class HomeScreen extends React.Component {
               style={styles.welcomeImage}
             />
           </View>
+          
+              
 
           <View style={styles.getStartedContainer}>
             {this._maybeRenderDevelopmentModeWarning()}
@@ -153,12 +385,53 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.paragraph}>{text}</Text>
           </View>
           */}
-
+          
+          {/* sort dining halls based on location */}
           <View style={styles.container}>
             { this.state.diningHalls.map((item, key)=>(
             <Text key={key} style={styles.getStartedText}> { item.name } </Text>)
             )}
           </View>
+
+        {/* Prints out Dining Halls alongside all food items within them */}
+        <View> 
+          { this.printFoodItems() }
+        </View>
+
+          {/* Print Closest Dining Hall */}
+          <View style={styles.topDiningHall}>
+              <Text style={styles.topDiningHall}> {this.state.diningHalls[0].name} </Text>
+          </View>
+
+       {/* Janked together a example to add item to favorites 
+           THIS NEEDS TO BE REPLACED WITH SOMETHING THAT ACTUALLY IS DYNAMIC*/}
+        <ScrollView horizontal={true}>
+          <View style={styles.foodItem}>
+            <Text>
+              AvacadoToast
+            </Text>
+              
+            <Button
+              onPress={()=>this.addFavorite("AvacadoToast")}
+              buttonStyle={styles.likeButton}
+              name="Favorite1"
+            />
+
+          </View>
+
+          <View style={styles.foodItem}>
+            <Text>
+              Why
+            </Text>
+              
+            <Button
+              onPress={()=>this.addFavorite("BelgianWaffles")}
+              buttonStyle={styles.likeButton}
+              name="Favorite2"
+            />
+
+          </View> 
+        </ScrollView>
 
 
           <View style={styles.helpContainer}>
@@ -167,14 +440,6 @@ export default class HomeScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
       </View>
       
     );
@@ -220,6 +485,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  foodItem: {
+    //height: 130,
+    //width: 130,
+    marginLeft:20,
+    borderWidth:0.5,
+    //borderColor: 'black',
+    fontSize: 32,
+    textAlign: 'center',
+    flexDirection: "row",
+  },
+  likeButton: {
+    height: 48,
+    width: 48,
+  },
+  topDiningHall: {
+
+    fontSize: 48,
+    textAlign: 'left',
+    flexDirection: "row",
   },
   developmentModeText: {
     marginBottom: 20,
