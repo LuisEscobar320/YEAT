@@ -199,8 +199,9 @@ class MyYeatsScreen extends React.Component {
     noCards() {
         if (this.state.numCards == 0) {
             return (
-                <Text style= {{ color: '#9da9aa', fontSize: 20, left: 15 }}>
-                    You have no favorites. Tap on a heart for any food item and it will be added to My Yeats!
+                <Text style= {{ color: '#9da9aa', fontSize: 20, textAlign: 'center'}}>
+                    You have no favorites yet.{'\n'}
+                    Tap on a heart for any food item {'\n'} and it will be added to My Yeats!
                 </Text>
             );
         }
