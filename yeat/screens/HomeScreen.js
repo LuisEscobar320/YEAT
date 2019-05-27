@@ -83,9 +83,9 @@ export default class HomeScreen extends React.Component {
     var _this = this;
       _this.updateDiningHalls(()=>{
         _this.checkUser( ()=> {
-          _this.getFood( ()=>{
+          /*_this.getFood( ()=>{
             _this.filter()
-          });
+          });*/
         });
       });
 

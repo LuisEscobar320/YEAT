@@ -57,13 +57,14 @@ class MyYeatsScreen extends React.Component {
                 const pbj = {'check': child.key, 'bool': child.val()};
                 items.push(             
                     child.key,
-                    child.val().item,
                     child.val().diningHall,
                     child.val().price
                 );
                 console.log(child.val());
                 console.log(child.key);
             });
+            console.log("item[0] is");
+            console.log(items[0]);
             this.setState({
                 arr: items
             });
@@ -121,7 +122,7 @@ class MyYeatsScreen extends React.Component {
                     <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                         title = {
                             <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[1]} </Text>
+                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[0]} </Text>
                             </View>
                         }>
                         <Icon
@@ -133,9 +134,9 @@ class MyYeatsScreen extends React.Component {
                                 right: 130
                             }}
                         />
-                        <Text style = {styles.diningHallStyle}>{this.state.arr[2]} </Text>
+                        <Text style = {styles.diningHallStyle}>{this.state.arr[1]} </Text>
     
-                        <Text style = {styles.priceStyle}> {this.state.arr[3]} </Text>
+                        <Text style = {styles.priceStyle}> {this.state.arr[2]} </Text>
 
                         
                         <View style = {{ top: -180, right: -120 }}>
@@ -154,7 +155,7 @@ class MyYeatsScreen extends React.Component {
                     <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                         title = {
                             <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[5]} </Text>
+                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[3]} </Text>
                             </View>
                         }>
                     
@@ -168,9 +169,9 @@ class MyYeatsScreen extends React.Component {
                             }}
                         />
 
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[6]} </Text>
+                        <Text style = {styles.diningHallStyle}> {this.state.arr[4]} </Text>
     
-                        <Text style = {styles.priceStyle}> {this.state.arr[7]} </Text>
+                        <Text style = {styles.priceStyle}> {this.state.arr[5]} </Text>
                     
                         <View style = {{ top: -180, right: -120 }}>
                             <Icon
@@ -178,7 +179,7 @@ class MyYeatsScreen extends React.Component {
                                 type='font-awesome'
                                 color='#153b50'
         
-                                onPress={() => this.removeFav(this.state.arr[4], this.state.arr[5], 2)} 
+                                onPress={() => this.removeFav(this.state.arr[3], this.state.arr[4], 2)} 
                             />
                         </View>
 
@@ -190,7 +191,7 @@ class MyYeatsScreen extends React.Component {
                     <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                         title = {
                             <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[9]} </Text>
+                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[6]} </Text>
                             </View>
                         }>
                         <Icon
@@ -203,9 +204,9 @@ class MyYeatsScreen extends React.Component {
                             }}
                         />
 
-                        <Text style = {styles.diningHallStyle}> {this.state.arr[10]} </Text>
+                        <Text style = {styles.diningHallStyle}> {this.state.arr[7]} </Text>
                         
-                        <Text style = {styles.priceStyle}> {this.state.arr[11]} </Text>
+                        <Text style = {styles.priceStyle}> {this.state.arr[8]} </Text>
             
                         <View style = {{ top: -180, right: -120 }}>
                             <Icon
@@ -213,7 +214,7 @@ class MyYeatsScreen extends React.Component {
                                 type='font-awesome'
                                 color='#153b50'
         
-                                onPress={() => this.removeFav(this.state.arr[8], this.state.arr[9], 3)} 
+                                onPress={() => this.removeFav(this.state.arr[6], this.state.arr[7], 3)} 
                             />
                         </View>
 
