@@ -11,7 +11,7 @@ import {
 import { Constants, Location, Permissions, WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import firebase from 'firebase'
-import {Button, CheckBox, Icon} from 'react-native-elements';
+import {Button, CheckBox, Icon, Card} from 'react-native-elements';
 
 /*
  * HomeScreen.js
@@ -341,7 +341,7 @@ async readNumLikes(currDiningHall, food) {
         //costArr[i][j] = food.info[0];
         // Add in food item with its favorite button
         scrollList.push(
-          <View style={styles.foodItem}>
+          <Card containerStyle={{ width: 150, height: 75, backgroundColor: '#fff', borderRadius: 15 }}>
             <Text>
               { food.name }
             </Text>
@@ -352,7 +352,7 @@ async readNumLikes(currDiningHall, food) {
               buttonStyle={styles.likeButton}
               name={"Favorite" + {j} }
             />
-          </View>              
+          </Card>              
         );
       }
       // Add horizontally scrolling food list
@@ -376,9 +376,24 @@ async readNumLikes(currDiningHall, food) {
     return (
 
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <ScrollView style={styles.container} >
 
-          
+          <Text style = {{fontWeight: 'bold', color: '#153b50', fontSize: 25, left: 20}}>Yeatiest</Text>
+          <Card  containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                        title = {
+                            <View style = {{ alignItems: 'flex-start' }}>
+                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > YEAT </Text>
+                            </View>
+                        }>      
+                    </Card>
+          <Text style = {{fontWeight: 'bold', color: '#153b50', fontSize: 25, left: 20, top:15 }}>Yuckiest</Text>
+          <Card  containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, top:10 }}
+                        title = {
+                            <View style = {{ alignItems: 'flex-start' }}>
+                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > YEAT </Text>
+                            </View>
+                        }>      
+                    </Card>
           
           {/*  
           <View style={styles.container}>
@@ -387,14 +402,14 @@ async readNumLikes(currDiningHall, food) {
           */}
           
           {/* sort dining halls based on location */}
-          <View style={styles.container}>
+          {/*<View style={styles.container}>
             { this.state.diningHalls.map((item, key)=>(
             <Text key={key} style={styles.getStartedText}> { item.name } </Text>)
             )}
-          </View>
-
+            </View>*/}
+        
         {/* Prints out Dining Halls alongside all food items within them */}
-        <View> 
+        <View>
           { this.printFoodItems() }
         </View>
 
@@ -491,8 +506,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   likeButton: {
-    height: 48,
-    width: 48,
+    height: 20,
+    width: 20,
   },
   topDiningHall: {
 
