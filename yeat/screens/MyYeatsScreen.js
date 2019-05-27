@@ -79,7 +79,6 @@ class MyYeatsScreen extends React.Component {
                 numCards: num
             });
             console.log("Num cards issssssssssssssssss");
-        console.log(this.state.numCards);
 
         });
     }
