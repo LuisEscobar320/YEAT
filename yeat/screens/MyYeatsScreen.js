@@ -122,7 +122,7 @@ class MyYeatsScreen extends React.Component {
                     <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                         title = {
                             <View style = {{ alignItems: 'flex-start' }}>
-                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[0]} </Text>
+                                <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[2]} </Text>
                             </View>
                         }>
                         <Icon
@@ -130,7 +130,7 @@ class MyYeatsScreen extends React.Component {
                             color='#153b50'
                             size={15}
                             iconStyle={{
-                                top: 71,
+                                top: 71,  
                                 right: 130
                             }}
                         />
