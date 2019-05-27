@@ -1,6 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
+import re
 
 # Adding or modifying Cuisines for every food item
 def updateFoodType( diningHall , init=False):
@@ -184,3 +185,149 @@ def addInfoToFoodItemInFavorites(user,food_item, init=False):
             print('User with favorite food: '+ food + ' is from ' + hall + ' and costs '+cost)
             return
 
+def restructureDiningHallsby(time,init=False):
+  #Initialize the firebase
+  if init is False:
+    # Fetch the service account key JSON file content
+    cred = credentials.Certificate('/Users/luisescobar/YEAT/yeat-dc4bc-firebase-adminsdk-4alun-1010432132.json')
+
+    # Initialize the app with a service account
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://yeat-dc4bc.firebaseio.com/'
+    })
+  
+  #Get the users to add an item
+  ref = db.reference()
+  
+
+  #Getting all the items in the database
+  all_list = ref.get()
+
+  #Add the time to firebase
+  ref.update({
+    time:''
+  })
+  print(time)
+  #Go through every hall
+  for diningHall in all_list:
+    if diningHall != 'user':
+
+      #Reorganize diningHall by certain time
+      if time in diningHall:
+        food_list = ref.get()[diningHall]
+        new_name = diningHall.replace('-'+time,'')
+
+        #add hall to their respective list
+        ref.child(time).update({
+          new_name:''
+        })
+
+        #print hall
+        print('  '+new_name)
+
+        #Go through each field in every food item
+        for food_item in food_list:
+          facts = ref.get()[diningHall][food_item]
+          fixed_food_item = ' '.join(re.sub( r'([A-Z])', r' \1', food_item).split())
+          
+          #Add every food item into each new hall
+          ref.child(time).child(new_name).update({
+            fixed_food_item:''
+          })
+          
+          #print food
+          print('    '+fixed_food_item)
+
+          #Go through each fact item
+          for fact in facts:
+
+            #loop through all the nutrition facts
+            if fact == 'Nutrition':
+              nutrition_list = ref.get()[diningHall][food_item]['Nutrition']
+              ref.child(time).child(new_name).child(fixed_food_item).update({
+                'Nutrition':''
+              })
+              print('      Nutrition')
+              #Go through and update the nutrition
+              for nutrition in nutrition_list:
+                ref.child(time).child(new_name).child(fixed_food_item).child('Nutrition').update({
+                  nutrition:'1'
+                })
+                print('        '+nutrition)
+            
+            #Handle every other fact
+            else:
+              fact_info = ref.get()[diningHall][food_item][fact]
+              ref.child(time).child(new_name).child(fixed_food_item).update({
+                fact:fact_info
+              })
+              print('      '+ fact)
+
+def checkIfNutritionFieldsExist(time,field):
+
+  ref = db.reference()
+  items = ref.get()[time]
+  
+  #Check if field exists
+  for thing in items:
+    if thing == field:
+      return True
+
+  #Item is not found
+  return False
+
+def catergorizeFoodBy(time,init=False):
+  #Initialize the firebase
+  if init is False:
+    # Fetch the service account key JSON file content
+    cred = credentials.Certificate('/Users/luisescobar/YEAT/yeat-dc4bc-firebase-adminsdk-4alun-1010432132.json')
+
+    # Initialize the app with a service account
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://yeat-dc4bc.firebaseio.com/'
+    })
+
+  #Get the users to add an item
+  ref = db.reference()
+
+  #Go through time options
+  breakfast = ref.get()[time]
+
+  #Go through breakfast halls
+  for diningHall in breakfast:
+
+    #Get the food list
+    breakfast_food = ref.get()[time][diningHall]
+    for b_food in breakfast_food:
+
+      #Get the nutritional items
+      nutritional_items = ref.get()[time][diningHall][b_food]['Nutrition']
+
+      #Go through the nutrition and start catergorizing each item
+      for fact in nutritional_items:
+        
+        if fact != '0':
+          #Create the field if it doesn't exist
+          if checkIfNutritionFieldsExist(time,fact) == False:
+            ref.child(time).update({
+              fact:{
+                b_food:''
+              }
+            })
+
+          #Otherwise add item to said field
+          else:
+            ref.child(time).child(fact).update({
+              b_food:''
+            })
+
+          #print message for meals
+          print(b_food + ' was added to ' + fact)
+
+        
+restructureDiningHallsby('Breakfast')
+restructureDiningHallsby('Lunch', True)
+restructureDiningHallsby('Dinner',True)
+catergorizeFoodBy('Breakfast',True)
+catergorizeFoodBy('Lunch',True)
+catergorizeFoodBy('Dinner',True)
