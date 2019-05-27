@@ -141,13 +141,9 @@ export default class PreferencesScreen extends React.Component {
             ch12, ch13, ch14, ch15, ch16) {
         firebase.auth().onAuthStateChanged(user=> {
             if(user) {
-                //firebase.database().ref('/users/' + user.uid + '/preferences/').update(
-                firebase.database().ref('/users/' + user.uid + '/Favorites/foodItem1').update(
+                firebase.database().ref('/users/' + user.uid + '/preferences/').update(
                     {
-                        name: "Taco",
-                        diningHall: "64",
-                        price: "$7.50"
-                        /*veganCheck: ch1,
+                        veganCheck: ch1,
                         vegetarianCheck: ch2,
                         noDairyCheck: ch3,
                         noTreeNutsCheck: ch4,
@@ -162,7 +158,7 @@ export default class PreferencesScreen extends React.Component {
                         asianCheck: ch13,
                         indianCheck: ch14,
                         italianCheck: ch15,
-                        mexicanCheck: ch16,*/
+                        mexicanCheck: ch16,
                     });
             }
         });
