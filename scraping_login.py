@@ -1,5 +1,4 @@
 import requests
-from lxml import html
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -7,73 +6,106 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-
+from selenium.common.exceptions import TimeoutException
+from firebase import firebase
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
 
 def main():
-    LOGIN_URL = 'https://services.jsatech.com/login.php?cid=212&'
-    URL = 'https://services.jsatech.com/index.php?skey=6456f832e86903dbf79bd4b45d0dd117&cid=212&#'
-    USER_NAME = '914544308'
-    PASSWORD = '166d5316'
 
-    #result = requests.get(LOGIN_URL)
-    #tree = html.fromstring(result.text)
-    #authenticity_token = list(set(tree.xpath("//input[@name='skey']/@value")))[0]
-    payload = {
-    "loginphrase": USER_NAME,
-    "password": PASSWORD,
-    #"skey": authenticity_token
-    }
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    # OPENING THE DAMN LOGIN SITE and logging in :3
-    chrome = webdriver.Chrome(executable_path=r"/Users/tiffanyloo/Downloads/chromedriver", chrome_options=chrome_options)
-    chrome.get(LOGIN_URL)
-    u = chrome.find_element_by_name('loginphrase')
-    u.send_keys(USER_NAME)
-    p = chrome.find_element_by_name('password')
-    p.send_keys(PASSWORD)
-    p.send_keys(Keys.RETURN)
+    # Steps to initialize Firebase (need to change path for running on Luis's desktop
+    cred = credentials.Certificate("/Users/tiffanyloo/Downloads/yeat-dc4bc-firebase-adminsdk-4alun-e3e233f62a.json")
+    firebase_admin.initialize_app(cred, {'databaseURL':'https://yeat-dc4bc.firebaseio.com',
+                                         'databaseAuthVariableOverride': None})
+    # Getting all the users
+    ref = db.reference('/users')
+    snapshot = ref.order_by_key().get()
+    # Iterating through the users
+    for key in snapshot:
+        # Only processing users who have clicked LOGIN on TritonCardScreen
+        if bool(ref.child(key).child('tritoncard').get()):
+            user = ref.child(key).child('tritoncard').child('username').get()
+            # If they put in an empty string or their information is incorrect
+            if str(user) == '' or str(user) == 'wrong':
+                ref.child(key).child('tritoncard').set({'username': 'wrong', 'password': 'wrong'})
+            else:
+                USER_NAME = str(user)
+                PASSWORD = str(ref.child(key).child('tritoncard').child('password').get())
+                LOGIN_URL = 'https://services.jsatech.com/login.php?cid=212&'
+    #USER_NAME = '914544308'
+    #PASSWORD = '166d5316'
+                print(USER_NAME)
+                print(PASSWORD)
+                chrome_options = Options()
+                chrome_options.add_argument("--headless")
+                # OPENING THE DAMN LOGIN SITE and logging in :3 (change this for Luis)
+                chrome = webdriver.Chrome(executable_path=r"/Users/tiffanyloo/Downloads/chromedriver", chrome_options=chrome_options)
+                chrome.get(LOGIN_URL)
+                u = chrome.find_element_by_name('loginphrase')
+                u.send_keys(USER_NAME)
+                p = chrome.find_element_by_name('password')
+                p.send_keys(PASSWORD)
+                p.send_keys(Keys.RETURN)
 
-    #s=requests.Session()
+                # Will skip over bad usernames and passwords
+                try:
+                    element = WebDriverWait(chrome, 10).until(EC.presence_of_element_located((By.ID, "Dining Dollars")))
+                except TimeoutException:
+                    print("Skipping bad user")
+                    continue
+                soup = BeautifulSoup(chrome.page_source, 'lxml')
+                table = soup.find(lambda tag: tag.name=='table' and tag.has_attr('id') and tag['id']=="Dining Dollars")
+                rows = table.find(lambda tag: tag.name=='td' and tag.has_attr('data-bal') and tag['data-bal']==" ", text=True)
+                balance = rows.text.strip()
+                balance = balance.replace("$","")
+                balance = balance.replace(",","")
+                ref.child(key).child('tritoncard').update({'balance': balance})
+                print(balance)
 
-    #c = [s.cookies.set(c['name'], c['value']) for c in request_cookies_browser]
-    #resp = s.post(LOGIN_URL, params)
-    #dict_resp_cookies = resp.cookies.get_dict()
-    #response_cookies_browser = [{'name':name, 'value':value} for name, value in dict_resp_cookies.items()]
-    #c = [chrome.add_cookie(c) for c in response_cookies_browser]
-    #chrome.get(LOGIN_URL)
-    #result = session_request.post(
-    #LOGIN_URL, data = payload,
-    #headers = dict(referer = LOGIN_URL)
-    #)
+                chrome.find_element(By.XPATH, "(//a[contains(text(),'" + 'View More'"')])[2]").click()
+                chrome.find_element(By.XPATH, "(//a[contains(text(),'" + 'View'"')])[1]").click()
+                soup = BeautifulSoup(chrome.page_source, 'lxml')
+                table = soup.find('table', attrs={'class': 'jsa_transactions'})
+                table_body = table.find('tbody')
 
-    #session_request = requests.session()
-    #post = session_request.post(LOGIN_URL, data=payload)
-    #print(post.text)
-    #r = requests.get(URL, headers=dict(referer=URL))
-    #print(r.text)
-    #soup = BeautifulSoup(html.fromstring(r.content))
-    element = WebDriverWait(chrome, 10).until(EC.presence_of_element_located((By.ID, "Dining Dollars")))
-    soup = BeautifulSoup(chrome.page_source, 'lxml')
-    #print(soup.prettify())
-    table = soup.find(lambda tag: tag.name=='table' and tag.has_attr('id') and tag['id']=="Dining Dollars")
-    rows = table.find(lambda tag: tag.name=='td' and tag.has_attr('data-bal') and tag['data-bal']==" ", text=True)
-    balance = rows.text.strip()
-    balance = balance.replace("$","")
-    balance = balance.replace(",","")
-    balance = float(balance) *2
-    print(balance)
-    #balance = soup.find('')
-    #balance = [td.get_text() for td in table.find("tr").find_all("td")]
-    #datasets = []
-    #for row in table.find_all("tr")[1:]:
-     #   dataset = zip(headings, (td.get_text() for td in row.find_all("td")))
-    #balance = tree.xpath('//td[@data-bal=""]/text()')
-    #print(balance)
-    #result = session_request.get(URL, headers = dict(referer = URL))
-    #tree = html.fromstring(result.content)
-    #balance = tree.xpath('//div[@class="jsa_content-interior"]//td[@class="jsa_amount bal"]/@href')
-    #print(balance)
+
+                thisMonth_trans = {}
+                for row in table_body.find_all("tr"):
+                    cells = row.findAll("td")
+                    if cells:
+                        sad = cells[0].find(text=True)
+                        sad = sad.replace("9 ","9_")
+                        sad = sad.replace(u'\xa0', u'')
+                        evensadder = cells[2].find(text=True)
+                        evensadder = evensadder.replace("-","")
+                        evensadder = evensadder.replace(" ","")
+                        evensadder = evensadder.replace("\n","")
+                        thisMonth_trans[sad] = str(evensadder)
+
+                print(thisMonth_trans)
+                ref.child(key).child('tritoncard').update({'thismonth': thisMonth_trans})
+
+                chrome.back()
+                chrome.find_element(By.XPATH, "(//a[contains(text(),'" + 'View'"')])[2]").click()
+                soup = BeautifulSoup(chrome.page_source, 'lxml')
+                table = soup.find('table', attrs={'class': 'jsa_transactions'})
+                table_body = table.find('tbody')
+                lastMonth_trans = {}
+                for row in table_body.find_all("tr"):
+                    cells = row.findAll("td")
+                    if cells:
+                        sad = cells[0].find(text=True)
+                        sad = sad.replace("9 ","9_")
+                        sad = sad.replace(u'\xa0', u'')
+                        evensadder = cells[2].find(text=True)
+                        evensadder = evensadder.replace("-","")
+                        evensadder = evensadder.replace(" ","")
+                        evensadder = evensadder.replace("\n","")
+                        lastMonth_trans[sad] = evensadder
+
+                print(lastMonth_trans)
+                ref.child(key).child('tritoncard').update({'lastmonth': lastMonth_trans})
 
 if __name__ == '__main__':
     main()
