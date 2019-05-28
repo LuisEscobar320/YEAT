@@ -324,10 +324,110 @@ def catergorizeFoodBy(time,init=False):
           #print message for meals
           print(b_food + ' was added to ' + fact)
 
-        
-restructureDiningHallsby('Breakfast')
-restructureDiningHallsby('Lunch', True)
-restructureDiningHallsby('Dinner',True)
-catergorizeFoodBy('Breakfast',True)
-catergorizeFoodBy('Lunch',True)
-catergorizeFoodBy('Dinner',True)
+def moveCuisineFactUnder(init=False):
+  #Initialize the firebase
+  if init is False:
+    # Fetch the service account key JSON file content
+    cred = credentials.Certificate('/Users/luisescobar/YEAT/yeat-dc4bc-firebase-adminsdk-4alun-1010432132.json')
+
+    # Initialize the app with a service account
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://yeat-dc4bc.firebaseio.com/'
+    })
+
+  #Get the users to add an item
+  ref = db.reference() 
+
+  all_list = ref.get()
+  #Go through all the items in halls
+  for thing in all_list:
+    
+    #Fix Breakfast cuisine
+    if thing == 'Breakfast':
+      halls = ref.get()[thing]
+
+      for hall in halls:
+        if hall == '64Degrees' or hall == 'CafeVentanas' or hall == 'Club Med' or hall == 'FoodWorx' or hall == 'Goody\'s Place' or hall == 'OceanView' or hall == 'Pines':
+          foods = ref.get()[thing][hall]
+          for food in foods:
+            cuisine = ref.get()[thing][hall][food]['Cuisine']
+            ref.child(thing).child(hall).child(food).child('Cuisine').update({
+              cuisine:1
+            })
+            print(food + ' cuisine is now ' + cuisine)
+
+      #Fix Lunch Cuisine      
+    elif thing == 'Lunch':
+      halls = ref.get()[thing]
+
+      for hall in halls:
+        if hall == '64Degrees' or hall == 'CafeVentanas' or hall == 'Club Med' or hall == 'FoodWorx' or hall == 'Goody\'s Place' or hall == 'OceanView' or hall == 'Pines':
+          foods = ref.get()[thing][hall]
+          for food in foods:
+            cuisine = ref.get()[thing][hall][food]['Cuisine']
+            ref.child(thing).child(hall).child(food).child('Cuisine').update({
+              cuisine:1
+            })
+            print(food + ' cuisine is now ' + cuisine)
+
+      #Fix Dinner Cuisine
+    elif thing == 'Dinner':
+      halls = ref.get()[thing]
+
+      for hall in halls:
+        if hall == '64Degrees' or hall == 'CafeVentanas' or hall == 'Club Med' or hall == 'FoodWorx' or hall == 'Goody\'s Place' or hall == 'OceanView' or hall == 'Pines':
+          foods = ref.get()[thing][hall]
+          for food in foods:
+            cuisine = ref.get()[thing][hall][food]['Cuisine']
+            ref.child(thing).child(hall).child(food).child('Cuisine').update({
+              cuisine:1
+            })
+
+            print(food + ' cuisine is now ' + cuisine)
+
+def OrganizeFoodByCuisine(time,init=False):
+
+  #Initialize the firebase
+  if init is False:
+    # Fetch the service account key JSON file content
+    cred = credentials.Certificate('/Users/luisescobar/YEAT/yeat-dc4bc-firebase-adminsdk-4alun-1010432132.json')
+
+    # Initialize the app with a service account
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://yeat-dc4bc.firebaseio.com/'
+    })
+
+  #Get the users to add an item
+  ref = db.reference() 
+
+  #Handle breakfast items
+  breakfast = ref.get()[time]
+
+  #Go through breakfast halls
+  for hall in breakfast:
+    
+    if hall == '64Degress' or hall == 'CafeVentanas' or hall == 'Club Med' or hall == 'FoodWorx' or hall == 'Goody\'s Place' or hall == 'OceanView' or hall == 'Pines':
+      
+      #Get the food in every hall
+      food_list = ref.get()[time][hall]
+
+      for food in food_list:
+        #Get the cuisine of each item
+        cuisine = list(ref.get()[time][hall][food]['Cuisine'].keys())[0]
+
+        if checkIfNutritionFieldsExist(time,cuisine) == False:
+          ref.child(time).update({
+            cuisine:{
+              food:''
+            }
+          })
+
+          #Otherwise add item to said field
+        else:
+          ref.child(time).child(cuisine).update({
+            food:''
+          })
+
+        #Print message for help
+        print(food + ' has been added to ' + cuisine)
+
