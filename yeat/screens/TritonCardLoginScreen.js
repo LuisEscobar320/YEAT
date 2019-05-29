@@ -1,22 +1,71 @@
 import React from 'react'
 import firebase from 'firebase'
-import {StyleSheet, Text, TextInput, View, Button, Linking, AsyncStorage, Image} from 'react-native'
+
+import {StyleSheet, Text, TextInput, View, Button, Linking, AsyncStorage, Image, Alert} from 'react-native'
 
 export default class TritonCardLoginScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { username: '', password: '', errorMessage: null,};
+        this.state = { username: '', password: '', errorMessage: null, lastRefresh: Date(Date.now()).toString()};
+        this.alertbutton = this.alertbutton.bind(this)
+    }
+
+
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    checkUser() {
+        var userId = firebase.auth().currentUser.uid;
+        var ref = firebase.database().ref("users/" + userId);
+        return ref.child('tritoncard').child('username').once('value').then((snapshot) => {
+            console.log("in here");
+            //timeout(5000);
+            //var checkUser;
+            console.log(snapshot.val())
+            return snapshot.val();
+        });
+    }
+
+    alertbutton() {
+        this.setState({ lastRefresh: Date(Date.now()).toString()})
     }
 
     handleLogin = async() => {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId);
+        // if (this.state.username.toString().equals("wrong")) {
+        //      if (!alert('Your Username/Password is Wrong!')) {
+        //          window.location.reload()
+        //      }
+        // }
         ref.child("tritoncard").set({
             username: this.state.username,
             password: this.state.password
-        })
-        await AsyncStorage.setItem('loggedIn', 'true')
-        this.props.navigation.navigate('Budget')
+        });
+        await this.sleep(15000);
+        //this.myFunc()
+        this.checkUser().then(tocheck=> {
+            if (tocheck === "wrong") {
+                Alert.alert("wrong", "wrong", [
+                    {text:'OK', onPress:this.alertbutton}
+                ]);
+            } else {
+                AsyncStorage.setItem('loggedIn', 'true')
+                this.props.navigation.navigate('Budget')
+            }
+        });
+
+        //var checkUser;
+        //checkUser = ref.child('tritoncard').child('username').once('value', snapshot => {
+        // checkUser = ref.child('tritoncard').child('username').once('value').then((snapshot) => {
+        //     console.log("in here");
+        //     //timeout(5000);
+        //     //var checkUser;
+        //     return snapshot.val();
+        // });
+        // console.log(checkUser)
+
     }
 
 
