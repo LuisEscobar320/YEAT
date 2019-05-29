@@ -11,7 +11,7 @@ import {
 import { Constants, Location, Permissions, WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import firebase from 'firebase'
-import {Button, CheckBox, Icon} from 'react-native-elements';
+import {Button, Icon, Card} from 'react-native-elements';
 
 /*
  * HomeScreen.js
@@ -23,22 +23,44 @@ import {Button, CheckBox, Icon} from 'react-native-elements';
  */
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    title: 'Feed',
+
+    headerStyle: {
+      backgroundColor: '#fff',
+      elevation: 0,
+      borderBottomWidth: 0,
+    },
+
+    headerTitleStyle: {
+      color: '#153b50',
+      fontSize: 35,
+      alignSelf: 'flex-end',
+      //code to change it dynamically for android or ios
+      //right: Platform.OS ==='android' ? 0 : 93,
+    },
+    /*headerRight: (
+        <Icon size={40}
+        iconStyle = {{ right: 150, top: Platform.OS === 'android' ? 7 : 3}}
+        name='cog'
+        type='font-awesome'
+        color='#517fa4'
+        />
+    ),*/
   };
 
   state = {
     location: null,       // location tracks the user's current location
     errorMessage: null,   // error message to be displayed when status is not granted
     diningHalls: [
-      { name: 'Foodworx', longitude: -117.230415, latitude: 32.878806, dis: -1},
-      { name: 'Cafe Ventanas', longitude:-117.242851, latitude: 32.886182, dis: -1},
-      { name: 'Pines', longitude: -117.242558, latitude: 32.878979, dis: -1},
-      { name: '64 Degrees', longitude: -117.242060, latitude: 32.874665, dis: -1},
-      { name: '64 Degrees North', longitude: -117.2443437, latitude: 32.8748439, dis: -1},
-      { name: 'Club Med', longitude: -117.237402, latitude: 32.8751508, dis:-1},
-      { name: 'The Bistro', longitude: -117.242044, latitude: 32.888023, dis: -1},
-      { name: 'Goody\'s', longitude: -117.240411, latitude:32.883016, dis: -1},
-      { name: 'Oceanview Terrace', longitude: -117.242750, latitude: 32.883268, dis: -1}
+      { name: 'Foodworx', longitude: -117.230415, latitude: 32.878806, dis: -1 },
+      { name: 'Cafe Ventanas', longitude: -117.242851, latitude: 32.886182, dis: -1 },
+      { name: 'Pines', longitude: -117.242558, latitude: 32.878979, dis: -1 },
+      { name: '64 Degrees', longitude: -117.242060, latitude: 32.874665, dis: -1 },
+      { name: '64 Degrees North', longitude: -117.2443437, latitude: 32.8748439, dis: -1 },
+      { name: 'Club Med', longitude: -117.237402, latitude: 32.8751508, dis: -1 },
+      { name: 'The Bistro', longitude: -117.242044, latitude: 32.888023, dis: -1 },
+      { name: 'Goody\'s', longitude: -117.240411, latitude: 32.883016, dis: -1 },
+      { name: 'Oceanview Terrace', longitude: -117.242750, latitude: 32.883268, dis: -1 }
     ],
     preferences: { // default preference: no restrictions and all cuisines
       vegan: false,
@@ -74,13 +96,15 @@ export default class HomeScreen extends React.Component {
       this._getLocationAsync();
     }
     var _this = this;
-      _this.updateDiningHalls(()=>{
-        _this.checkUser( ()=> {
-          _this.getFood( ()=>{
-            _this.filter()
-          });
+
+    _this.updateDiningHalls(() => {
+      _this.checkUser(() => {
+        _this.getFood(() => {
+          _this.filter()
         });
       });
+    });
+
 
   }
 
@@ -104,14 +128,14 @@ export default class HomeScreen extends React.Component {
    * and updates the dining hall locations accordingly
    */
   componentDidMount() {
-    var _this=this;
+    var _this = this;
     Location.watchPositionAsync({
-      enableHighAccuracy:true
+      enableHighAccuracy: true
     }, location => {
-      _this.setState({location});
-      _this.updateDiningHalls(()=>{
-        _this.checkUser( ()=> {
-          _this.getFood( ()=>{
+      _this.setState({ location });
+        _this.updateDiningHalls(() => {
+        _this.checkUser(() => {
+          _this.getFood(() => {
             _this.filter()
           });
         });
@@ -124,13 +148,13 @@ export default class HomeScreen extends React.Component {
    * and updates the order in which they
    * are displayed on the screen
    */
-  updateDiningHalls(callback){
+  updateDiningHalls(callback) {
     let location = this.state.location;
     var self = this;
     const arr = this.state.diningHalls;
 
-    arr.forEach(function(item){
-      if(location!=null){
+    arr.forEach(function (item) {
+      if (location != null) {
         // set the distance of each dining hall to 
         // the current location
         item.dis = self.getDistance(location, item);
@@ -138,108 +162,108 @@ export default class HomeScreen extends React.Component {
     });
 
     // sort arr based on relative distance
-    arr.sort(function(a,b){
+    arr.sort(function (a, b) {
       return a.dis - b.dis;
     })
 
     // update the state and display the information on screen
-    this.setState( {
+    this.setState({
       diningHalls: arr
     })
     callback();
   }
 
-  getDistance(location, diningLocation){
-    return Math.pow(location.coords.latitude - diningLocation.latitude, 2) + 
-           Math.pow(location.coords.longitude - diningLocation.longitude, 2);
+  getDistance(location, diningLocation) {
+    return Math.pow(location.coords.latitude - diningLocation.latitude, 2) +
+      Math.pow(location.coords.longitude - diningLocation.longitude, 2);
   }
 
-  checkUser(callback){
+  checkUser(callback) {
     var _this = this;
     var pref = this.state.preferences;
-    var currHour = parseInt(new Date().getHours(),10);
+    var currHour = parseInt(new Date().getHours(), 10);
     var mealOfTheDay;
 
-    if(currHour<11){
+    if (currHour < 11) {
       mealOfTheDay = 'Breakfast';
-    } else if(currHour < 17){
+    } else if (currHour < 17) {
       mealOfTheDay = 'Lunch';
-    } else{
+    } else {
       mealOfTheDay = 'Dinner';
     }
 
-    firebase.auth().onAuthStateChanged(user=> {
-      if(user){
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
         // get the pereferences and initialize preferences array
-        firebase.database().ref('/users/'+user.uid+'/preferences')
-        .on('value', function(data){
-          if(data!=null){
-            data.forEach(function(child){
-              // removes the preferences according to firebase
-              if(child.val() == true){
-                if(child.key.includes('vegan')){
-                  pref.vegan = true;
-                } else if(child.key.includes('vegetarian')){
-                  pref.vegetarian = true;
-                } else if(child.key.includes('Dairy')){
-                  pref.Dairy = false;
-                } else if(child.key.includes('Eggs')){
-                  pref.Eggs = false;
-                } else if(child.key.includes('Fish')){
-                  pref.Fish = false;
-                } else if(child.key.includes('Soy')){
-                  pref.Soy = false;
-                } else if(child.key.includes('TreeNuts')){
-                  pref.TreeNuts = false;
-                } else if(child.key.includes('Wheat')){
-                  pref.Wheat = false;
-                } else if(child.key.includes('Shellfish')){
-                  pref.Shellfish = false;
-                } else if(child.key.includes('gluten')){
-                  pref.Gluten = false;
+        firebase.database().ref('/users/' + user.uid + '/preferences')
+          .on('value', function (data) {
+            if (data != null) {
+              data.forEach(function (child) {
+                // removes the preferences according to firebase
+                if (child.val() == true) {
+                  if (child.key.includes('vegan')) {
+                    pref.vegan = true;
+                  } else if (child.key.includes('vegetarian')) {
+                    pref.vegetarian = true;
+                  } else if (child.key.includes('Dairy')) {
+                    pref.Dairy = false;
+                  } else if (child.key.includes('Eggs')) {
+                    pref.Eggs = false;
+                  } else if (child.key.includes('Fish')) {
+                    pref.Fish = false;
+                  } else if (child.key.includes('Soy')) {
+                    pref.Soy = false;
+                  } else if (child.key.includes('TreeNuts')) {
+                    pref.TreeNuts = false;
+                  } else if (child.key.includes('Wheat')) {
+                    pref.Wheat = false;
+                  } else if (child.key.includes('Shellfish')) {
+                    pref.Shellfish = false;
+                  } else if (child.key.includes('gluten')) {
+                    pref.Gluten = false;
+                  }
+                } else { // cuisine preference update
+                  if (child.key.includes('american')) {
+                    pref.american = false;
+                  } else if (child.key.includes('asian')) {
+                    pref.asian = false;
+                  } else if (child.key.includes('italian')) {
+                    pref.italian = false;
+                  } else if (child.key.includes('indian')) {
+                    pref.indian = false;
+                  } else if (child.key.includes('mexican')) {
+                    pref.mexican = false;
+                  }
                 }
-              } else{ // cuisine preference update
-                if(child.key.includes('american')){
-                  pref.american = false;
-                } else if(child.key.includes('asian')){
-                  pref.asian = false;
-                } else if(child.key.includes('italian')){
-                  pref.italian = false;
-                } else if(child.key.includes('indian')){
-                  pref.indian = false;
-                } else if(child.key.includes('mexican')){
-                  pref.mexican = false;
-                }
-              }
+              })
+            }
+            // update the state of preferences
+            _this.setState({
+              preferences: pref,
+              hour: mealOfTheDay
             })
-          }
-          // update the state of preferences
-          _this.setState({
-            preferences: pref,
-            hour: mealOfTheDay
+            console.log(_this.state.preferences)
+            console.log(_this.state.hour)
+            callback();
           })
-          console.log(_this.state.preferences)
-          console.log(_this.state.hour)
-          callback();
-        })
-      } else{
+      } else {
       }
     });
   }
 
-  getFood(callback){
+  getFood(callback) {
     var foodarr = [];
     var _this = this;
     // get either breakfast, lunch, or dinner according to the this.state.hour
-    firebase.database().ref(_this.state.hour+'/').on('value', function(data){
-      data.forEach(function(child){
+    firebase.database().ref(_this.state.hour + '/').on('value', function (data) {
+      data.forEach(function (child) {
         // traverse through all dining halls
-        if(child.key=='64Degrees' || child.key=='CafeVentanas' ||
-           child.key=='Club Med' || child.key=='FoodWorx' ||
-           child.key=='Goody\'s Place' || child.key=='OceanView' ||
-           child.key=='Pines'){ 
+        if (child.key == '64Degrees' || child.key == 'CafeVentanas' ||
+          child.key == 'Club Med' || child.key == 'FoodWorx' ||
+          child.key == 'Goody\'s Place' || child.key == 'OceanView' ||
+          child.key == 'Pines') {
           var arr = [];
-          child.forEach(function(item){ // traverse through food items
+          child.forEach(function (item) { // traverse through food items
             arr.push({ //add current food item to the current dining hall
               name: item.key,
               yeats: item.child('Yeats').val(),
@@ -249,14 +273,14 @@ export default class HomeScreen extends React.Component {
           })
           foodarr.push({
             name: child.key,
-            items: arr 
+            items: arr
           })
         }
       })
       _this.setState({
         food: foodarr
       },
-      function() { console.log("setState completed", this.state.food.length) })
+        function () { console.log("setState completed", this.state.food.length) })
       //console.log(_this.state.food.items[0].info)
       callback();
     });
@@ -268,89 +292,89 @@ export default class HomeScreen extends React.Component {
    * 
    * the updated result will be recorded in this.state.food
    */
-  filter(){
+  filter() {
     var foodarr = JSON.parse(JSON.stringify(this.state.food));
     var _this = this;
     var foodedit = JSON.parse(JSON.stringify(foodarr)); // deep copy foodarr
-    var foodvege = JSON.parse(JSON.stringify(foodarr)); 
+    var foodvege = JSON.parse(JSON.stringify(foodarr));
     var foodvega = JSON.parse(JSON.stringify(foodarr));
-    for(var i=0; i<foodvege.length;i++){
+    for (var i = 0; i < foodvege.length; i++) {
       foodvege[i].items = []; // zero-initialize the arrays for adding 
       foodvega[i].items = []; // vegan or vegetarian options later
     }
     // traverse through preferences to initialize filtering
-    for(let[key,val] of Object.entries(this.state.preferences)){
-      if(key=='vegan' && val== true){ // only include vegan food to foodarr
-        firebase.database().ref(_this.state.hour+'/Vegan/').on('value', function(data){
+    for (let [key, val] of Object.entries(this.state.preferences)) {
+      if (key == 'vegan' && val == true) { // only include vegan food to foodarr
+        firebase.database().ref(_this.state.hour + '/Vegan/').on('value', function (data) {
           var counter = 0;
-          data.forEach(function(item){
+          data.forEach(function (item) {
             counter++;
             // traverse through dining halls to find an item
-            for(var i=0; i<foodarr.length; i++){
+            for (var i = 0; i < foodarr.length; i++) {
               // attempt to find the particular item
-              var getFood = foodarr[i].items.find(function(element){
+              var getFood = foodarr[i].items.find(function (element) {
                 return element.name == item.key;
               })
-              if(getFood!=undefined){
+              if (getFood != undefined) {
                 foodvega[i].items.push(getFood);
               }
             }
-            if(counter==data.numChildren()){
+            if (counter == data.numChildren()) {
               foodarr = JSON.parse(JSON.stringify(foodvega));
             }
           });
         });
-      } else if(key=='vegetarian' && val== true){ // only include vegetarian food to foodarr
-        firebase.database().ref(_this.state.hour+'/Vegetarian/').on('value', function(data){
+      } else if (key == 'vegetarian' && val == true) { // only include vegetarian food to foodarr
+        firebase.database().ref(_this.state.hour + '/Vegetarian/').on('value', function (data) {
           var counter = 0;
-          data.forEach(function(item){
+          data.forEach(function (item) {
             counter++;
             // traverse through dining halls to find an item
-            for(var i=0; i<foodarr.length; i++){
+            for (var i = 0; i < foodarr.length; i++) {
               // attempt to find the particular item
-              var getFood = foodarr[i].items.find(function(element){
+              var getFood = foodarr[i].items.find(function (element) {
                 return element.name == item.key;
               })
-              if(getFood!=undefined){
+              if (getFood != undefined) {
                 foodvege[i].items.push(getFood); //remove this item from food array
               }
             }
-            if(counter==data.numChildren()){
+            if (counter == data.numChildren()) {
               foodarr = JSON.parse(JSON.stringify(foodvege));
             }
           });
         });
-      } else if(val==false && key !='vegan' && key !='vegetarian'){ // restrictions and preferences (to filter)
-        firebase.database().ref(_this.state.hour).on('value',function(data){
-          if(data.hasChild(key)){ // check if the category exists
+      } else if (val == false && key != 'vegan' && key != 'vegetarian') { // restrictions and preferences (to filter)
+        firebase.database().ref(_this.state.hour).on('value', function (data) {
+          if (data.hasChild(key)) { // check if the category exists
             var count = 0
             foodedit = JSON.parse(JSON.stringify(foodarr));
-            data.child(key).forEach(function(item){
+            data.child(key).forEach(function (item) {
               count++;
               // traverse through dining halls to find an item
-              for(var i=0; i<foodedit.length; i++){
+              for (var i = 0; i < foodedit.length; i++) {
                 // attempt to find the particular item
-                var ind = foodedit[i].items.findIndex(function(element){
+                var ind = foodedit[i].items.findIndex(function (element) {
                   return element.name == item.key;
                 })
-                if(ind>=0){
-                  foodedit[i].items.splice(ind,1); //remove this item from food array
+                if (ind >= 0) {
+                  foodedit[i].items.splice(ind, 1); //remove this item from food array
                   break;
                 }
               }
-              if(count==data.child(key).numChildren()){
+              if (count == data.child(key).numChildren()) {
                 foodarr = JSON.parse(JSON.stringify(foodedit));
               }
             })
           }
         })
-      }  
+      }
     }
     this.setState({
       food: foodarr // update the filtered food array to the state attribute
-    }, function(){
+    }, function () {
       console.log("updated 64");
-      _this.state.food[0].items.forEach(function(data){
+      _this.state.food[0].items.forEach(function (data) {
         console.log(data.name)
       })
     })
@@ -358,14 +382,14 @@ export default class HomeScreen extends React.Component {
 
 
 
-/* Read current likes */
-async readNumLikes(currDiningHall, food) {
-  var ref = firebase.database().ref(currDiningHall + food + 'Yeats');
+  /* Read current likes */
+  async readNumLikes(currDiningHall, food) {
+    var ref = firebase.database().ref(currDiningHall + food + 'Yeats');
 
-  await ref.once("value");
+    await ref.once("value");
 
-  return ref;
-}
+    return ref;
+  }
 
   /* Push likes back to firebase */
   writeNumLikes(currDiningHall, food, Yeats) {
@@ -374,7 +398,7 @@ async readNumLikes(currDiningHall, food) {
 
   // This will allow the user to like a food item
   likeFood(currDiningHall, foodItem) {
-    currentLikes=this.readNumLikes(currDiningHall, foodItem)
+    currentLikes = this.readNumLikes(currDiningHall, foodItem)
     curentLikes = currentLikes + 1
     this.writeUserData(currDiningHall, foodItem, currentLikes);
 
@@ -395,15 +419,15 @@ async readNumLikes(currDiningHall, food) {
 
     //console.log(userID)
 
-    
+
     firebase.database().ref('/users/' + userID + '/Favorites/' + food).set(
       {
         name: food,
         price: "This needs to be implemented still",
         diningHall: currHall
       });
-  }  
-  
+  }
+
   /*
    * Lists out all Dining Halls (currently only 64 degrees) and all
    * of the food items available there. Beside each item is an option to
@@ -416,9 +440,9 @@ async readNumLikes(currDiningHall, food) {
     var costArr = [];
     let list = [];
     //console.log(diningHalls.length);
-      
+
     // loop through dining halls
-    for (let i = 0; i < 1 && i < diningHalls.length; i++) {
+    for (let i = 0; i < diningHalls.length; i++) {
       var currHall = diningHalls[i];
       var scrollList = [];
       buttonArr[i] = [];
@@ -427,7 +451,7 @@ async readNumLikes(currDiningHall, food) {
       list.push(
         // Print out Dining Hall name
         <View style={styles.topDiningHall}>
-          <Text style={styles.topDiningHall}> { currHall.name } </Text>
+          <Text style={styles.topDiningHall}> {currHall.name} </Text>
         </View>
       );
       // Loop through all items in said dining hall
@@ -438,24 +462,57 @@ async readNumLikes(currDiningHall, food) {
         //costArr[i][j] = food.info[0];
         // Add in food item with its favorite button
         scrollList.push(
-          <View style={styles.foodItem}>
-            <Text>
-              { food.name }
+          <Card containerStyle={styles.foodItemCard}>
+            <Text style={styles.foodName}>
+              {food.name}
             </Text>
-            
-            <Button
-              onPress={()=>
-                this.addFavorite(buttonArr[i][j], hallArr[i], "$10.00")}
-              buttonStyle={styles.likeButton}
-              name={"Favorite" + {j} }
-            />
-          </View>              
+
+            {/*<Button
+                          onPress={()=>
+                              this.addFavorite(buttonArr[i][j], hallArr[i], "$10.00")}
+                          buttonStyle={styles.likeButton}
+                          name={"Favorite" + {j} }
+                      />*/}
+
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              {/* Thumbs up icon will be the button to like */}
+              {/* Need to add onPress functionality */}
+              <Icon
+                name='thumbs-up'
+                type='font-awesome'
+                color='#153b50'
+                size={30}
+              />
+
+              <Text>     </Text>
+
+              {/* Thumbs down icon will be the button to dislike */}
+              {/* Need to add onPress functionality */}
+              <Icon
+                name='thumbs-down'
+                type='font-awesome'
+                color='#153b50'
+                size={30}
+              />
+
+              <Text>     </Text>
+
+              {/* Heart icon will be the button to add to my yeats */}
+              {/* Need to add onPress functionality */}
+              <Icon
+                name='heart'
+                type='font-awesome'
+                color='#153b50'
+                size={30}
+              />
+            </View>
+          </Card>
         );
       }
       // Add horizontally scrolling food list
       list.push(
         <ScrollView horizontal={true}>
-          { scrollList } 
+          {scrollList}
         </ScrollView>
       );
     }
@@ -473,94 +530,103 @@ async readNumLikes(currDiningHall, food) {
     return (
 
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
+        <ScrollView style={styles.container} >
+
+          <Text style={styles.header}>Yeatiest</Text>
+
+          <View style={{ top: -27, right: 48, marginBottom: -25 }}>
+            <Icon
+              name='thumbs-up'
+              type='font-awesome'
+              color='#153b50'
             />
           </View>
-          
-              
 
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
+          <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+            title={
+              <View style={{ alignItems: 'flex-start' }}>
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > YEAT </Text>
+              </View>
+            }>
+          </Card>
+          <Text style={styles.headerTwo}>Yuckiest</Text>
 
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}> yEAT@UCSD </Text>
+          <View style={{ top: -27, right: 48, marginBottom: -25 }}>
+            <Icon
+              name='thumbs-down'
+              type='font-awesome'
+              color='#153b50'
+            />
           </View>
-          
-          {/*  
-          <View style={styles.container}>
-            <Text style={styles.paragraph}>{text}</Text>
-          </View>
-          */}
-          
+
+          <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+            title={
+              <View style={{ alignItems: 'flex-start' }}>
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > YEAT </Text>
+              </View>
+            }>
+          </Card>
+
+          <Text style={styles.headerTwo}>Dining Halls</Text>
+
+          {/*
+<View style={styles.container}>
+  <Text style={styles.paragraph}>{text}</Text>
+</View>
+*/}
+
           {/* sort dining halls based on location */}
-          <View style={styles.container}>
-            { this.state.diningHalls.map((item, key)=>(
-            <Text key={key} style={styles.getStartedText}> { item.name } </Text>)
-            )}
-          </View>
+          {/*<View style={styles.container}>
+  { this.state.diningHalls.map((item, key)=>(
+  <Text key={key} style={styles.getStartedText}> { item.name } </Text>)
+  )}
+  </View>*/}
 
-        {/* Prints out Dining Halls alongside all food items within them */}
-        <View> 
-          { this.printFoodItems() }
-        </View>
+          {/* Prints out Dining Halls alongside all food items within them */}
+          <View>
+            {this.printFoodItems()}
+          </View>
+   
+
 
           {/* Print Closest Dining Hall */}
           <View style={styles.topDiningHall}>
-              <Text style={styles.topDiningHall}> {this.state.diningHalls[0].name} </Text>
+            <Text style={styles.topDiningHall}> {this.state.diningHalls[0].name} </Text>
+            
           </View>
 
-       {/* Janked together a example to add item to favorites 
-           THIS NEEDS TO BE REPLACED WITH SOMETHING THAT ACTUALLY IS DYNAMIC*/}
-        <ScrollView horizontal={true}>
-          <View style={styles.foodItem}>
-            <Text>
-              AvacadoToast
-            </Text>
-              
-            <Button
-              onPress={()=>this.addFavorite("AvacadoToast")}
-              buttonStyle={styles.likeButton}
-              name="Favorite1"
-            />
+          {/* Janked together a example to add item to favorites
+ THIS NEEDS TO BE REPLACED WITH SOMETHING THAT ACTUALLY IS DYNAMIC*/}
+          <ScrollView horizontal={true}>
+            <View style={styles.foodItem}>
+              <Text>
+                AvocadoToast
+              </Text>
 
-          </View>
+              <Button
+                onPress={() => this.addFavorite("AvocadoToast")}
+                buttonStyle={styles.likeButton}
+                name="Favorite1"
+              />
 
-          <View style={styles.foodItem}>
-            <Text>
-              Why
-            </Text>
-              
-            <Button
-              onPress={()=>this.addFavorite("BelgianWaffles")}
-              buttonStyle={styles.likeButton}
-              name="Favorite2"
-            />
+            </View>
 
-          </View> 
-        </ScrollView>
+            <View style={styles.foodItem}>
+              <Text>
+                Why
+                  </Text>
 
+              <Button
+                onPress={() => this.addFavorite("BelgianWaffles")}
+                buttonStyle={styles.likeButton}
+                name="Favorite2"
+              />
+            </View>
+          </ScrollView>
 
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
         </ScrollView>
       </View>
-      
+
     );
 
 
@@ -608,8 +674,8 @@ const styles = StyleSheet.create({
   foodItem: {
     //height: 130,
     //width: 130,
-    marginLeft:20,
-    borderWidth:0.5,
+    marginLeft: 20,
+    borderWidth: 0.5,
     //borderColor: 'black',
     fontSize: 32,
     textAlign: 'center',
