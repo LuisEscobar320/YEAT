@@ -509,6 +509,7 @@ export default class HomeScreen extends React.Component {
           </Card>
         );
       }
+
       // Add horizontally scrolling food list
       list.push(
         <ScrollView horizontal={true}>
@@ -681,6 +682,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flexDirection: "row",
   },
+  foodName: {
+    fontSize: 16,
+    color: '#153b50',
+    textAlign: 'center',
+    paddingBottom: 10,
+},
   likeButton: {
     height: 48,
     width: 48,
@@ -773,4 +780,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  header: {
+    color: '#153b50',
+    fontSize: 28,
+    paddingLeft: 20
+},
+headerTwo: {
+    color: '#153b50',
+    fontSize: 28,
+    paddingLeft: 20,
+    paddingTop: 15,
+},
+foodItemCard: {
+    width: 175,
+    height: 120,
+    backgroundColor: '#fff',
+    borderRadius: 15,
+}
 });

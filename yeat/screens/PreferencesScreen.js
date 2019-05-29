@@ -1,11 +1,13 @@
 import firebase from 'firebase';
 import React from 'react';
+import {Platform} from 'react-native';
 import {StyleSheet, ScrollView, Text, View} from 'react-native';
 import {Button, CheckBox, Icon} from 'react-native-elements';
 
 export default class PreferencesScreen extends React.Component {
     static navigationOptions = {
         title: 'Preferences',
+
     	headerStyle:{
             backgroundColor: '#fff',
     	    elevation: 0,
@@ -15,17 +17,18 @@ export default class PreferencesScreen extends React.Component {
         headerTitleStyle: {
 	        color: '#153b50',
             fontSize: 35,
-            alignSelf: 'flex-end'
+            alignSelf: 'flex-end',
+            //code to change it dynamically for android or ios
+            //right: Platform.OS ==='android' ? 0 : 93,
         },
-        
-        headerRight: (
+        /*headerRight: (
             <Icon size={40} 
-            iconStyle = {{ right: 150, top: 7}}
-            name='gear'
-            type='evilicon'
+            iconStyle = {{ right: 150, top: Platform.OS === 'android' ? 7 : 3}}
+            name='cog'
+            type='font-awesome'
             color='#517fa4'
             />
-        ),
+        ),*/
     };
 
 
@@ -51,7 +54,6 @@ export default class PreferencesScreen extends React.Component {
         this.readUserData("mexicanCheck");
 
         this.state = {
-            
             checkbox1: false,
             checkbox2: false,
             checkbox3: false,
@@ -171,7 +173,7 @@ export default class PreferencesScreen extends React.Component {
                 
                 <ScrollView style={styles.container}>
 
-                    <Text style = {{color: '#153b50', fontSize: 25, padding: 20}} >Dietary Restrictions</Text>
+                    <Text style = {styles.title} >Dietary Restrictions</Text>
 
                     <CheckBox
                         title='Vegan'
@@ -208,7 +210,7 @@ export default class PreferencesScreen extends React.Component {
                         title='No Wheat'
                         checked={this.state.checkbox6}
                         onPress={() => this.setState({checkbox6: !this.state.checkbox6})}
-                     />
+                    />
 
                     <CheckBox
                         title='No Fish'
@@ -240,7 +242,7 @@ export default class PreferencesScreen extends React.Component {
                         onPress={() => this.setState({checkbox11: !this.state.checkbox11})}
                     />
 
-                    <Text style = {{color: '#153b50', fontSize: 25, padding: 20}}>Cuisines</Text>
+                    <Text style = {styles.title}>Cuisines</Text>
 
                     <CheckBox
                         title='American'
@@ -300,7 +302,6 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#153b50',
         borderRadius: 15,
-        //my stuff
         width: 66,
         flex : 1,
         flexDirection: 'row',
@@ -310,7 +311,7 @@ const styles = StyleSheet.create({
         top: -55,
         right: 15,
     },
-    check:{
+    check: {
         //flex : 1,
         //flexDirection: 'row',
         //justifyContent: 'center',
@@ -318,6 +319,11 @@ const styles = StyleSheet.create({
         //position: 'absolute',
         top: -20,
         right: -30,
+    },
+    title: {
+        color: '#153b50',
+        fontSize: 25,
+        padding: 20
     }
 });
 
