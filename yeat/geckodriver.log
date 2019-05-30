@@ -352,3 +352,210 @@ console.error: BroadcastService:
   Stack:
     remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
 
+1559182730117	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.3w9dbsd1YgkS"
+1559182731601	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559182731601	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559182731601	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559182733576	Marionette	INFO	Listening on port 60229
+1559182733618	Marionette	WARN	TLS certificate errors will be ignored for this session
+1559182734671	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.tbdJHFUIxcIJ"
+1559182735115	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559182735115	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559182735115	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559182736622	Marionette	INFO	Listening on port 60620
+1559182736726	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: BroadcastService: 
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1559183056760	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.8PTiHH1keKIY"
+1559183057190	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559183057190	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559183057190	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559183058670	Marionette	INFO	Listening on port 65297
+1559183058696	Marionette	WARN	TLS certificate errors will be ignored for this session
+1559183059754	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.ZfFZHv1f2H54"
+1559183060174	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559183060174	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559183060174	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559183061582	Marionette	INFO	Listening on port 49165
+1559183061591	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://hdh-web.ucsd.edu/dining/apps/diningservices/Scripts/angular-sanitize.js, line 148: TypeError: angular is undefined
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1559183110731	Marionette	INFO	Stopped listening on port 49165
+1559183112932	Marionette	INFO	Stopped listening on port 65297
+1559183114954	Marionette	INFO	Stopped listening on port 60620
+1559183117551	Marionette	INFO	Stopped listening on port 60229
+1559183245975	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.gYw8yH0Wro6B"
+1559183246373	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559183246373	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559183246373	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559183247783	Marionette	INFO	Listening on port 61337
+1559183247831	Marionette	WARN	TLS certificate errors will be ignored for this session
+1559183248885	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.sru9V7ABQJfS"
+1559183249307	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559183249307	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559183249307	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559183250720	Marionette	INFO	Listening on port 61584
+1559183250732	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1559183280791	Marionette	INFO	Stopped listening on port 61584
+1559183282997	Marionette	INFO	Stopped listening on port 61337
+1559183326658	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.L7wZ3k2Ll0Bj"
+1559183327072	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559183327072	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559183327072	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559183328483	Marionette	INFO	Listening on port 50503
+1559183328493	Marionette	WARN	TLS certificate errors will be ignored for this session
+1559183329546	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.GshW8T0rjFad"
+1559183329969	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559183329969	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559183329969	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559183331414	Marionette	INFO	Listening on port 50680
+1559183331500	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1559183752544	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.El0D01ZlPxy0"
+1559183752965	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559183752965	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559183752965	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559183754382	Marionette	INFO	Listening on port 61804
+1559183754396	Marionette	WARN	TLS certificate errors will be ignored for this session
+1559183755449	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.NTvNL3YFZevA"
+1559183755873	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559183755873	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559183755873	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559183757298	Marionette	INFO	Listening on port 62048
+1559183757398	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://hdh-web.ucsd.edu/dining/apps/diningservices/Scripts/angular-sanitize.js, line 148: TypeError: angular is undefined
+JavaScript error: https://hdh-web.ucsd.edu/dining/apps/diningservices/Scripts/registration-module.js, line 1: ReferenceError: angular is not defined
+JavaScript error: https://hdh-web.ucsd.edu/dining/apps/diningservices/Scripts/Menu/Menu-Controller.js, line 1: TypeError: registrationModule is undefined
+JavaScript error: https://code.jquery.com/jquery-3.2.1.min.js, line 2: NS_ERROR_NOT_INITIALIZED: 
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1559183812757	Marionette	INFO	Stopped listening on port 62048
+1559183816379	Marionette	INFO	Stopped listening on port 61804
+1559183867931	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.HJubdgBbTxjn"
+1559183868371	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559183868371	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559183868371	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559183869813	Marionette	INFO	Listening on port 53227
+1559183869865	Marionette	WARN	TLS certificate errors will be ignored for this session
+1559183870913	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.0A4WUXoMR6FD"
+1559183871326	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559183871326	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559183871327	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559183872738	Marionette	INFO	Listening on port 53469
+1559183872758	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1559183897026	Marionette	INFO	Stopped listening on port 53469
+1559183898898	Marionette	INFO	Stopped listening on port 53227
+1559184016207	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.KUiJNkK1nveH"
+1559184016734	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559184016735	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559184016735	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559184018190	Marionette	INFO	Listening on port 63076
+1559184018255	Marionette	WARN	TLS certificate errors will be ignored for this session
+1559184019309	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/4m/0_q51chn2r3flsltvd8kpq840000gn/T/rust_mozprofile.xGcxtPq7HhLX"
+1559184019744	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1559184019744	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1559184019744	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1559184021139	Marionette	INFO	Listening on port 63322
+1559184021154	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221559174406944%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1559184058758	Marionette	INFO	Stopped listening on port 63322
+1559184059940	Marionette	INFO	Stopped listening on port 63076
+1559228666218	Marionette	INFO	Stopped listening on port 50680
+1559228667685	Marionette	INFO	Stopped listening on port 50503

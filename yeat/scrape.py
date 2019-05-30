@@ -24,23 +24,23 @@ diningHallList = []
 # Breakfast, lunch, and dinner menus
 # YEAT James Riback
 
-class NutritionBoi:
-    Vegan = False
-    Vegeterian = False
-    Dairy = False
-    Gluten = False
-    Nuts = False
-    Shellfish = False
+#class NutritionBoi:
+ #   Vegan = False
+  #  Vegeterian = False
+    #Dairy = False
+    #Gluten = False
+    #Nuts = False
+    #Shellfish = False
 
-    def setVegan(self, bool):
-        self.Vegan = bool
-    def setVegeterian(self, bool):
-        self.Vegeterian = bool
-    def setDairy(self, bool):
-        self.Dairy = bool
-    def setGluten(self, bool):
-        self.Gluten = bool
-
+#    def setVegan(self, bool):
+ #       self.Vegan = bool
+  #  def setVegeterian(self, bool):
+   #     self.Vegeterian = bool
+    #def setDairy(self, bool):
+#        self.Dairy = bool
+ #   def setGluten(self, bool):
+  #      self.Gluten = bool
+#
 
 
 
@@ -48,7 +48,7 @@ class NutritionBoi:
 driver = webdriver.Firefox(executable_path=r'/usr/local/bin/geckodriver')
 
 # launch url
-url = "https://hdh-web.ucsd.edu/dining/apps/diningservices/Restaurants/MenuItem/15"
+url = "https://hdh-web.ucsd.edu/dining/apps/diningservices/Restaurants/MenuItem/01"
 binary = FirefoxBinary(r'/Applications/Firefox.app/Contents/MacOS/firefox')
 
 driver = webdriver.Firefox(firefox_binary=binary)
@@ -128,5 +128,5 @@ for i in range(3):
 
         print(newNutritionList)
 
-        fb.put(f'/Club Med-{times[i]}', head, {'cost': sep + tail, 'Nutrition' : newNutritionList},params=None, headers=None, connection=None)
+        fb.put(f'/Pines-{times[i]}', head, {'cost': sep + tail, 'Nutrition' : newNutritionList},params=None, headers=None, connection=None)
         #fb.post(f'/64Degrees-{times[i]}' , {head: nutrition_json } )
