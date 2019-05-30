@@ -56,9 +56,7 @@ export default class HomeScreen extends React.Component {
       { name: 'Cafe Ventanas', longitude: -117.242851, latitude: 32.886182, dis: -1,food:[{name: 'loading'}] },
       { name: 'Pines', longitude: -117.242558, latitude: 32.878979, dis: -1,food:[{name: 'loading'}] },
       { name: '64Degrees', longitude: -117.242060, latitude: 32.874665, dis: -1,food:[{name: 'loading'}]},
-      //{ name: '64 Degrees North', longitude: -117.2443437, latitude: 32.8748439, dis: -1,food:[]},
       { name: 'Club Med', longitude: -117.237402, latitude: 32.8751508, dis: -1,food:[{name: 'loading'}]},
-      //{ name: 'The Bistro', longitude: -117.242044, latitude: 32.888023, dis: -1, food:[]},
       { name: 'Goody\'s Place', longitude: -117.240411, latitude: 32.883016, dis: -1, food:[{name: 'loading'}]},
       { name: 'OceanView', longitude: -117.242750, latitude: 32.883268, dis: -1, food:[{name: 'loading'}]}
     ],
@@ -80,7 +78,9 @@ export default class HomeScreen extends React.Component {
       mexican: true
     },
     hour: '', // breakfast, lunch, or dinner
-    food: [] // food items to be loaded and displayed
+    food: [], // food items to be loaded and displayed
+    yeatiest: {name: 'loading', num: -1},
+    yuckiest: {name: 'loading', num: -1}
   }
 
   /*
@@ -95,17 +95,6 @@ export default class HomeScreen extends React.Component {
     } else {
       this._getLocationAsync();
     }
-    // var _this = this;
-
-    // _this.updateDiningHalls(() => {
-    //   _this.checkUser(() => {
-    //     _this.getFood(() => {
-    //       _this.filter()
-    //     });
-    //   });
-    // });
-
-
   }
 
   /*
@@ -254,6 +243,8 @@ export default class HomeScreen extends React.Component {
   getFood(callback) {
     var foodarr = [];
     var _this = this;
+    var localyeatiest = this.state.yeatiest;
+    var localyuckiest = this.state.yuckiest;
     // get either breakfast, lunch, or dinner according to the this.state.hour
     firebase.database().ref(_this.state.hour + '/').on('value', function (data) {
       data.forEach(function (child) {
@@ -264,6 +255,13 @@ export default class HomeScreen extends React.Component {
           child.key == 'Pines') {
           var arr = [];
           child.forEach(function (item) { // traverse through food items
+            // keep track of the item with the highest likes (yeatiest) and dislikes (yuckiest)
+            if(localyeatiest.num < item.child('Yeats').val()){
+              localyeatiest = {name: item.key, num: item.child('Yeats').val()}
+            }
+            if(localyuckiest.num < item.child('Yucks').val()){
+              localyuckiest = {name: item.key, num: item.child('Yucks').val()}
+            }
             arr.push({ //add current food item to the current dining hall
               name: item.key,
               yeats: item.child('Yeats').val(),
@@ -278,7 +276,9 @@ export default class HomeScreen extends React.Component {
         }
       })
       _this.setState({
-        food: foodarr
+        food: foodarr,
+        yeatiest: localyeatiest,
+        yuckiest: localyuckiest
       },
         function () { 
           console.log("setState completed", this.state.food.length)
@@ -566,7 +566,7 @@ export default class HomeScreen extends React.Component {
           <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
             title={
               <View style={{ alignItems: 'flex-start' }}>
-                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > YEAT </Text>
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.yeatiest.name} </Text>
               </View>
             }>
           </Card>
@@ -583,7 +583,7 @@ export default class HomeScreen extends React.Component {
           <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
             title={
               <View style={{ alignItems: 'flex-start' }}>
-                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > YEAT </Text>
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.yuckiest.name} </Text>
               </View>
             }>
           </Card>
