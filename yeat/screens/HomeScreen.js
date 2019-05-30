@@ -386,6 +386,9 @@ export default class HomeScreen extends React.Component {
         for(var j=0; j< _this.state.food.length;j++){
           if(_this.state.diningHalls[i].name.includes(_this.state.food[j].name)){
             newdininghalls[i].food = _this.state.food[j].items;
+            newdininghalls[i].food.sort(function(a,b){
+              return b.yeats - a.yeats;
+            });
           }
         }
       }
