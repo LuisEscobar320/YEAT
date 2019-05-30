@@ -52,15 +52,15 @@ export default class HomeScreen extends React.Component {
     location: null,       // location tracks the user's current location
     errorMessage: null,   // error message to be displayed when status is not granted
     diningHalls: [
-      { name: 'Foodworx', longitude: -117.230415, latitude: 32.878806, dis: -1 },
-      { name: 'Cafe Ventanas', longitude: -117.242851, latitude: 32.886182, dis: -1 },
-      { name: 'Pines', longitude: -117.242558, latitude: 32.878979, dis: -1 },
-      { name: '64 Degrees', longitude: -117.242060, latitude: 32.874665, dis: -1 },
-      { name: '64 Degrees North', longitude: -117.2443437, latitude: 32.8748439, dis: -1 },
-      { name: 'Club Med', longitude: -117.237402, latitude: 32.8751508, dis: -1 },
-      { name: 'The Bistro', longitude: -117.242044, latitude: 32.888023, dis: -1 },
-      { name: 'Goody\'s', longitude: -117.240411, latitude: 32.883016, dis: -1 },
-      { name: 'Oceanview Terrace', longitude: -117.242750, latitude: 32.883268, dis: -1 }
+      { name: 'FoodWorx', longitude: -117.230415, latitude: 32.878806, dis: -1, food:[{name: 'loading'}] },
+      { name: 'Cafe Ventanas', longitude: -117.242851, latitude: 32.886182, dis: -1,food:[{name: 'loading'}] },
+      { name: 'Pines', longitude: -117.242558, latitude: 32.878979, dis: -1,food:[{name: 'loading'}] },
+      { name: '64Degrees', longitude: -117.242060, latitude: 32.874665, dis: -1,food:[{name: 'loading'}]},
+      //{ name: '64 Degrees North', longitude: -117.2443437, latitude: 32.8748439, dis: -1,food:[]},
+      { name: 'Club Med', longitude: -117.237402, latitude: 32.8751508, dis: -1,food:[{name: 'loading'}]},
+      //{ name: 'The Bistro', longitude: -117.242044, latitude: 32.888023, dis: -1, food:[]},
+      { name: 'Goody\'s Place', longitude: -117.240411, latitude: 32.883016, dis: -1, food:[{name: 'loading'}]},
+      { name: 'OceanView', longitude: -117.242750, latitude: 32.883268, dis: -1, food:[{name: 'loading'}]}
     ],
     preferences: { // default preference: no restrictions and all cuisines
       vegan: false,
@@ -95,15 +95,15 @@ export default class HomeScreen extends React.Component {
     } else {
       this._getLocationAsync();
     }
-    var _this = this;
+    // var _this = this;
 
-    _this.updateDiningHalls(() => {
-      _this.checkUser(() => {
-        _this.getFood(() => {
-          _this.filter()
-        });
-      });
-    });
+    // _this.updateDiningHalls(() => {
+    //   _this.checkUser(() => {
+    //     _this.getFood(() => {
+    //       _this.filter()
+    //     });
+    //   });
+    // });
 
 
   }
@@ -280,7 +280,9 @@ export default class HomeScreen extends React.Component {
       _this.setState({
         food: foodarr
       },
-        function () { console.log("setState completed", this.state.food.length) })
+        function () { 
+          console.log("setState completed", this.state.food.length)
+          console.log(foodarr[0].name) })
       //console.log(_this.state.food.items[0].info)
       callback();
     });
@@ -377,6 +379,21 @@ export default class HomeScreen extends React.Component {
       _this.state.food[0].items.forEach(function (data) {
         console.log(data.name)
       })
+      var newdininghalls = _this.state.diningHalls;
+      var count = 0;
+      for(var i=0; i< _this.state.diningHalls.length;i++){
+        count++;
+        for(var j=0; j< _this.state.food.length;j++){
+          if(_this.state.diningHalls[i].name.includes(_this.state.food[j].name)){
+            newdininghalls[i].food = _this.state.food[j].items;
+          }
+        }
+      }
+      if(count==_this.state.diningHalls.length){
+        _this.setState({
+          diningHalls: newdininghalls //update food to dining halls
+        })
+      }
     })
   }
 
@@ -433,92 +450,92 @@ export default class HomeScreen extends React.Component {
    * of the food items available there. Beside each item is an option to
    * add it to their favorites.
    */
-  printFoodItems() {
-    var diningHalls = this.state.food;
-    var buttonArr = [];
-    var hallArr = [];
-    var costArr = [];
-    let list = [];
-    //console.log(diningHalls.length);
+  // printFoodItems() {
+  //   var diningHalls = this.state.food;
+  //   var buttonArr = [];
+  //   var hallArr = [];
+  //   var costArr = [];
+  //   let list = [];
+  //   //console.log(diningHalls.length);
 
-    // loop through dining halls
-    for (let i = 0; i < diningHalls.length; i++) {
-      var currHall = diningHalls[i];
-      var scrollList = [];
-      buttonArr[i] = [];
-      costArr[i] = [];
-      hallArr[i] = currHall.name;
-      list.push(
-        // Print out Dining Hall name
-        <View style={styles.topDiningHall}>
-          <Text style={styles.topDiningHall}> {currHall.name} </Text>
-        </View>
-      );
-      // Loop through all items in said dining hall
-      for (let j = 0; j < currHall.items.length; j++) {
-        var food = currHall.items[j];
-        //console.log(food.info["cost"]);
-        buttonArr[i][j] = food.name;
-        //costArr[i][j] = food.info[0];
-        // Add in food item with its favorite button
-        scrollList.push(
-          <Card containerStyle={styles.foodItemCard}>
-            <Text style={styles.foodName}>
-              {food.name}
-            </Text>
+  //   // loop through dining halls
+  //   for (let i = 0; i < diningHalls.length; i++) {
+  //     var currHall = diningHalls[i];
+  //     var scrollList = [];
+  //     buttonArr[i] = [];
+  //     costArr[i] = [];
+  //     hallArr[i] = currHall.name;
+  //     list.push(
+  //       // Print out Dining Hall name
+  //       <View style={styles.topDiningHall}>
+  //         <Text style={styles.topDiningHall}> {currHall.name} </Text>
+  //       </View>
+  //     );
+  //     // Loop through all items in said dining hall
+  //     for (let j = 0; j < currHall.items.length; j++) {
+  //       var food = currHall.items[j];
+  //       //console.log(food.info["cost"]);
+  //       buttonArr[i][j] = food.name;
+  //       //costArr[i][j] = food.info[0];
+  //       // Add in food item with its favorite button
+  //       scrollList.push(
+  //         <Card containerStyle={styles.foodItemCard}>
+  //           <Text style={styles.foodName}>
+  //             {food.name}
+  //           </Text>
 
-            {/*<Button
-                          onPress={()=>
-                              this.addFavorite(buttonArr[i][j], hallArr[i], "$10.00")}
-                          buttonStyle={styles.likeButton}
-                          name={"Favorite" + {j} }
-                      />*/}
+  //           {/*<Button
+  //                         onPress={()=>
+  //                             this.addFavorite(buttonArr[i][j], hallArr[i], "$10.00")}
+  //                         buttonStyle={styles.likeButton}
+  //                         name={"Favorite" + {j} }
+  //                     />*/}
 
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              {/* Thumbs up icon will be the button to like */}
-              {/* Need to add onPress functionality */}
-              <Icon
-                name='thumbs-up'
-                type='font-awesome'
-                color='#153b50'
-                size={30}
-              />
+  //           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+  //             {/* Thumbs up icon will be the button to like */}
+  //             {/* Need to add onPress functionality */}
+  //             <Icon
+  //               name='thumbs-up'
+  //               type='font-awesome'
+  //               color='#153b50'
+  //               size={30}
+  //             />
 
-              <Text>     </Text>
+  //             <Text>     </Text>
 
-              {/* Thumbs down icon will be the button to dislike */}
-              {/* Need to add onPress functionality */}
-              <Icon
-                name='thumbs-down'
-                type='font-awesome'
-                color='#153b50'
-                size={30}
-              />
+  //             {/* Thumbs down icon will be the button to dislike */}
+  //             {/* Need to add onPress functionality */}
+  //             <Icon
+  //               name='thumbs-down'
+  //               type='font-awesome'
+  //               color='#153b50'
+  //               size={30}
+  //             />
 
-              <Text>     </Text>
+  //             <Text>     </Text>
 
-              {/* Heart icon will be the button to add to my yeats */}
-              {/* Need to add onPress functionality */}
-              <Icon
-                name='heart'
-                type='font-awesome'
-                color='#153b50'
-                size={30}
-              />
-            </View>
-          </Card>
-        );
-      }
+  //             {/* Heart icon will be the button to add to my yeats */}
+  //             {/* Need to add onPress functionality */}
+  //             <Icon
+  //               name='heart'
+  //               type='font-awesome'
+  //               color='#153b50'
+  //               size={30}
+  //             />
+  //           </View>
+  //         </Card>
+  //       );
+  //     }
 
-      // Add horizontally scrolling food list
-      list.push(
-        <ScrollView horizontal={true}>
-          {scrollList}
-        </ScrollView>
-      );
-    }
-    return list;
-  }
+  //     // Add horizontally scrolling food list
+  //     list.push(
+  //       <ScrollView horizontal={true}>
+  //         {scrollList}
+  //       </ScrollView>
+  //     );
+  //   }
+  //   return list;
+  // }
 
   render() {
     /* let text = 'Waiting..';
@@ -584,17 +601,66 @@ export default class HomeScreen extends React.Component {
   </View>*/}
 
           {/* Prints out Dining Halls alongside all food items within them */}
+          <View style={styles.container}>
+  { this.state.diningHalls.map((item, key)=>(
+    <View key={key}>
+  <Text style={styles.topDiningHall}> { item.name } </Text>
+    <ScrollView horizontal={true}>
+      { item.food.map((food, key1)=>(
+        <Card key={key1} containerStyle={styles.foodItemCard}>
+            <Text style={styles.foodName}>
+              {food.name}
+            </Text>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              {/* Thumbs up icon will be the button to like */}
+              {/* Need to add onPress functionality */}
+              <Icon
+                name='thumbs-up'
+                type='font-awesome'
+                color='#153b50'
+                size={30}
+              />
+
+              <Text>     </Text>
+
+              {/* Thumbs down icon will be the button to dislike */}
+              {/* Need to add onPress functionality */}
+              <Icon
+                name='thumbs-down'
+                type='font-awesome'
+                color='#153b50'
+                size={30}
+              />
+
+              <Text>     </Text>
+
+              {/* Heart icon will be the button to add to my yeats */}
+              {/* Need to add onPress functionality */}
+              <Icon
+                name='heart'
+                type='font-awesome'
+                color='#153b50'
+                size={30}
+              />
+            </View>
+          </Card>
+       ))}
+         </ScrollView>
+        </View>))}
+        </View>
+{/*           
           <View>
             {this.printFoodItems()}
           </View>
-   
+    */}
 
 
           {/* Print Closest Dining Hall */}
-          <View style={styles.topDiningHall}>
+          {/* <View style={styles.topDiningHall}>
             <Text style={styles.topDiningHall}> {this.state.diningHalls[0].name} </Text>
             
-          </View>
+          </View> */}
 
           {/* Janked together a example to add item to favorites
  THIS NEEDS TO BE REPLACED WITH SOMETHING THAT ACTUALLY IS DYNAMIC*/}
