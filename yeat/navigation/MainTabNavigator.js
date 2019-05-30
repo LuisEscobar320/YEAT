@@ -8,6 +8,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import BudgetScreen from '../screens/BudgetScreen';
 import TritonCardLoginScreen from "../screens/TritonCardLoginScreen";
 import StartingBudgetScreen from "../screens/StartingBudgetScreen"
+import ErrorScreen from "../screens/ErrorScreen";
 import MyYeatsScreen from '../screens/MyYeatsScreen';
 import PreferencesScreen from '../screens/PreferencesScreen';
 
@@ -85,6 +86,7 @@ const BudgetStack = createSwitchNavigator({
     Starting: StartingBudgetScreen,
     TritonCard: TritonCardLoginScreen,
     Budget: BudgetScreen,
+    Error: ErrorScreen,
     }, {
         initialRouteName: 'Starting'
 });
