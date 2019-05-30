@@ -258,7 +258,7 @@ export default class HomeScreen extends React.Component {
     firebase.database().ref(_this.state.hour + '/').on('value', function (data) {
       data.forEach(function (child) {
         // traverse through all dining halls
-        if (child.key == '64Degrees' || child.key == 'CafeVentanas' ||
+        if (child.key == '64Degrees' || child.key == 'Cafe Ventanas' ||
           child.key == 'Club Med' || child.key == 'FoodWorx' ||
           child.key == 'Goody\'s Place' || child.key == 'OceanView' ||
           child.key == 'Pines') {
@@ -667,32 +667,7 @@ export default class HomeScreen extends React.Component {
 
           {/* Janked together a example to add item to favorites
  THIS NEEDS TO BE REPLACED WITH SOMETHING THAT ACTUALLY IS DYNAMIC*/}
-          <ScrollView horizontal={true}>
-            <View style={styles.foodItem}>
-              <Text>
-                AvocadoToast
-              </Text>
-
-              <Button
-                onPress={() => this.addFavorite("AvocadoToast")}
-                buttonStyle={styles.likeButton}
-                name="Favorite1"
-              />
-
-            </View>
-
-            <View style={styles.foodItem}>
-              <Text>
-                Why
-                  </Text>
-
-              <Button
-                onPress={() => this.addFavorite("BelgianWaffles")}
-                buttonStyle={styles.likeButton}
-                name="Favorite2"
-              />
-            </View>
-          </ScrollView>
+          
 
         </ScrollView>
       </View>
