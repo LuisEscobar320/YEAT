@@ -431,6 +431,7 @@ export default class HomeScreen extends React.Component {
         diningHall: currHall,
         price: cost
       });
+      alert("Added to My Yeats!")
       console.log("2.0")
   }
 
@@ -614,7 +615,8 @@ export default class HomeScreen extends React.Component {
                 size={30}
               />
 
-              
+                {/* Adds space in between the icons */}
+                <Text>     </Text>
 
               {/* Thumbs down icon will be the button to dislike */}
               {/* Need to add onPress functionality */}
@@ -627,6 +629,7 @@ export default class HomeScreen extends React.Component {
                 size={30}
               />
 
+              {/* Adds space in between the icons */}
               <Text>     </Text>
 
               {/* Heart icon will be the button to add to my yeats */}
@@ -725,19 +728,21 @@ const styles = StyleSheet.create({
   },
   foodName: {
     fontSize: 16,
+    fontWeight: 'bold',
     color: '#153b50',
     textAlign: 'center',
     paddingBottom: 10,
-},
+  },
   likeButton: {
     height: 48,
     width: 48,
   },
   topDiningHall: {
-
-    fontSize: 48,
-    textAlign: 'left',
+    fontSize: 20,
     flexDirection: "row",
+    color: '#153b50',
+    paddingLeft: 10,
+    paddingTop: 10,
   },
   developmentModeText: {
     marginBottom: 20,
@@ -825,17 +830,17 @@ const styles = StyleSheet.create({
     color: '#153b50',
     fontSize: 28,
     paddingLeft: 20
-},
-headerTwo: {
+  },
+  headerTwo: {
     color: '#153b50',
     fontSize: 28,
     paddingLeft: 20,
     paddingTop: 15,
-},
-foodItemCard: {
+  },
+  foodItemCard: {
     width: 175,
-    height: 120,
+    height: 140,
     backgroundColor: '#fff',
     borderRadius: 15,
-}
+  }
 });
