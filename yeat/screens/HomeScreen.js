@@ -79,8 +79,8 @@ export default class HomeScreen extends React.Component {
     },
     hour: '', // breakfast, lunch, or dinner
     food: [], // food items to be loaded and displayed
-    yeatiest: {name: 'loading', num: -1},
-    yuckiest: {name: 'loading', num: -1}
+    yeatiest: {name: 'loading', yeats: -1, yucks: -1, cost: -1, hall: ''},
+    yuckiest: {name: 'loading', yeats: -1, yucks: -1, cost: -1, hall: ''}
   }
 
   /*
@@ -256,11 +256,23 @@ export default class HomeScreen extends React.Component {
           var arr = [];
           child.forEach(function (item) { // traverse through food items
             // keep track of the item with the highest likes (yeatiest) and dislikes (yuckiest)
-            if(localyeatiest.num < item.child('Yeats').val()){
-              localyeatiest = {name: item.key, num: item.child('Yeats').val()}
+            if(localyeatiest.yeats < item.child('Yeats').val()){
+              localyeatiest = {
+                name: item.key, 
+                yeats: item.child('Yeats').val(), 
+                yucks: item.child('Yucks').val(), 
+                cost: item.child('cost').val(),
+                hall: child.key
+              }
             }
-            if(localyuckiest.num < item.child('Yucks').val()){
-              localyuckiest = {name: item.key, num: item.child('Yucks').val()}
+            if(localyuckiest.yucks < item.child('Yucks').val()){
+              localyuckiest = {
+                name: item.key, 
+                yucks: item.child('Yucks').val(), 
+                yeats: item.child('Yeats').val(), 
+                cost: item.child('cost').val(),
+                hall: child.key
+              }
             }
             arr.push({ //add current food item to the current dining hall
               name: item.key,
@@ -552,7 +564,13 @@ export default class HomeScreen extends React.Component {
           <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
             title={
               <View style={{ alignItems: 'flex-start' }}>
-                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.yeatiest.name} </Text>
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > 
+                {this.state.yeatiest.name},
+                {this.state.yeatiest.yeats},
+                {this.state.yeatiest.yucks},
+                {this.state.yeatiest.cost},
+                {this.state.yeatiest.hall}
+                </Text>
               </View>
             }>
           </Card>
@@ -569,7 +587,13 @@ export default class HomeScreen extends React.Component {
           <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
             title={
               <View style={{ alignItems: 'flex-start' }}>
-                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.yuckiest.name} </Text>
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > 
+                {this.state.yuckiest.name}, 
+                {this.state.yuckiest.yeats},
+                {this.state.yuckiest.yucks},
+                {this.state.yuckiest.cost},
+                {this.state.yuckiest.hall}
+                </Text>
               </View>
             }>
           </Card>
@@ -598,7 +622,8 @@ export default class HomeScreen extends React.Component {
       { item.food.map((food, key1)=>(
         <Card key={key1} containerStyle={styles.foodItemCard}>
             <Text style={styles.foodName}>
-              {food.name}
+              {food.name},
+              {food.cost}
             </Text>
 
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
