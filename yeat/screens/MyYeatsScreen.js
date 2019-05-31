@@ -207,9 +207,6 @@ class MyYeatsScreen extends React.Component {
     }
 
     render() {
-        console.log(this.state.arr[1]);
-        console.log("Num cards is");
-        console.log(this.state.numCards);
         return (
             
             <View style={{ flex: 1, justifyContent: "center" }}>
@@ -244,7 +241,7 @@ class MyYeatsScreen extends React.Component {
                                         type='font-awesome'
                                         color='#153b50'
 
-                                        onPress={() => this.removeFav(this.state.arr[0], this.state.arr[1], 1)}
+                                        onPress={() => this.removeFav(this.state.arr[0], this.state.arr[1], this.state.numCards)}
                                     />
                                 </View>
                             </Card>
@@ -254,7 +251,7 @@ class MyYeatsScreen extends React.Component {
                             <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
-                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[5]} </Text>
+                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10, margin: 10 }} > {this.state.arr[5]} </Text>
                                        </View>
                                    }>
 
@@ -278,7 +275,7 @@ class MyYeatsScreen extends React.Component {
                                         type='font-awesome'
                                         color='#153b50'
 
-                                        onPress={() => this.removeFav(this.state.arr[4], this.state.arr[5], 2)}
+                                        onPress={() => this.removeFav(this.state.arr[4], this.state.arr[5], this.state.numCards)}
                                     />
                                 </View>
 
@@ -314,7 +311,7 @@ class MyYeatsScreen extends React.Component {
                                         type='font-awesome'
                                         color='#153b50'
 
-                                        onPress={() => this.removeFav(this.state.arr[8], this.state.arr[9], 3)}
+                                        onPress={() => this.removeFav(this.state.arr[8], this.state.arr[9], this.state.numCards)}
                                     />
                                 </View>
 
@@ -350,7 +347,7 @@ class MyYeatsScreen extends React.Component {
                                         type='font-awesome'
                                         color='#153b50'
 
-                                        onPress={() => this.removeFav(this.state.arr[12], this.state.arr[13], 4)}
+                                        onPress={() => this.removeFav(this.state.arr[12], this.state.arr[13], this.state.numCards)}
                                     />
                                 </View>
 
@@ -386,7 +383,7 @@ class MyYeatsScreen extends React.Component {
                                         type='font-awesome'
                                         color='#153b50'
 
-                                        onPress={() => this.removeFav(this.state.arr[16], this.state.arr[17], 5)}
+                                        onPress={() => this.removeFav(this.state.arr[16], this.state.arr[17], this.state.numCards)}
                                     />
                                 </View>
 
@@ -422,7 +419,7 @@ class MyYeatsScreen extends React.Component {
                                         type='font-awesome'
                                         color='#153b50'
 
-                                        onPress={() => this.removeFav(this.state.arr[20], this.state.arr[21], 6)}
+                                        onPress={() => this.removeFav(this.state.arr[20], this.state.arr[21], this.state.numCards)}
                                     />
                                 </View>
 
@@ -458,7 +455,7 @@ class MyYeatsScreen extends React.Component {
                                         type='font-awesome'
                                         color='#153b50'
 
-                                        onPress={() => this.removeFav(this.state.arr[24], this.state.arr[25], 7)}
+                                        onPress={() => this.removeFav(this.state.arr[24], this.state.arr[25], this.state.numCards)}
                                     />
                                 </View>
 
@@ -494,7 +491,7 @@ class MyYeatsScreen extends React.Component {
                                         type='font-awesome'
                                         color='#153b50'
 
-                                        onPress={() => this.removeFav(this.state.arr[28], this.state.arr[29], 8)}
+                                        onPress={() => this.removeFav(this.state.arr[28], this.state.arr[29], this.state.numCards)}
                                     />
                                 </View>
 
@@ -530,7 +527,7 @@ class MyYeatsScreen extends React.Component {
                                         type='font-awesome'
                                         color='#153b50'
 
-                                        onPress={() => this.removeFav(this.state.arr[32], this.state.arr[33], 9)}
+                                        onPress={() => this.removeFav(this.state.arr[32], this.state.arr[33], this.state.numCards)}
                                     />
                                 </View>
 
@@ -566,7 +563,7 @@ class MyYeatsScreen extends React.Component {
                                         type='font-awesome'
                                         color='#153b50'
 
-                                        onPress={() => this.removeFav(this.state.arr[36], this.state.arr[37], 10)}
+                                        onPress={() => this.removeFav(this.state.arr[36], this.state.arr[37], this.state.numCards)}
                                     />
                                 </View>
 
