@@ -1,17 +1,18 @@
 import React from 'react'
 import firebase from 'firebase'
 
-import {StyleSheet, Text, TextInput, View, Button, Linking, AsyncStorage, Image, Alert} from 'react-native'
+import {StyleSheet, Text, TextInput, View, Button, Linking, AsyncStorage, Image, Alert, ActivityIndicator} from 'react-native'
 
 export default class TritonCardLoginScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { username: '', password: '', errorMessage: null, lastRefresh: Date(Date.now()).toString()};
+        this.state = { username: '', password: '', errorMessage: null, loading: false};
         this.alertbutton = this.alertbutton.bind(this)
     }
 
 
     sleep(ms) {
+        this.setState({loading: true});
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
@@ -44,6 +45,7 @@ export default class TritonCardLoginScreen extends React.Component {
             password: this.state.password
         });
         await this.sleep(15000);
+        this.setState({loading: false});
         //this.myFunc()
         this.checkUser().then(tocheck=> {
             if (tocheck === "wrong") {
@@ -70,6 +72,13 @@ export default class TritonCardLoginScreen extends React.Component {
 
 
     render() {
+        // let data;
+        // if (this.state.loading) {
+        //     data = <View style={[styles.container, styles.horizontal]}>
+        //         <ActivityIndicator size="large" color="#000000"/>
+        //     </View>
+        // }
+        //  else {
         return (
             <View style={styles.container}>
                 <Image
@@ -78,9 +87,10 @@ export default class TritonCardLoginScreen extends React.Component {
                 />
 
                 <Text style={styles.loginPrompt}>Login using your Triton Card Account</Text>
+                <Text style={styles.loginPrompt}>*Will take about 15 seconds*</Text>
                 {this.state.errorMessage &&
-                <Text style={{ color: 'red' }}>
-                {this.state.errorMessage}
+                <Text style={{color: 'red'}}>
+                    {this.state.errorMessage}
                 </Text>}
 
                 <TextInput
@@ -88,7 +98,7 @@ export default class TritonCardLoginScreen extends React.Component {
                     keyboardType={'numeric'}
                     autoCapitalize="none"
                     placeholder="PID (replace 'A' with '9')"
-                    onChangeText={username => this.setState({ username })}
+                    onChangeText={username => this.setState({username})}
                     value={this.state.username}
                 />
                 <TextInput
@@ -96,14 +106,16 @@ export default class TritonCardLoginScreen extends React.Component {
                     style={styles.textInput}
                     autoCapitalize="none"
                     placeholder="Password"
-                    onChangeText={password => this.setState({ password })}
+                    onChangeText={password => this.setState({password})}
                     value={this.state.password}
                 />
 
-                <Button title="Login" onPress={this.handleLogin} />
+                <Button title="Login" onPress={this.handleLogin}/>
                 <Button
                     title="Don't have an account? Tap here to sign up on UCSD's website!"
-                    onPress={() => { Linking.openURL('https://services.jsatech.com/mod_auth/register.php?cid=212') }}
+                    onPress={() => {
+                        Linking.openURL('https://services.jsatech.com/mod_auth/register.php?cid=212')
+                    }}
                 />
             </View>
         )
@@ -118,9 +130,9 @@ const styles = StyleSheet.create({
     },
     logo: {
         width: 500,
-        height: 300,
+        height: 225,
         resizeMode: 'contain',
-        paddingTop: 30,
+        paddingTop: 20,
     },
     textInput: {
         height: 40,
