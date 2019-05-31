@@ -415,20 +415,41 @@ export default class HomeScreen extends React.Component {
  
   // This will allow the user to like a food item
   async likeFood(hour, diningHall, food) {
-    
-    numLikes = firebase.database().ref(hour + diningHall + food + 'Yeats');
+    var _this = this;
+    firebase.database().ref('/'+hour+'/'+diningHall+'/'+food+'/').once('value', function (snapshot) {
 
-    numLikes = numLikes + 1;
+        var numLikes = snapshot.val().Yeats
+        numLikes = numLikes + 1
+        
+        firebase.database().ref('/'+hour+'/'+diningHall+'/'+food).update(
+          {
+          Yeats: numLikes
+          });
+
+        _this.componentDidMount();
+      
+    });
     
-    firebase.database().ref(hour + diningHall + food + 'Yeats').update(
-      {
-        Yeats: numLikes
-      });
 
   }
 
   // This will allow the user to dislike a food item
+  async dislikeFood(hour, diningHall, food) {
+    var _this = this;
+    firebase.database().ref('/'+hour+'/'+diningHall+'/'+food+'/').once('value', function (snapshot) {
 
+        var numLikes = snapshot.val().Yucks
+        numLikes = numLikes - 1;
+
+        firebase.database().ref('/'+hour+'/'+diningHall+'/'+food).update(
+          {
+          Yucks: numLikes   
+          });
+         _this.setState({hour: hour})
+    });
+    _this.componentDidMount();
+
+  }
 
 
 
@@ -446,105 +467,8 @@ export default class HomeScreen extends React.Component {
       console.log("2.0")
   }
 
-  /*
-   * Lists out all Dining Halls (currently only 64 degrees) and all
-   * of the food items available there. Beside each item is an option to
-   * add it to their favorites.
-   */
-  // printFoodItems() {
-  //   var diningHalls = this.state.food;
-  //   var buttonArr = [];
-  //   var hallArr = [];
-  //   var costArr = [];
-  //   let list = [];
-  //   //console.log(diningHalls.length);
-
-  //   // loop through dining halls
-  //   for (let i = 0; i < diningHalls.length; i++) {
-  //     var currHall = diningHalls[i];
-  //     var scrollList = [];
-  //     buttonArr[i] = [];
-  //     costArr[i] = [];
-  //     hallArr[i] = currHall.name;
-  //     list.push(
-  //       // Print out Dining Hall name
-  //       <View style={styles.topDiningHall}>
-  //         <Text style={styles.topDiningHall}> {currHall.name} </Text>
-  //       </View>
-  //     );
-  //     // Loop through all items in said dining hall
-  //     for (let j = 0; j < currHall.items.length; j++) {
-  //       var food = currHall.items[j];
-  //       //console.log(food.info["cost"]);
-  //       buttonArr[i][j] = food.name;
-  //       //costArr[i][j] = food.info[0];
-  //       // Add in food item with its favorite button
-  //       scrollList.push(
-  //         <Card containerStyle={styles.foodItemCard}>
-  //           <Text style={styles.foodName}>
-  //             {food.name}
-  //           </Text>
-
-  //           {/*<Button
-  //                         onPress={()=>
-  //                             this.addFavorite(buttonArr[i][j], hallArr[i], "$10.00")}
-  //                         buttonStyle={styles.likeButton}
-  //                         name={"Favorite" + {j} }
-  //                     />*/}
-
-  //           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-  //             {/* Thumbs up icon will be the button to like */}
-  //             {/* Need to add onPress functionality */}
-  //             <Icon
-  //               name='thumbs-up'
-  //               type='font-awesome'
-  //               color='#153b50'
-  //               size={30}
-  //             />
-
-  //             <Text>     </Text>
-
-  //             {/* Thumbs down icon will be the button to dislike */}
-  //             {/* Need to add onPress functionality */}
-  //             <Icon
-  //               name='thumbs-down'
-  //               type='font-awesome'
-  //               color='#153b50'
-  //               size={30}
-  //             />
-
-  //             <Text>     </Text>
-
-  //             {/* Heart icon will be the button to add to my yeats */}
-  //             {/* Need to add onPress functionality */}
-  //             <Icon
-  //               name='heart'
-  //               type='font-awesome'
-  //               color='#153b50'
-  //               size={30}
-  //             />
-  //           </View>
-  //         </Card>
-  //       );
-  //     }
-
-  //     // Add horizontally scrolling food list
-  //     list.push(
-  //       <ScrollView horizontal={true}>
-  //         {scrollList}
-  //       </ScrollView>
-  //     );
-  //   }
-  //   return list;
-  // }
-
+  
   render() {
-    /* let text = 'Waiting..';
-    if (this.state.errorMessage) {
-      text = this.state.errorMessage;
-    } else if (this.state.location) {
-      text = JSON.stringify(this.state.location);
-    } */
 
     return (
 
@@ -555,10 +479,12 @@ export default class HomeScreen extends React.Component {
 
           <View style={{ top: -27, right: 48, marginBottom: -25 }}>
             <Icon
+              onPress={() => this.likeFood(this.state.hour, item.name, food.name)}
               name='thumbs-up'
               type='font-awesome'
               color='#153b50'
             />
+            
           </View>
 
           <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
@@ -578,6 +504,7 @@ export default class HomeScreen extends React.Component {
 
           <View style={{ top: -27, right: 48, marginBottom: -25 }}>
             <Icon
+              onPress={() => this.dislikeFood(this.state.hour, item.name, food.name)}
               name='thumbs-down'
               type='font-awesome'
               color='#153b50'
@@ -644,7 +571,7 @@ export default class HomeScreen extends React.Component {
               {/* Thumbs down icon will be the button to dislike */}
               {/* Need to add onPress functionality */}
               <Icon
-                onPress={() => console.log(this.state.hour)}
+                onPress={() => this.dislikeFood(this.state.hour, item.name, food.name)}
                 name='thumbs-down'
                 type='font-awesome'
                 color='#153b50'
@@ -657,7 +584,7 @@ export default class HomeScreen extends React.Component {
               {/* Heart icon will be the button to add to my yeats */}
               {/* Need to add onPress functionality */}
               <Icon
-                onPress={() => this.addFavorite(food.name, item.name, food.cost)}
+                onPress={() => this.addFavorite(food.name, item.name, food.cost) }
                 name='heart'
                 type='font-awesome'
                 color='#153b50'
@@ -667,6 +594,7 @@ export default class HomeScreen extends React.Component {
               />
               
             </View>
+            
             <Text>  {"    " + food.yeats} {"     " + food.yucks} </Text>
           </Card>
           
