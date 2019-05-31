@@ -412,7 +412,7 @@ def OrganizeFoodByCuisine(time,init=False):
   #Go through breakfast halls
   for hall in breakfast:
     
-    if hall == '64Degress' or hall == 'Cafe Ventanas' or hall == 'Club Med' or hall == 'FoodWorx' or hall == 'Goody\'s Place' or hall == 'OceanView' or hall == 'Pines':
+    if hall == '64Degrees' or hall == 'Cafe Ventanas' or hall == 'Club Med' or hall == 'FoodWorx' or hall == 'Goody\'s Place' or hall == 'OceanView' or hall == 'Pines':
       
       #Get the food in every hall
       food_list = ref.get()[time][hall]
@@ -466,7 +466,7 @@ def AddYeatsAndYucks(time,init=False):
       for hall in diningHalls:
 
         #Only handle dininghalls
-        if hall == '64Degress' or hall == 'Cafe Ventanas' or hall == 'Club Med' or hall == 'FoodWorx' or hall == 'Goody\'s Place' or hall == 'OceanView' or hall == 'Pines':
+        if hall == '64Degrees':
           food_list = ref.get()[time][hall]
 
           #Go through each food item
@@ -481,8 +481,8 @@ def AddYeatsAndYucks(time,init=False):
             })
 
             print(food + ' has been given ')
-            print('  Yeats: %d',yeat)
-            print('  Yucks: %d',yuck)
+            print('  Yeats: ',yeat)
+            print('  Yucks: ',yuck)
 
             
 # Get the firebase functioning again
