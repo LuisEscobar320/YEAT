@@ -400,27 +400,18 @@ export default class HomeScreen extends React.Component {
     })
   }
 
-
-
-  /* Read current likes */
-  async readNumLikes(currDiningHall, food) {
-    var ref = firebase.database().ref(currDiningHall + food + 'Yeats');
-
-    await ref.once("value");
-
-    return ref;
-  }
-
-  /* Push likes back to firebase */
-  writeNumLikes(currDiningHall, food, Yeats) {
-    firebase.database().ref(currDiningHall + food).update(Yeats);
-  }
-
+ 
   // This will allow the user to like a food item
-  likeFood(currDiningHall, foodItem) {
-    currentLikes = this.readNumLikes(currDiningHall, foodItem)
-    curentLikes = currentLikes + 1
-    this.writeUserData(currDiningHall, foodItem, currentLikes);
+  async likeFood(hour, diningHall, food) {
+    
+    numLikes = firebase.database().ref(hour + diningHall + food + 'Yeats');
+
+    numLikes = numLikes + 1;
+    
+    firebase.database().ref(hour + diningHall + food + 'Yeats').update(
+      {
+        Yeats: numLikes
+      });
 
   }
 
@@ -428,24 +419,19 @@ export default class HomeScreen extends React.Component {
 
 
 
-  // Get food items from the database
-
-
 
   // This will add an item to the favorites
   async addFavorite(food, currHall, cost) {
-    console.log("I am here");
+
     var userID = firebase.auth().currentUser.uid;
-
-    //console.log(userID)
-
-
+    
     firebase.database().ref('/users/' + userID + '/Favorites/' + food).set(
       {
         name: food,
-        price: "This needs to be implemented still",
-        diningHall: currHall
+        diningHall: currHall,
+        price: cost
       });
+      console.log("2.0")
   }
 
   /*
@@ -619,20 +605,25 @@ export default class HomeScreen extends React.Component {
               {/* Thumbs up icon will be the button to like */}
               {/* Need to add onPress functionality */}
               <Icon
+                onPress={() => this.likeFood(this.state.hour, item.name, food.name)}
                 name='thumbs-up'
                 type='font-awesome'
                 color='#153b50'
+                paddingHorizontal={20}
+                paddingBotton={5}
                 size={30}
               />
 
-              <Text>     </Text>
+              
 
               {/* Thumbs down icon will be the button to dislike */}
               {/* Need to add onPress functionality */}
               <Icon
+                onPress={() => console.log(this.state.hour)}
                 name='thumbs-down'
                 type='font-awesome'
                 color='#153b50'
+                paddingBottom={5}
                 size={30}
               />
 
@@ -641,13 +632,19 @@ export default class HomeScreen extends React.Component {
               {/* Heart icon will be the button to add to my yeats */}
               {/* Need to add onPress functionality */}
               <Icon
+                onPress={() => this.addFavorite(food.name, item.name, food.cost)}
                 name='heart'
                 type='font-awesome'
                 color='#153b50'
                 size={30}
+                paddingHorizontal={0}
+                
               />
+              
             </View>
+            <Text>  {"    " + food.yeats} {"     " + food.yucks} </Text>
           </Card>
+          
        ))}
          </ScrollView>
         </View>))}
