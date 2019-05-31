@@ -68,7 +68,7 @@ class MyYeatsScreen extends React.Component {
                 const pbj = {'check': child.key, 'bool': child.val()};
                 items.push(
                     child.key,
-                    child.val().item,
+                    child.val().name,
                     child.val().diningHall,
                     child.val().price,
                 );
@@ -220,7 +220,8 @@ class MyYeatsScreen extends React.Component {
                             <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
-                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[1]} </Text>
+                                           <Text               adjustsFontSizeToFit
+              numberOfLines={1} style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[1]} </Text>
                                        </View>
                                    }>
                                 <Icon
@@ -289,7 +290,8 @@ class MyYeatsScreen extends React.Component {
                             <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
-                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[9]} </Text>
+                                           <Text  adjustsFontSizeToFit={true} minimumFontScale={1} numberOfLines={1} 
+                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[9]} </Text>
                                        </View>
                                    }>
                                 <Icon
