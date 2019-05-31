@@ -465,6 +465,7 @@ export default class HomeScreen extends React.Component {
                 price: cost
             });
         console.log("2.0")
+        alert("Added to My Yeats!")
     }
 
 
@@ -549,7 +550,10 @@ export default class HomeScreen extends React.Component {
                                     { item.food.map((food, key1)=>(
                                         <Card key={key1} containerStyle={styles.foodItemCard}>
                                             <Text style={styles.foodName}>
-                                                {food.name},
+                                                {food.name}
+                                            </Text>
+
+                                            <Text style={styles.foodCost}>
                                                 {food.cost}
                                             </Text>
 
@@ -566,7 +570,7 @@ export default class HomeScreen extends React.Component {
                                                     size={30}
                                                 />
 
-
+                                                <Text>     </Text>
 
                                                 {/* Thumbs down icon will be the button to dislike */}
                                                 {/* Need to add onPress functionality */}
@@ -595,7 +599,9 @@ export default class HomeScreen extends React.Component {
 
                                             </View>
 
-                                            <Text>  {"    " + food.yeats} {"     " + food.yucks} </Text>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                                              <Text>{food.yeats}         {food.yucks}           </Text>
+                                            </View>
                                         </Card>
 
                                     ))}
@@ -677,20 +683,31 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     foodName: {
+        fontSize: 18,
+        color: '#153b50',
+        textAlign: 'center',
+        paddingBottom: 10,
+        fontWeight: 'bold',
+    },
+    foodCost: {
         fontSize: 16,
         color: '#153b50',
         textAlign: 'center',
         paddingBottom: 10,
+        fontWeight: 'bold',
     },
     likeButton: {
         height: 48,
         width: 48,
     },
     topDiningHall: {
-
-        fontSize: 48,
+        color: '#39cbd6',
+        fontSize: 22,
         textAlign: 'left',
         flexDirection: "row",
+        paddingLeft: 12,
+        paddingTop: 10,
+        fontWeight: 'bold',
     },
     developmentModeText: {
         marginBottom: 20,
@@ -777,17 +794,17 @@ const styles = StyleSheet.create({
     header: {
         color: '#153b50',
         fontSize: 28,
-        paddingLeft: 20
+        paddingLeft: 15
     },
     headerTwo: {
         color: '#153b50',
         fontSize: 28,
-        paddingLeft: 20,
+        paddingLeft: 15,
         paddingTop: 15,
     },
     foodItemCard: {
-        width: 175,
-        height: 120,
+        width: 180,
+        height: 160,
         backgroundColor: '#fff',
         borderRadius: 15,
     }
