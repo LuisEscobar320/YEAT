@@ -134,7 +134,7 @@ export default class PreferencesScreen extends React.Component {
             this.setState({checkbox16: bool});
         }
 
-    };z
+    };
     
     // Method saves the user's preferences to Firebase
     savePrefs(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11,
