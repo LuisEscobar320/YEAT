@@ -7,47 +7,13 @@ import {Button, CheckBox, Icon} from 'react-native-elements';
 class ControllerPreferences extends React.Component {
     constructor(props) {
         super(props);
-       
-        // Gets the boolean for all of the boxes
-        this.readUserData("veganCheck");
-        this.readUserData("vegetarianCheck");
-        this.readUserData("noDairyCheck");
-        this.readUserData("noTreeNutsCheck");
-        this.readUserData("noSoyCheck");
-        this.readUserData("noWheatCheck");
-        this.readUserData("noFishCheck");
-        this.readUserData("noShellfishCheck");
-        this.readUserData("noPeanutsCheck");
-        this.readUserData("noEggsCheck");
-        this.readUserData("glutenFreeCheck");
-        this.readUserData("americanCheck");
-        this.readUserData("asianCheck");
-        this.readUserData("indianCheck");
-        this.readUserData("italianCheck");
-        this.readUserData("mexicanCheck");
 
         this.state = {
-            checkbox1: false,
-            checkbox2: false,
-            checkbox3: false,
-            checkbox4: false,
-            checkbox5: false,
-            checkbox6: false,
-            checkbox7: false,
-            checkbox8: false,
-            checkbox9: false,
-            checkbox10: false,
-            checkbox11: false,
-            checkbox12: false,
-            checkbox13: false,
-            checkbox14: false,
-            checkbox15: false,
-            checkbox16: false,
         };
     }
 
-            
-    async readUserData(param) {
+    // Gets the values of the checkboxes from the database        
+    async readUserChecks(param) {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId);
         let bool = false;

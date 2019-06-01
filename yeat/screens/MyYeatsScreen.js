@@ -33,7 +33,7 @@ class MyYeatsScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        this.listenForItems();
+        this.getYeats();
 
         this.state = {
             arr: [],
@@ -53,7 +53,13 @@ class MyYeatsScreen extends React.Component {
 
     }
 
-    async listenForItems() {
+    // Gets yeats from the database by calling the controller
+    getYeats() {
+        this.getYeatsController();
+    }
+
+    // Gets the yeats from the database
+    async getYeatsController() {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId + "/Favorites");
         let bool = false;
@@ -86,8 +92,6 @@ class MyYeatsScreen extends React.Component {
     removeFav(itemNum, fav, cardNum) {
         var userId = firebase.auth().currentUser.uid;
         let ref = firebase.database().ref("users/" + userId + "/Favorites/" + itemNum);
-        console.log("REF ISSSSSSSSSSSSSSSSSS");
-        console.log(ref);
         ref.remove();
         this.removeCard(cardNum);
         alert(fav + ' Removed!')
@@ -141,7 +145,7 @@ class MyYeatsScreen extends React.Component {
         }
     }
 
-
+    // Sets the cards to true if they are to be shown
     showCards(num) {
         if (num > 0) {
             this.setState ({
@@ -195,6 +199,7 @@ class MyYeatsScreen extends React.Component {
         }
     }
 
+    // Returns text if the user has no yeats
     noCards() {
         if (this.state.numCards == 0) {
             return (
@@ -637,9 +642,13 @@ class ProfileScreen extends React.Component {
 
     }
 
+    // Get the user's name and email by calling the controller
+    readUserNameEmail() {
+        this.readUserNameEmailController();
+    }
 
     // Get the user's name and email from database
-    async readUserNameEmail() {
+    async readUserNameEmailController() {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId);
         var userName = '';
