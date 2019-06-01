@@ -51,8 +51,9 @@ export default class TritonCardLoginScreen extends React.Component {
                     value={this.state.password}
                 />
 
-                <Button title="Login" onPress={this.handleLogin} />
-                <Button
+                <Button 
+                    title="Login" onPress={this.handleLogin} />
+                <Button 
                     title="Don't have an account? Tap here to sign up on UCSD's website!"
                     onPress={() => { Linking.openURL('https://services.jsatech.com/mod_auth/register.php?cid=212') }}
                 />

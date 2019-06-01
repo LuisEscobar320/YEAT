@@ -36,22 +36,22 @@ export default class PreferencesScreen extends React.Component {
         super(props);
        
         // Gets the boolean for all of the boxes
-        this.readUserData("veganCheck");
-        this.readUserData("vegetarianCheck");
-        this.readUserData("noDairyCheck");
-        this.readUserData("noTreeNutsCheck");
-        this.readUserData("noSoyCheck");
-        this.readUserData("noWheatCheck");
-        this.readUserData("noFishCheck");
-        this.readUserData("noShellfishCheck");
-        this.readUserData("noPeanutsCheck");
-        this.readUserData("noEggsCheck");
-        this.readUserData("glutenFreeCheck");
-        this.readUserData("americanCheck");
-        this.readUserData("asianCheck");
-        this.readUserData("indianCheck");
-        this.readUserData("italianCheck");
-        this.readUserData("mexicanCheck");
+        this.setChecks("veganCheck");
+        this.setChecks("vegetarianCheck");
+        this.setChecks("noDairyCheck");
+        this.setChecks("noTreeNutsCheck");
+        this.setChecks("noSoyCheck");
+        this.setChecks("noWheatCheck");
+        this.setChecks("noFishCheck");
+        this.setChecks("noShellfishCheck");
+        this.setChecks("noPeanutsCheck");
+        this.setChecks("noEggsCheck");
+        this.setChecks("glutenFreeCheck");
+        this.setChecks("americanCheck");
+        this.setChecks("asianCheck");
+        this.setChecks("indianCheck");
+        this.setChecks("italianCheck");
+        this.setChecks("mexicanCheck");
 
         this.state = {
             checkbox1: false,
@@ -74,7 +74,7 @@ export default class PreferencesScreen extends React.Component {
     }
 
             
-    async readUserData(param) {
+    async setChecks(param) {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId);
         let bool = false;
@@ -141,7 +141,7 @@ export default class PreferencesScreen extends React.Component {
             ch12, ch13, ch14, ch15, ch16) {
         firebase.auth().onAuthStateChanged(user=> {
             if(user) {
-                firebase.database().ref('/users/' + user.uid + '/preferences/').update(
+                firebase.database().ref('/users/' + user.uid + '/preferences').update(
                     {
                         veganCheck: ch1,
                         vegetarianCheck: ch2,

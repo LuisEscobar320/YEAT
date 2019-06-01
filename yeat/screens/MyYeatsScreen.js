@@ -79,7 +79,6 @@ class MyYeatsScreen extends React.Component {
                 arr: items,
                 numCards: num
             });
-
         });
     }
 
@@ -203,21 +202,23 @@ class MyYeatsScreen extends React.Component {
                     You have no favorites yet.{'\n'}
                     Tap on the heart for any food item {'\n'} and it will be added to My Yeats!
                 </Text>
-            );
+            );  
         }
     }
 
     render() {
         return (
+            
             <View style={{ flex: 1, justifyContent: "center" }}>
+                {this.noCards}
                 <ScrollView style={styles.container}>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        {this.noCards()}
                         {this.state.showCard1 ? (
                             <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
-                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[1]} </Text>
+                                           <Text               adjustsFontSizeToFit
+              numberOfLines={1} style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[1]} </Text>
                                        </View>
                                    }>
                                 <Icon
@@ -250,7 +251,9 @@ class MyYeatsScreen extends React.Component {
                             <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
-                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[5]} </Text>
+                                           <Text adjustsFontSizeToFit={true} minimumFontScale={1} numberOfLines={1}
+                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10,}} > {this.state.arr[5]} </Text>
+
                                        </View>
                                    }>
 
@@ -286,7 +289,8 @@ class MyYeatsScreen extends React.Component {
                             <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
-                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[9]} </Text>
+                                           <Text  adjustsFontSizeToFit={true} minimumFontScale={1} numberOfLines={1} 
+                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[9]} </Text>
                                        </View>
                                    }>
                                 <Icon

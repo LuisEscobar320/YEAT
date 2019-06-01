@@ -1,13 +1,16 @@
 import React from 'react'
 import firebase from 'firebase'
 import { StyleSheet, Text, TextInput, View, Button, Linking } from 'react-native'
+import {createStackNavigator, createAppContainer} from 'react-navigation';
 export default class BudgetScreen extends React.Component {
+
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>
                     Welcome to Budget!
                 </Text>
+
             </View>
         )
     }

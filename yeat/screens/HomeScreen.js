@@ -39,7 +39,7 @@ export default class HomeScreen extends React.Component {
             //right: Platform.OS ==='android' ? 0 : 93,
         },
         /*headerRight: (
-            <Icon size={40}
+            <Icon size={40} 
             iconStyle = {{ right: 150, top: Platform.OS === 'android' ? 7 : 3}}
             name='cog'
             type='font-awesome'
@@ -475,55 +475,59 @@ export default class HomeScreen extends React.Component {
 
             <View style={styles.container}>
                 <ScrollView style={styles.container} >
-
+                    <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text style={styles.header}>Yeatiest</Text>
-
-                    <View style={{ top: -27, right: 48, marginBottom: -25 }}>
+                    
+                    
+                    <View style={{ left:15, top: 5}}>
                         <Icon
                             onPress={() => this.likeFood(this.state.hour, item.name, food.name)}
                             name='thumbs-up'
                             type='font-awesome'
                             color='#153b50'
                         />
+                    <Text style={{color: '#153b50', fontSize: 28,left:38,top:-30}}>{this.state.yeatiest.yeats}</Text>
 
                     </View>
+                    </View>
 
-                    <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                    <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15,top:-10 }}
                           title={
                               <View style={{ alignItems: 'flex-start' }}>
                                   <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} >
-                                      {this.state.yeatiest.name},
-                                      {this.state.yeatiest.yeats},
-                                      {this.state.yeatiest.yucks},
-                                      {this.state.yeatiest.cost},
-                                      {this.state.yeatiest.hall}
+                                      {this.state.yeatiest.name}
                                   </Text>
                               </View>
                           }>
+                              <Text style={{color:"#fff"}}>{this.state.yeatiest.cost}</Text>
+                              <Text style={{color:"#fff"}}>{this.state.yeatiest.hall}</Text>
                     </Card>
-                    <Text style={styles.headerTwo}>Yuckiest</Text>
+                    <View style={{flex: 1, flexDirection: 'row'}}>
+                        <Text style={styles.headerTwo}>Yuckiest</Text>
+                        
+                        <View style={{ left:15, top: 20}}>
+                            <Icon
+                                onPress={() => this.dislikeFood(this.state.hour, item.name, food.name)}
+                                name='thumbs-down'
+                                type='font-awesome'
+                                color='#153b50'
+                            />
+                        <Text style={{color: '#153b50', fontSize: 28,left:38,top:-30}}>{this.state.yuckiest.yucks}</Text>
 
-                    <View style={{ top: -27, right: 48, marginBottom: -25 }}>
-                        <Icon
-                            onPress={() => this.dislikeFood(this.state.hour, item.name, food.name)}
-                            name='thumbs-down'
-                            type='font-awesome'
-                            color='#153b50'
-                        />
+                        </View>
                     </View>
+
 
                     <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                           title={
                               <View style={{ alignItems: 'flex-start' }}>
                                   <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} >
-                                      {this.state.yuckiest.name},
-                                      {this.state.yuckiest.yeats},
-                                      {this.state.yuckiest.yucks},
-                                      {this.state.yuckiest.cost},
-                                      {this.state.yuckiest.hall}
+                                      {this.state.yuckiest.name}
                                   </Text>
                               </View>
                           }>
+                              <Text style={{color:"#fff"}}>{this.state.yuckiest.cost}</Text>
+                              <Text style={{color:"#fff"}}>{this.state.yuckiest.hall}</Text>
                     </Card>
 
                     <Text style={styles.headerTwo}>Dining Halls</Text>
