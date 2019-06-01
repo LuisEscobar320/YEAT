@@ -18,14 +18,6 @@ import { Dimensions } from 'react-native'
     //         console.log(bool);
     // });
 export default class BudgetScreen extends React.Component {
-    var userId = firebase.auth().currentUser.uid;
-    var ref = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2");
-
-    var currentDate = new Date();
-    var endDate = new Date(2019, 5, 14); // hard-coded date for end of academic year
-    var daysLeft = 0;
-    var balance = 0;
-
     pullBudgetFromFireBase() {
 
     }
@@ -73,33 +65,37 @@ export default class BudgetScreen extends React.Component {
 
 
         });
-        await(dailyBudget);
+        //await(dailyBudget);
 
         
         
 
         // find this week's spending
-        
-        currentDate = new Date();
+        currentDate = new Date(2019, 4, 31);
         var query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
         while(currentDate.getDay() != 6) {
+	  //console.log(currentDate.toDateString().substr(4, 3));
           query.once("value")
             .then(function(snapshot) {
               snapshot.forEach(function(childSnapshot) {
+		var array = childSnapshot.key.split("_");   
+		console.log(currentDate.toDateString().substr(4, 11));
+		console.log(array[0]);
                 if(currentDate.toDateString().substr(4, 3) != childSnapshot.key.substr(0, 3)) {
-         query = firebase.database().ref("users/" + userId + "/tritoncard/lastmonth").orderByKey();
-        }
-        else if(currentDate.toDateString().substr(4, 11) == childSnapshot.key.substr(0, 11)) {
+                  query = firebase.database().ref("users/" + userId + "/tritoncard/lastmonth").orderByKey();
+                }
+        	else if(currentDate.toDateString().substr(4, 11) == array[0]) {
+		  console.log("hope");
                   thisWeeksTotal += parseFloat(childSnapshot.val());
                 }
-                else if(currentDate.toDateString().substr(4, 11) < childSnapshot.key.substr(0, 11)) {
+                else if(currentDate.toDateString().substr(4, 11) < array[0]) {
                   return true;
                 }
             });
           });
           currentDate.setDate(currentDate.getDate() - 1);
         }
-        console.log("this weeks total" +thisWeeksTotal);
+        console.log("this weeks total " +thisWeeksTotal);
 
         // // then find previous 3 weeks spending
         // var previousWeeks = [0, 0, 0];
@@ -133,11 +129,8 @@ export default class BudgetScreen extends React.Component {
         const keys = [ 'Wk1', 'Wk2', 'Wk3', 'Wk4', 'Wk4']
 
         const data = [
-  { name: 'Seoul', population: 30, color: 'rgba(131, 167, 234, 1)', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-  { name: 'Toronto', population: 40, color: '#F00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-  { name: 'Beijing', population: 10, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-  { name: 'New York', population: 20, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-  { name: 'Moscow', population: 0, color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F', legendFontSize: 15 }
+  { name: 'Amount Spent Today', amount: 30, color: 'rgba(131, 167, 234, 1)', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+  { name: 'Remaining Balance for Today', amount: 40, color: '#F00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
 ]
 
         return (
@@ -162,15 +155,15 @@ export default class BudgetScreen extends React.Component {
         borderRadius: 16
       }
     }}
-
-    accessor="population"
+    accessor="amount"
+    backgroundColor="#00C6D7"
     paddingLeft="0" // how far pi chart is from left of screen
     absolute
   />
 
   <BarChart
     data={{
-      labels: ['Wk1', 'Wk2', 'Wk3', 'Wk4', 'Wk5'],
+      labels: ['3 weeks ago', '2 weeks ago', '1 week ago', 'This week', 'Wk5'],
       datasets: [{
         data: [
           30,
