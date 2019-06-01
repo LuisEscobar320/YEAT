@@ -491,7 +491,7 @@ export default class HomeScreen extends React.Component {
                     </View>
                     </View>
 
-                    <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15,top:-10 }}
+                    <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, top:-5, marginTop: 0 }}
                           title={
                               <View style={{ alignItems: 'flex-start' }}>
                                   <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} >
@@ -518,7 +518,7 @@ export default class HomeScreen extends React.Component {
                     </View>
 
 
-                    <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                    <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, marginTop: 8 }}
                           title={
                               <View style={{ alignItems: 'flex-start' }}>
                                   <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} >
@@ -808,7 +808,7 @@ const styles = StyleSheet.create({
     },
     foodItemCard: {
         width: 180,
-        height: 160,
+        height: 170,
         backgroundColor: '#fff',
         borderRadius: 15,
     }

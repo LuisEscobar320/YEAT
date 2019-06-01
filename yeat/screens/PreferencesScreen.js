@@ -141,7 +141,7 @@ export default class PreferencesScreen extends React.Component {
             ch12, ch13, ch14, ch15, ch16) {
         firebase.auth().onAuthStateChanged(user=> {
             if(user) {
-                firebase.database().ref('/users/' + user.uid + '/preferences').update(
+                firebase.database().ref('/users/' + user.uid + '/preferences/').update(
                     {
                         veganCheck: ch1,
                         vegetarianCheck: ch2,
