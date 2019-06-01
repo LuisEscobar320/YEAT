@@ -474,35 +474,37 @@ export default class HomeScreen extends React.Component {
 
       <View style={styles.container}>
         <ScrollView style={styles.container} >
-
+        <View style={{flex: 1, flexDirection: 'row'}}>
           <Text style={styles.header}>Yeatiest</Text>
-
-          <View style={{ top: -27, right: 48, marginBottom: -25 }}>
+          <Text style={{color: '#153b50', fontSize: 28, left: 70, /*top:-40*/}}>{this.state.yeatiest.yeats}</Text>
+          <View style={{ top: 10, right: 10, /*marginBottom: -25 */}}>
             <Icon
               onPress={() => this.likeFood(this.state.hour, item.name, food.name)}
               name='thumbs-up'
               type='font-awesome'
-              color='#153b50'
+              color='#153b50' 
             />
             
           </View>
+        </View>
 
-          <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+          <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, top: -2 }}
             title={
               <View style={{ alignItems: 'flex-start' }}>
-                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > 
-                {this.state.yeatiest.name},
-                {this.state.yeatiest.yeats},
-                {this.state.yeatiest.yucks},
-                {this.state.yeatiest.cost},
-                {this.state.yeatiest.hall}
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 0, top: -10 }} > 
+                {this.state.yeatiest.name}
                 </Text>
               </View>
             }>
-          </Card>
-          <Text style={styles.headerTwo}>Yuckiest</Text>
+              <Text style ={{fontSize: 20, color: '#fff'}}>{this.state.yeatiest.hall}</Text>
+              <Text style = {{fontSize:20, color:'#fff'}}>{this.state.yeatiest.cost}</Text>
 
-          <View style={{ top: -27, right: 48, marginBottom: -25 }}>
+          </Card>
+
+          <View style={{flex: 1, flexDirection: 'row'}}>
+          <Text style={styles.headerTwo}>Yuckiest</Text>
+          <Text style={{color: '#153b50', fontSize: 28, left: 65, top:13}}>{this.state.yuckiest.yucks}</Text>
+          <View style={{ top: 20, right: 20, marginBottom: -25 }}>
             <Icon
               onPress={() => this.dislikeFood(this.state.hour, item.name, food.name)}
               name='thumbs-down'
@@ -510,19 +512,19 @@ export default class HomeScreen extends React.Component {
               color='#153b50'
             />
           </View>
+          </View>
 
           <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
             title={
               <View style={{ alignItems: 'flex-start' }}>
-                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > 
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10 }} > 
                 {this.state.yuckiest.name}, 
-                {this.state.yuckiest.yeats},
-                {this.state.yuckiest.yucks},
-                {this.state.yuckiest.cost},
-                {this.state.yuckiest.hall}
                 </Text>
               </View>
             }>
+              <Text style ={{fontSize: 20,color: '#fff'}}>{this.state.yuckiest.hall}</Text>
+              <Text style = {{fontSize: 20,color:'#fff'}}>{this.state.yuckiest.cost}</Text>
+
           </Card>
 
           <Text style={styles.headerTwo}>Dining Halls</Text>

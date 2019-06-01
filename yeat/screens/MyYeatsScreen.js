@@ -251,7 +251,8 @@ class MyYeatsScreen extends React.Component {
                             <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
-                                           <Text style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10, margin: 10 }} > {this.state.arr[5]} </Text>
+                                           <Text adjustsFontSizeToFit={true} minimumFontScale={1} numberOfLines={1}
+                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10,}} > {this.state.arr[5]} </Text>
                                        </View>
                                    }>
 
