@@ -439,7 +439,7 @@ export default class HomeScreen extends React.Component {
         firebase.database().ref('/'+hour+'/'+diningHall+'/'+food+'/').once('value', function (snapshot) {
 
             var numLikes = snapshot.val().Yucks
-            numLikes = numLikes - 1;
+            numLikes = numLikes + 1;
 
             firebase.database().ref('/'+hour+'/'+diningHall+'/'+food).update(
                 {
