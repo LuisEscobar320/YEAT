@@ -479,7 +479,7 @@ export default class HomeScreen extends React.Component {
 
           <View style={{ top: -27, right: 48, marginBottom: -25 }}>
             <Icon
-              onPress={() => this.likeFood(this.state.hour, item.name, food.name)}
+              onPress={() => this.likeFood(this.state.hour, this.state.yeatiest.hall, this.state.yeatiest.name)}
               name='thumbs-up'
               type='font-awesome'
               color='#153b50'
@@ -504,7 +504,7 @@ export default class HomeScreen extends React.Component {
 
           <View style={{ top: -27, right: 48, marginBottom: -25 }}>
             <Icon
-              onPress={() => this.dislikeFood(this.state.hour, item.name, food.name)}
+              onPress={() => this.dislikeFood(this.state.hour, this.state.yuckiest.hall, this.state.yuckiest.name)}
               name='thumbs-down'
               type='font-awesome'
               color='#153b50'
