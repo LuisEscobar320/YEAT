@@ -1,12 +1,13 @@
 import firebase from 'firebase';
 import React from 'react';
 
+/*
+ControllerPreferences class grabs the user's preferences from
+the database and saves the user's preferences to the database
+ */
 class ControllerPreferences extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-        };
     }
 
     // Gets the values of the checkboxes from the database        

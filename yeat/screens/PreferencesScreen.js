@@ -1,8 +1,13 @@
 import React from 'react';
 import {StyleSheet, ScrollView, Text, View} from 'react-native';
-import {Button, CheckBox, Icon} from 'react-native-elements';
+import {Button, CheckBox} from 'react-native-elements';
 import ControllerPreferences from "./ControllerPreferences.js";
 
+/*
+PreferencesScreen class renders the Preferences screen of the app
+Shows the checkboxes of Dietary Restrictions and Cuisines and the
+user has the ability to check and save their preferences
+ */
 export default class PreferencesScreen extends React.Component {
     static navigationOptions = {
         title: 'Preferences',
@@ -72,7 +77,8 @@ export default class PreferencesScreen extends React.Component {
         };
     }
 
-            
+    // Method sets the checkboxes to be checked or unchecked depending
+    // on whether that value in the database is true or false
     async setChecks(param) {
         // Calls the controller to get values from the database
         let bool = await ControllerPreferences.readUserChecks(param);
@@ -139,7 +145,10 @@ export default class PreferencesScreen extends React.Component {
 
     }
 
-
+    /* Renders the Preferences screen - shows the checkboxes under the
+    headings Dietary Restrictions and Cuisines and the user can check
+    and save their preferences
+    */
     render() {
         return (
             <View style={{ flex: 1, justifyContent: "center" }}>

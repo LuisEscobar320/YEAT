@@ -4,6 +4,11 @@ import {Image, StyleSheet, ScrollView, Text, View} from "react-native";
 import {Button, Card, Icon} from 'react-native-elements';
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 
+/*
+MyYeatsScreen class renders the My Yeats screen of the app
+Shows the user up to 10 food items that they have "favorited"
+on the Feed screen
+ */
 class MyYeatsScreen extends React.Component {
     static navigationOptions = {
         title: 'My Yeats',
@@ -42,12 +47,12 @@ class MyYeatsScreen extends React.Component {
 
     }
 
-    // Gets yeats from the database by calling the controller
+    // Method gets yeats (favorites) from the database by calling the controller
     getYeats() {
         this.getYeatsController();
     }
 
-    // Gets the yeats from the database
+    // Method gets the yeats (favorites) from the database
     async getYeatsController() {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId + "/Favorites");
@@ -76,7 +81,7 @@ class MyYeatsScreen extends React.Component {
         });
     }
 
-    // Removes food item from my yeats
+    // Method removes food item from My Yeats
     removeFav(itemNum, fav, cardNum) {
         var userId = firebase.auth().currentUser.uid;
         let ref = firebase.database().ref("users/" + userId + "/Favorites/" + itemNum);
@@ -85,7 +90,7 @@ class MyYeatsScreen extends React.Component {
         alert(fav + ' Removed!')
     }
 
-    // Removes the card component when food is removed from my yeats
+    // Method removes the card component when food is removed from My Yeats
     removeCard(num) {
         if (num === 1) {
             this.setState({
@@ -133,7 +138,7 @@ class MyYeatsScreen extends React.Component {
         }
     }
 
-    // Sets the cards to true if they are to be shown
+    // Method sets the cards to true if they are to be shown
     showCards(num) {
         if (num > 0) {
             this.setState ({
@@ -187,7 +192,7 @@ class MyYeatsScreen extends React.Component {
         }
     }
 
-    // Returns text if the user has no yeats
+    // Method returns text if the user has no yeats
     noCards() {
         if (this.state.numCards === 0) {
             return (
