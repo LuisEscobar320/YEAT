@@ -68,8 +68,7 @@ class MyYeatsScreen extends React.Component {
                     child.val().price,
                 );
             });
-            console.log("item[0] is");
-            console.log(items[0]);
+
             this.setState({
                 arr: items,
                 numCards: num
@@ -375,7 +374,7 @@ class MyYeatsScreen extends React.Component {
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {styles.cardTitleStyle} > {this.state.arr[25]}
+                                           style = {styles.cardTitleStyle} >{this.state.arr[25]}
                                            </Text>
                                        </View>
                                    }>

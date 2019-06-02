@@ -292,7 +292,7 @@ export default class HomeScreen extends React.Component {
                 function () {
                     console.log("setState completed", this.state.food.length);
                     console.log(foodarr[0].name) });
-            //console.log(_this.state.food.items[0].info)
+
             callback();
         });
 
@@ -384,7 +384,6 @@ export default class HomeScreen extends React.Component {
         this.setState({
             food: foodarr // update the filtered food array to the state attribute
         }, function () {
-            console.log("updated 64");
             _this.state.food[0].items.forEach(function (data) {
                 console.log(data.name)
             });
@@ -481,7 +480,7 @@ export default class HomeScreen extends React.Component {
                             type='font-awesome'
                             color='#153b50'
                         />
-                    <Text style={{color: '#153b50', fontSize: 28,left:38,top:-30}}>{this.state.yeatiest.yeats}</Text>
+                    <Text style={{color: '#153b50', fontSize: 25, left: 38, top: -25}}>{this.state.yeatiest.yeats}</Text>
 
                     </View>
                     </View>
@@ -519,7 +518,7 @@ export default class HomeScreen extends React.Component {
                                 type='font-awesome'
                                 color='#153b50'
                             />
-                        <Text style={{color: '#153b50', fontSize: 28,left:38,top:-30}}>{this.state.yuckiest.yucks}</Text>
+                        <Text style={{color: '#153b50', fontSize: 25, left: 38, top: -25}}>{this.state.yuckiest.yucks}</Text>
 
                         </View>
                     </View>

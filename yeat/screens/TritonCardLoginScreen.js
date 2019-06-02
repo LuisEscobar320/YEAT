@@ -1,6 +1,7 @@
-import React from 'react'
-import firebase from 'firebase'
-import {StyleSheet, Text, TextInput, View, Button, Linking, AsyncStorage, Image} from 'react-native'
+import React from 'react';
+import firebase from 'firebase';
+import {StyleSheet, Text, TextInput, View, Linking, AsyncStorage, Image} from 'react-native';
+import {Button} from 'react-native-elements';
 
 export default class TritonCardLoginScreen extends React.Component {
     constructor(props) {
@@ -14,10 +15,10 @@ export default class TritonCardLoginScreen extends React.Component {
         ref.child("tritoncard").set({
             username: this.state.username,
             password: this.state.password
-        })
-        await AsyncStorage.setItem('loggedIn', 'true')
-        this.props.navigation.navigate('Budget')
-    }
+        });
+        await AsyncStorage.setItem('loggedIn', 'true');
+        this.props.navigation.navigate('Budget');
+    };
 
 
     render() {
@@ -51,12 +52,22 @@ export default class TritonCardLoginScreen extends React.Component {
                     value={this.state.password}
                 />
 
-                <Button 
-                    title="Login" onPress={this.handleLogin} />
-                <Button 
-                    title="Don't have an account? Tap here to sign up on UCSD's website!"
-                    onPress={() => { Linking.openURL('https://services.jsatech.com/mod_auth/register.php?cid=212') }}
-                />
+                <View style={styles.buttonContainer}>
+                    <View style={styles.loginContainer}>
+                        <Button
+                            title="Login" onPress={this.handleLogin}
+                            buttonStyle={styles.button}
+                        />
+                    </View>
+
+                    <View style={styles.signUpContainer}>
+                        <Button
+                            title="Sign Up"
+                            onPress={() => { Linking.openURL('https://services.jsatech.com/mod_auth/register.php?cid=212') }}
+                            buttonStyle={styles.button}
+                        />
+                    </View>
+                </View>
             </View>
         )
     }
@@ -72,7 +83,6 @@ const styles = StyleSheet.create({
         width: 500,
         height: 300,
         resizeMode: 'contain',
-        paddingTop: 30,
     },
     textInput: {
         height: 40,
@@ -80,10 +90,31 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         borderWidth: 1,
         marginTop: 8,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        borderRadius: 15,
     },
     loginPrompt: {
         fontSize: 18,
-        color: '#fff'
+        color: '#fff',
+    },
+    button: {
+        backgroundColor: '#153b50',
+        borderRadius: 15,
+    },
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 18
+    },
+    loginContainer: {
+        flex: 1,
+        marginLeft: 18,
+        marginRight: 5,
+    },
+    signUpContainer: {
+        flex: 1,
+        marginRight: 18,
+        marginLeft: 5,
     },
 });

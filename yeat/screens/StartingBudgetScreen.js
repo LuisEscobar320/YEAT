@@ -26,7 +26,7 @@ export default class StartingBudgetScreen extends React.Component {
         return (
             <View>
                 <Button
-                    title="Get the fuck back "
+                    title=""
                     onPress={() => navigate('TritonCardLoginScreen')}
                 />
             </View>
