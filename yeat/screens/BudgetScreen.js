@@ -306,13 +306,13 @@ export default class BudgetScreen extends React.Component {
       }]
     }}
     width={Dimensions.get('window').width} // from react-native
-    height={800}
+    height={600}
     yAxisLabel={'$'}
     chartConfig={{
       paddingTop: 300,
       backgroundColor: '#00C6D7',
-      backgroundGradientFrom: '#39cbd6',
-      backgroundGradientTo: '#39cbd6',
+      backgroundGradientFrom: '#00C6D7',
+      backgroundGradientTo: '#00C6D7',
       decimalPlaces: 2, // optional, defaults to 2dp
       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       style: {
@@ -323,7 +323,7 @@ export default class BudgetScreen extends React.Component {
     style={{
       marginVertical: 0, // How far top edge of graph is from top edge
                           // of phone.
-      borderRadius: 16 // 
+      borderRadius: 0 // 
     }}
   />
 </View>
