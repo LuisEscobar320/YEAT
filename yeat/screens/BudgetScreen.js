@@ -266,18 +266,23 @@ export default class BudgetScreen extends React.Component {
             // }
                 
             // </Text>);
-  // <Text>
-  //  Bezier Line Chart
-  //  what is up
-  // </Text>
+  
   <View>
+  <Text>
+
+
+  
+   Bezier Line Chart
+   what is up
+  </Text>
+
   <PieChart
-    data = {[{name: 'Amount Spent Today', amount: this.state.data[3], color: '#F6FD00', legendFontColor: '#7F7F7F', legendFontSize: 12},
-             {name: 'Remaining for Today', amount: (this.state.data[1] - this.state.data[3]), color: '#05FD00', legendFontColor: '#7F7F7F', legendFontSize: 12}]}
+    data = {[{name: 'Spent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
+             {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
     width={Dimensions.get('window').width}
-    height={220}
+    height={200}
     chartConfig={{
-      paddingTop: 10000,
+      paddingTop: 10000000000000,
       backgroundColor: '#39cbd6',
       backgroundGradientFrom: '#39cbd6',
       backgroundGradientTo: '#153B50',
@@ -287,9 +292,14 @@ export default class BudgetScreen extends React.Component {
         borderRadius: 16
       }
     }}
+    backgroundColor = "#FFFFFF"
     accessor="amount"
-    backgroundColor="#00C6D7"
-    paddingLeft="0" // how far pi chart is from left of screen
+    // backgroundColor="#FFFFFF"
+    style= {{
+      marginVertical:24,
+      borderRadius: 0
+    }}
+    paddingLeft="-8" // how far pi chart is from left of screen
     absolute
   />
 
@@ -301,20 +311,20 @@ export default class BudgetScreen extends React.Component {
           this.state.data[7],
           this.state.data[6],
           this.state.data[5],
-	  this.state.data[4]
+	        this.state.data[4]
         ]
       }]
     }}
     width={Dimensions.get('window').width} // from react-native
-    height={600}
+    height={580}
     yAxisLabel={'$'}
     chartConfig={{
       paddingTop: 300,
-      backgroundColor: '#00C6D7',
-      backgroundGradientFrom: '#00C6D7',
-      backgroundGradientTo: '#00C6D7',
+      backgroundColor: '#FFFFFF',
+      backgroundGradientFrom: '#FFFFFF',
+      backgroundGradientTo: '#FFFFFF',
       decimalPlaces: 2, // optional, defaults to 2dp
-      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+      color: (opacity = 1) => `rgba(21, 59, 80, ${opacity})`,
       style: {
         borderRadius: 16
       }
