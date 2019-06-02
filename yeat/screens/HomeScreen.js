@@ -448,8 +448,6 @@ export default class HomeScreen extends React.Component {
 
     }
 
-
-
     // This will add an item to the favorites
     async addFavorite(food, currHall, cost) {
 
@@ -461,7 +459,7 @@ export default class HomeScreen extends React.Component {
                 diningHall: currHall,
                 price: cost
             });
-        console.log("2.0");
+
         alert("Added to My Yeats!");
     }
 
@@ -491,14 +489,24 @@ export default class HomeScreen extends React.Component {
                     <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, top:-5, marginTop: 0 }}
                           title={
                               <View style={{ alignItems: 'flex-start' }}>
-                                  <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 5, top: -10 }} >
+                                  <Text adjustsFontSizeToFit numberOfLines={1}
+                                        style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 5, top: -10 }} >
                                       {this.state.yeatiest.name}
                                   </Text>
                               </View>
                           }>
 
-                        <Text style={{color: "#fff", fontSize: 20}}>{this.state.yeatiest.hall}</Text>
-                        <Text style={{color: "#fff", fontSize: 20}}>{this.state.yeatiest.cost}</Text>
+                        <Text style={{color: "#fff", fontSize: 18}}>{this.state.yeatiest.hall}</Text>
+                        <Text style={{color: "#fff", fontSize: 18}}>{this.state.yeatiest.cost}</Text>
+
+                        <View style={styles.heartStyle}>
+                            <Icon
+                                name='heart'
+                                type='font-awesome'
+                                color='#153b50'
+                                onPress={() => this.addFavorite(this.state.yeatiest.name, this.state.yeatiest.hall, this.state.yeatiest.cost)}
+                            />
+                        </View>
 
                     </Card>
                     <View style={{flex: 1, flexDirection: 'row'}}>
@@ -520,29 +528,28 @@ export default class HomeScreen extends React.Component {
                     <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, marginTop: 8 }}
                           title={
                               <View style={{ alignItems: 'flex-start' }}>
-                                  <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 5, top: -10 }} >
+                                  <Text adjustsFontSizeToFit numberOfLines={1}
+                                        style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 5, top: -10 }} >
                                       {this.state.yuckiest.name}
                                   </Text>
                               </View>
                           }>
-                              <Text style={{color: "#fff", fontSize: 20}}>{this.state.yuckiest.hall}</Text>
-                              <Text style={{color: "#fff", fontSize: 20}}>{this.state.yuckiest.cost}</Text>
+
+                        <Text style={{color: "#fff", fontSize: 18}}>{this.state.yuckiest.hall}</Text>
+                        <Text style={{color: "#fff", fontSize: 18}}>{this.state.yuckiest.cost}</Text>
+
+                        <View style={styles.heartStyle}>
+                            <Icon
+                                name='heart'
+                                type='font-awesome'
+                                color='#153b50'
+                                onPress={() => this.addFavorite(this.state.yuckiest.name, this.state.yuckiest.hall, this.state.yuckiest.cost)}
+                            />
+                        </View>
+
                     </Card>
 
                     <Text style={styles.headerTwo}>Dining Halls</Text>
-
-                    {/*
-<View style={styles.container}>
-  <Text style={styles.paragraph}>{text}</Text>
-</View>
-*/}
-
-                    {/* sort dining halls based on location */}
-                    {/*<View style={styles.container}>
-  { this.state.diningHalls.map((item, key)=>(
-  <Text key={key} style={styles.getStartedText}> { item.name } </Text>)
-  )}
-  </View>*/}
 
                     {/* Prints out Dining Halls alongside all food items within them */}
                     <View style={styles.container}>
@@ -607,23 +614,6 @@ export default class HomeScreen extends React.Component {
                                 </ScrollView>
                             </View>))}
                     </View>
-                    {/*
-          <View>
-            {this.printFoodItems()}
-          </View>
-    */}
-
-
-                    {/* Print Closest Dining Hall */}
-                    {/* <View style={styles.topDiningHall}>
-            <Text style={styles.topDiningHall}> {this.state.diningHalls[0].name} </Text>
-
-          </View> */}
-
-                    {/* Janked together a example to add item to favorites
- THIS NEEDS TO BE REPLACED WITH SOMETHING THAT ACTUALLY IS DYNAMIC*/}
-
-
                 </ScrollView>
             </View>
 
@@ -631,39 +621,6 @@ export default class HomeScreen extends React.Component {
 
 
     }
-
-    _maybeRenderDevelopmentModeWarning() {
-        if (__DEV__) {
-            const learnMoreButton = (
-                <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-                    Learn more
-                </Text>
-            );
-
-            return (
-                <Text style={styles.developmentModeText}>
-                    Development mode is enabled, your app will be slower but you can use useful development
-                    tools. {learnMoreButton}
-                </Text>
-            );
-        } else {
-            return (
-                <Text style={styles.developmentModeText}>
-                    You are not in development mode, your app will run at full speed.
-                </Text>
-            );
-        }
-    }
-
-    _handleLearnMorePress = () => {
-        WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-    };
-
-    _handleHelpPress = () => {
-        WebBrowser.openBrowserAsync(
-            'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-        );
-    };
 }
 
 const styles = StyleSheet.create({
@@ -672,11 +629,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     foodItem: {
-        //height: 130,
-        //width: 130,
         marginLeft: 20,
         borderWidth: 0.5,
-        //borderColor: 'black',
         fontSize: 32,
         textAlign: 'center',
         flexDirection: "row",
@@ -806,5 +760,9 @@ const styles = StyleSheet.create({
         height: 170,
         backgroundColor: '#fff',
         borderRadius: 15,
+    },
+    heartStyle: {
+        top: 22,
+        right: -137
     }
 });
