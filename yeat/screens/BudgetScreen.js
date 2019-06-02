@@ -18,12 +18,18 @@ import { Dimensions } from 'react-native'
     //         console.log(bool);
     // });
 export default class BudgetScreen extends React.Component {
-    pullBudgetFromFireBase() {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: null
+        }
     }
 
-
-    render() {
+    componentDidMount(){
+        this.calculateWeeklySpending()
+    }
+    async calculateBudget(callback) {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2");
 
@@ -53,7 +59,7 @@ export default class BudgetScreen extends React.Component {
         var query;
         var thisWeeksTotal = 0;
 
-        ref.once("value")
+        await ref.once("value")
         .then(function(snapshot) {
             balance = parseFloat(snapshot.child("tritoncard/balance").val());
             // then calculate daily and weekly budgets
@@ -62,40 +68,112 @@ export default class BudgetScreen extends React.Component {
             console.log("daily budget: $" + dailyBudget);
             console.log("weekly budget: $" + weeklyBudget);
             query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
-
-
         });
-        //await(dailyBudget);
+        return await callback();
+    }
 
-        
-        
-
-        // find this week's spending
-        currentDate = new Date(2019, 4, 31);
+    async calculateDailySpending() {
+        console.log("bet");
+        var spendingHashmap = new Map([]);
         var query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
-        while(currentDate.getDay() != 6) {
-	  //console.log(currentDate.toDateString().substr(4, 3));
-          query.once("value")
-            .then(function(snapshot) {
-              snapshot.forEach(function(childSnapshot) {
-		var array = childSnapshot.key.split("_");   
-		console.log(currentDate.toDateString().substr(4, 11));
-		console.log(array[0]);
-                if(currentDate.toDateString().substr(4, 3) != childSnapshot.key.substr(0, 3)) {
-                  query = firebase.database().ref("users/" + userId + "/tritoncard/lastmonth").orderByKey();
-                }
-        	else if(currentDate.toDateString().substr(4, 11) == array[0]) {
-		  console.log("hope");
-                  thisWeeksTotal += parseFloat(childSnapshot.val());
-                }
-                else if(currentDate.toDateString().substr(4, 11) < array[0]) {
-                  return true;
-                }
+        await query.once("value")
+          .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
+                spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
+              }
+              else {
+                spendingHashmap.set(childSnapshot.key.substr(0, 11), parseFloat(childSnapshot.val()));
+              }
             });
           });
-          currentDate.setDate(currentDate.getDate() - 1);
+        query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/lastmonth").orderByKey();
+        console.log("hello1");
+        await query.once("value")
+          .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
+                spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
+              }
+              else {
+                spendingHashmap.set(childSnapshot.key.substr(0, 11), parseFloat(childSnapshot.val()));
+              }
+            });
+          });
+          console.log(spendingHashmap.get("May 23 2019"));
+          console.log("hello2");
+          return spendingHashmap;     
+    }
+
+    async calculateWeeklySpending() {
+        var spendingHashmap = await this.calculateBudget(this.calculateDailySpending);
+        var bleh = new Date(2019, 4, 31);
+        var thisWeeksTotal = 0;
+
+        // if starting on a Saturday
+        if(bleh.getDay() == 6) {
+            if(spendingHashmap.has(bleh.toDateString().substr(4, 11))) {
+                thisWeeksTotal += spendingHashmap.get(bleh.toDateString().substr(4, 11));
+            }
+            bleh.setDate(bleh.getDate() - 1);
         }
-        console.log("this weeks total " +thisWeeksTotal);
+
+        // now iterate to previous Saturday
+        while(bleh.getDay() != 6) {
+            if(spendingHashmap.has(bleh.toDateString().substr(4, 11))) {
+                thisWeeksTotal += spendingHashmap.get(bleh.toDateString().substr(4, 11));
+            }
+            
+            bleh.setDate(bleh.getDate() - 1);
+        }
+        console.log("Total spending for this week: $" + thisWeeksTotal);
+
+        // now calculate previous 3 weeks spending
+        var i;
+        var j;
+        var previousWeeks = [0, 0, 0];
+        for(i = 0; i < 3; i++) {
+            for(j = 0; j < 7; j++) {
+                if(spendingHashmap.has(bleh.toDateString().substr(4, 11))) {
+                    previousWeeks[i] += spendingHashmap.get(bleh.toDateString().substr(4, 11));
+                }
+                bleh.setDate(bleh.getDate() - 1);
+            }
+        }
+        console.log("Spending for 1 week ago: $" + previousWeeks[0]);
+        console.log("Spending for 2 weeks ago: $" + previousWeeks[1]);
+        console.log("Spending for 3 weeks ago: $" + previousWeeks[2]);
+        this.setState({data: previousWeeks});
+        return previousWeeks;
+    }
+
+
+
+
+
+
+
+
+
+
+    render() {
+        
+
+
+        // this.calculateBudget().then(this.calculateSpending.then());
+        // this.calculateBudget(this.calculateSpending);
+        // this.calculateWeeklySpending();
+        // console.log("hello2");
+        // var weekspending;
+        // (async () => {
+        //     weekspending = await this.calculateWeeklySpending();
+        // })();
+        // console.log("whats" + weekspending[0]);
+
+
+
+    
+        // console.log("this weeks total " +thisWeeksTotal);
 
         // // then find previous 3 weeks spending
         // var previousWeeks = [0, 0, 0];
@@ -135,11 +213,20 @@ export default class BudgetScreen extends React.Component {
 
         return (
             <View>
-  <Text>
-   Bezier Line Chart
-   what is up
-  </Text>
+            {this.state.data === null ?
+                <Text>Loading</Text>
+                :
+            //     <Text> {this.state.data[0]} </Text>
 
+
+            // }
+                
+            // </Text>);
+  // <Text>
+  //  Bezier Line Chart
+  //  what is up
+  // </Text>
+  <View>
   <PieChart
     data = {data}
     width={Dimensions.get('window').width}
@@ -163,14 +250,12 @@ export default class BudgetScreen extends React.Component {
 
   <BarChart
     data={{
-      labels: ['3 weeks ago', '2 weeks ago', '1 week ago', 'This week', 'Wk5'],
+      labels: ['CurrWk3', 'CurrWk2', 'CurrWk1'],
       datasets: [{
         data: [
-          30,
-          40,
-          20,
-          50,
-          10
+          this.state.data[0],
+          this.state.data[1],
+          this.state.data[2]
         ]
       }]
     }}
@@ -196,19 +281,11 @@ export default class BudgetScreen extends React.Component {
     }}
   />
 </View>
+
+         }   
+
             
-
-            // <BarChart
-            //     style={{ height: 200 }}
-            //     data={ data }
-            //     svg={{ fill }}
-            //     contentInset={{ top: 80, bottom: 30 }}
-            //     formatLabel={ (value, index) => index }
-            // >
-
-            //     <Grid/>
-            // </BarChart>
-        );
+        </View>);
     }
 
 
@@ -230,6 +307,3 @@ export default class BudgetScreen extends React.Component {
             color: '#F5FCFF',
         },
     });
-
-    
-

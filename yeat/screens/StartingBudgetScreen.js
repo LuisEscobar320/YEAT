@@ -13,18 +13,11 @@ export default class StartingBudgetScreen extends React.Component {
         //const loggedIn = await AsyncStorage.getItem('loggedIn');
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId);
-        const hasTritonCard = await ref.once('value').then(function (snapshot) {
+        const loggedIn = await ref.once('value').then(function (snapshot) {
             return snapshot.hasChild("tritoncard")
         });
-	if(hasTritonCard == false) {
-		this.props.navigation.navigate('TritonCard');
-	}
-	else {
-		var correctCredentials = await ref.once('value').then(function (snapshot) {
-			return(snapchot.child("tritoncard/username").val() != 'wrong');
-		}
-		this.props.navigation.navigate(correctCredentials ? 'Budget' : 'Error');
-	}
+        console.log(loggedIn)
+        this.props.navigation.navigate(loggedIn ? 'Budget' : 'TritonCard')
     }
 
 
