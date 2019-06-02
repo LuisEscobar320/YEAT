@@ -1,17 +1,14 @@
 import React from 'react';
 import {
-    Image,
     Platform,
     ScrollView,
     StyleSheet,
     Text,
-    TouchableOpacity,
     View,
 } from 'react-native';
 import { Constants, Location, Permissions, WebBrowser } from 'expo';
-import { MonoText } from '../components/StyledText';
 import firebase from 'firebase'
-import {Button, Icon, Card} from 'react-native-elements';
+import {Icon, Card} from 'react-native-elements';
 
 /*
  * HomeScreen.js
@@ -81,7 +78,7 @@ export default class HomeScreen extends React.Component {
         food: [], // food items to be loaded and displayed
         yeatiest: {name: 'loading', yeats: -1, yucks: -1, cost: -1, hall: ''},
         yuckiest: {name: 'loading', yeats: -1, yucks: -1, cost: -1, hall: ''}
-    }
+    };
 
     /*
      * handles the potential error message
@@ -153,12 +150,12 @@ export default class HomeScreen extends React.Component {
         // sort arr based on relative distance
         arr.sort(function (a, b) {
             return a.dis - b.dis;
-        })
+        });
 
         // update the state and display the information on screen
         this.setState({
             diningHalls: arr
-        })
+        });
         callback();
     }
 
@@ -230,9 +227,9 @@ export default class HomeScreen extends React.Component {
                         _this.setState({
                             preferences: pref,
                             hour: mealOfTheDay
-                        })
-                        console.log(_this.state.preferences)
-                        console.log(_this.state.hour)
+                        });
+                        console.log(_this.state.preferences);
+                        console.log(_this.state.hour);
                         callback();
                     })
             } else {
@@ -249,10 +246,10 @@ export default class HomeScreen extends React.Component {
         firebase.database().ref(_this.state.hour + '/').on('value', function (data) {
             data.forEach(function (child) {
                 // traverse through all dining halls
-                if (child.key == '64Degrees' || child.key == 'Cafe Ventanas' ||
-                    child.key == 'Club Med' || child.key == 'FoodWorx' ||
-                    child.key == 'Goody\'s Place' || child.key == 'OceanView' ||
-                    child.key == 'Pines') {
+                if (child.key === '64Degrees' || child.key === 'Cafe Ventanas' ||
+                    child.key === 'Club Med' || child.key === 'FoodWorx' ||
+                    child.key === 'Goody\'s Place' || child.key === 'OceanView' ||
+                    child.key === 'Pines') {
                     var arr = [];
                     child.forEach(function (item) { // traverse through food items
                         // keep track of the item with the highest likes (yeatiest) and dislikes (yuckiest)
@@ -280,21 +277,21 @@ export default class HomeScreen extends React.Component {
                             yucks: item.child('Yucks').val(),
                             cost: item.child('cost').val()
                         });
-                    })
+                    });
                     foodarr.push({
                         name: child.key,
                         items: arr
                     })
                 }
-            })
+            });
             _this.setState({
                     food: foodarr,
                     yeatiest: localyeatiest,
                     yuckiest: localyuckiest
                 },
                 function () {
-                    console.log("setState completed", this.state.food.length)
-                    console.log(foodarr[0].name) })
+                    console.log("setState completed", this.state.food.length);
+                    console.log(foodarr[0].name) });
             //console.log(_this.state.food.items[0].info)
             callback();
         });
@@ -318,7 +315,7 @@ export default class HomeScreen extends React.Component {
         }
         // traverse through preferences to initialize filtering
         for (let [key, val] of Object.entries(this.state.preferences)) {
-            if (key == 'vegan' && val == true) { // only include vegan food to foodarr
+            if (key === 'vegan' && val === true) { // only include vegan food to foodarr
                 firebase.database().ref(_this.state.hour + '/Vegan/').on('value', function (data) {
                     var counter = 0;
                     data.forEach(function (item) {
@@ -327,18 +324,18 @@ export default class HomeScreen extends React.Component {
                         for (var i = 0; i < foodarr.length; i++) {
                             // attempt to find the particular item
                             var getFood = foodarr[i].items.find(function (element) {
-                                return element.name == item.key;
-                            })
-                            if (getFood != undefined) {
+                                return element.name === item.key;
+                            });
+                            if (getFood !== undefined) {
                                 foodvega[i].items.push(getFood);
                             }
                         }
-                        if (counter == data.numChildren()) {
+                        if (counter === data.numChildren()) {
                             foodarr = JSON.parse(JSON.stringify(foodvega));
                         }
                     });
                 });
-            } else if (key == 'vegetarian' && val == true) { // only include vegetarian food to foodarr
+            } else if (key === 'vegetarian' && val === true) { // only include vegetarian food to foodarr
                 firebase.database().ref(_this.state.hour + '/Vegetarian/').on('value', function (data) {
                     var counter = 0;
                     data.forEach(function (item) {
@@ -347,21 +344,21 @@ export default class HomeScreen extends React.Component {
                         for (var i = 0; i < foodarr.length; i++) {
                             // attempt to find the particular item
                             var getFood = foodarr[i].items.find(function (element) {
-                                return element.name == item.key;
-                            })
-                            if (getFood != undefined) {
+                                return element.name === item.key;
+                            });
+                            if (getFood !== undefined) {
                                 foodvege[i].items.push(getFood); //remove this item from food array
                             }
                         }
-                        if (counter == data.numChildren()) {
+                        if (counter === data.numChildren()) {
                             foodarr = JSON.parse(JSON.stringify(foodvege));
                         }
                     });
                 });
-            } else if (val == false && key != 'vegan' && key != 'vegetarian') { // restrictions and preferences (to filter)
+            } else if (val === false && key !== 'vegan' && key !== 'vegetarian') { // restrictions and preferences (to filter)
                 firebase.database().ref(_this.state.hour).on('value', function (data) {
                     if (data.hasChild(key)) { // check if the category exists
-                        var count = 0
+                        var count = 0;
                         foodedit = JSON.parse(JSON.stringify(foodarr));
                         data.child(key).forEach(function (item) {
                             count++;
@@ -369,14 +366,14 @@ export default class HomeScreen extends React.Component {
                             for (var i = 0; i < foodedit.length; i++) {
                                 // attempt to find the particular item
                                 var ind = foodedit[i].items.findIndex(function (element) {
-                                    return element.name == item.key;
-                                })
+                                    return element.name === item.key;
+                                });
                                 if (ind >= 0) {
                                     foodedit[i].items.splice(ind, 1); //remove this item from food array
                                     break;
                                 }
                             }
-                            if (count == data.child(key).numChildren()) {
+                            if (count === data.child(key).numChildren()) {
                                 foodarr = JSON.parse(JSON.stringify(foodedit));
                             }
                         })
@@ -390,7 +387,7 @@ export default class HomeScreen extends React.Component {
             console.log("updated 64");
             _this.state.food[0].items.forEach(function (data) {
                 console.log(data.name)
-            })
+            });
             var newdininghalls = _this.state.diningHalls;
             var count = 0;
             for(var i=0; i< _this.state.diningHalls.length;i++){
@@ -404,7 +401,7 @@ export default class HomeScreen extends React.Component {
                     }
                 }
             }
-            if(count==_this.state.diningHalls.length){
+            if(count === _this.state.diningHalls.length){
                 _this.setState({
                     diningHalls: newdininghalls //update food to dining halls
                 })
@@ -418,8 +415,8 @@ export default class HomeScreen extends React.Component {
         var _this = this;
         firebase.database().ref('/'+hour+'/'+diningHall+'/'+food+'/').once('value', function (snapshot) {
 
-            var numLikes = snapshot.val().Yeats
-            numLikes = numLikes + 1
+            var numLikes = snapshot.val().Yeats;
+            numLikes = numLikes + 1;
 
             firebase.database().ref('/'+hour+'/'+diningHall+'/'+food).update(
                 {
@@ -438,7 +435,7 @@ export default class HomeScreen extends React.Component {
         var _this = this;
         firebase.database().ref('/'+hour+'/'+diningHall+'/'+food+'/').once('value', function (snapshot) {
 
-            var numLikes = snapshot.val().Yucks
+            var numLikes = snapshot.val().Yucks;
             numLikes = numLikes + 1;
 
             firebase.database().ref('/'+hour+'/'+diningHall+'/'+food).update(
@@ -464,8 +461,8 @@ export default class HomeScreen extends React.Component {
                 diningHall: currHall,
                 price: cost
             });
-        console.log("2.0")
-        alert("Added to My Yeats!")
+        console.log("2.0");
+        alert("Added to My Yeats!");
     }
 
 
@@ -479,9 +476,9 @@ export default class HomeScreen extends React.Component {
                     <Text style={styles.header}>Yeatiest</Text>
                     
                     
-                    <View style={{ left:15, top: 5}}>
+                    <View style={{left:15, top: 5}}>
                         <Icon
-                            onPress={() => this.likeFood(this.state.hour, item.name, food.name)}
+                            onPress={() => this.likeFood(this.state.hour, this.state.yeatiest.hall, this.state.yeatiest.name)}
                             name='thumbs-up'
                             type='font-awesome'
                             color='#153b50'
@@ -494,20 +491,22 @@ export default class HomeScreen extends React.Component {
                     <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, top:-5, marginTop: 0 }}
                           title={
                               <View style={{ alignItems: 'flex-start' }}>
-                                  <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} >
+                                  <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 5, top: -10 }} >
                                       {this.state.yeatiest.name}
                                   </Text>
                               </View>
                           }>
-                              <Text style={{color:"#fff"}}>{this.state.yeatiest.cost}</Text>
-                              <Text style={{color:"#fff"}}>{this.state.yeatiest.hall}</Text>
+
+                        <Text style={{color: "#fff", fontSize: 20}}>{this.state.yeatiest.hall}</Text>
+                        <Text style={{color: "#fff", fontSize: 20}}>{this.state.yeatiest.cost}</Text>
+
                     </Card>
                     <View style={{flex: 1, flexDirection: 'row'}}>
                         <Text style={styles.headerTwo}>Yuckiest</Text>
                         
                         <View style={{ left:15, top: 20}}>
                             <Icon
-                                onPress={() => this.dislikeFood(this.state.hour, item.name, food.name)}
+                                onPress={() => this.dislikeFood(this.state.hour, this.state.yuckiest.hall, this.state.yuckiest.name)}
                                 name='thumbs-down'
                                 type='font-awesome'
                                 color='#153b50'
@@ -521,13 +520,13 @@ export default class HomeScreen extends React.Component {
                     <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, marginTop: 8 }}
                           title={
                               <View style={{ alignItems: 'flex-start' }}>
-                                  <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} >
+                                  <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 5, top: -10 }} >
                                       {this.state.yuckiest.name}
                                   </Text>
                               </View>
                           }>
-                              <Text style={{color:"#fff"}}>{this.state.yuckiest.cost}</Text>
-                              <Text style={{color:"#fff"}}>{this.state.yuckiest.hall}</Text>
+                              <Text style={{color: "#fff", fontSize: 20}}>{this.state.yuckiest.hall}</Text>
+                              <Text style={{color: "#fff", fontSize: 20}}>{this.state.yuckiest.cost}</Text>
                     </Card>
 
                     <Text style={styles.headerTwo}>Dining Halls</Text>
@@ -563,7 +562,6 @@ export default class HomeScreen extends React.Component {
 
                                             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                                                 {/* Thumbs up icon will be the button to like */}
-                                                {/* Need to add onPress functionality */}
                                                 <Icon
                                                     onPress={() => this.likeFood(this.state.hour, item.name, food.name)}
                                                     name='thumbs-up'
@@ -577,7 +575,6 @@ export default class HomeScreen extends React.Component {
                                                 <Text>     </Text>
 
                                                 {/* Thumbs down icon will be the button to dislike */}
-                                                {/* Need to add onPress functionality */}
                                                 <Icon
                                                     onPress={() => this.dislikeFood(this.state.hour, item.name, food.name)}
                                                     name='thumbs-down'
@@ -590,7 +587,6 @@ export default class HomeScreen extends React.Component {
                                                 <Text>     </Text>
 
                                                 {/* Heart icon will be the button to add to my yeats */}
-                                                {/* Need to add onPress functionality */}
                                                 <Icon
                                                     onPress={() => this.addFavorite(food.name, item.name, food.cost) }
                                                     name='heart'
@@ -598,7 +594,6 @@ export default class HomeScreen extends React.Component {
                                                     color='#153b50'
                                                     size={30}
                                                     paddingHorizontal={0}
-
                                                 />
 
                                             </View>

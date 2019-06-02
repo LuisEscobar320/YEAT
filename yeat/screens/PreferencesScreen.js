@@ -1,8 +1,7 @@
 import firebase from 'firebase';
 import React from 'react';
-import {Platform} from 'react-native';
 import {StyleSheet, ScrollView, Text, View} from 'react-native';
-import {Button, CheckBox, Icon} from 'react-native-elements';
+import {Button, CheckBox} from 'react-native-elements';
 
 export default class PreferencesScreen extends React.Component {
     static navigationOptions = {
@@ -134,7 +133,7 @@ export default class PreferencesScreen extends React.Component {
             this.setState({checkbox16: bool});
         }
 
-    };z
+    };
     
     // Method saves the user's preferences to Firebase
     savePrefs(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11,

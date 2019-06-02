@@ -1,13 +1,11 @@
 import firebase from 'firebase';
 import React from 'react';
-import {Platform} from 'react-native';
 import {Image, StyleSheet, ScrollView, Text, View} from "react-native";
 import {Button, Card, Icon} from 'react-native-elements';
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 
 class MyYeatsScreen extends React.Component {
     static navigationOptions = {
-
         title: 'My Yeats',
 
         headerStyle:{
@@ -19,16 +17,7 @@ class MyYeatsScreen extends React.Component {
         headerTitleStyle: {
             color: '#153b50',
             fontSize: 35,
-            //right: Platform.OS ==='android' ? 0 : 120,
         },
-
-        /*headerRight: (
-            <Icon size={40} iconStyle={{right:200}}
-                name='user'
-                type='font-awesome'
-                color='#153b50'
-            />
-        ),*/
     };
 
     constructor(props) {
@@ -53,6 +42,7 @@ class MyYeatsScreen extends React.Component {
 
     }
 
+    // Pushes the food item to the database under the user's Favorites field
     async listenForItems() {
         var userId = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users/" + userId + "/Favorites");
@@ -86,8 +76,6 @@ class MyYeatsScreen extends React.Component {
     removeFav(itemNum, fav, cardNum) {
         var userId = firebase.auth().currentUser.uid;
         let ref = firebase.database().ref("users/" + userId + "/Favorites/" + itemNum);
-        console.log("REF ISSSSSSSSSSSSSSSSSS");
-        console.log(ref);
         ref.remove();
         this.removeCard(cardNum);
         alert(fav + ' Removed!')
@@ -95,53 +83,53 @@ class MyYeatsScreen extends React.Component {
 
     // Removes the card component when food is removed from my yeats
     removeCard(num) {
-        if (num == 1) {
+        if (num === 1) {
             this.setState({
                 showCard1: false,
             });
-        } else if (num == 2) {
+        } else if (num === 2) {
             this.setState({
                 showCard2: false,
             });
-        } else if (num == 3) {
+        } else if (num === 3) {
             this.setState({
                 showCard3: false,
             });
         }
-        else if (num == 4) {
+        else if (num === 4) {
             this.setState({
                 showCard4: false,
             });
-        } else if (num == 5) {
+        } else if (num === 5) {
             this.setState({
                 showCard5: false,
             });
-        } else if (num == 6) {
+        } else if (num === 6) {
             this.setState({
                 showCard6: false,
             });
         }
-        if (num == 7) {
+        if (num === 7) {
             this.setState({
                 showCard7: false,
             });
-        } else if (num == 8) {
+        } else if (num === 8) {
             this.setState({
                 showCard8: false,
             });
-        } else if (num == 9) {
+        } else if (num === 9) {
             this.setState({
                 showCard9: false,
             });
         }
-        else if (num == 10) {
+        else if (num === 10) {
             this.setState({
                 showCard10:false,
             })
         }
     }
 
-
+    // Shows the card for the food item
     showCards(num) {
         if (num > 0) {
             this.setState ({
@@ -195,8 +183,9 @@ class MyYeatsScreen extends React.Component {
         }
     }
 
+    // Prompt appears when the user hasn't added any favorites to My Yeats
     noCards() {
-        if (this.state.numCards == 0) {
+        if (this.state.numCards === 0) {
             return (
                 <Text style= {{ color: '#9da9aa', fontSize: 20, textAlign: 'center', margin: 30}}>
                     You have no favorites yet.{'\n'}
@@ -206,6 +195,11 @@ class MyYeatsScreen extends React.Component {
         }
     }
 
+    /* Displays the cards on the screen of the food item that the user marked as favorite
+       Each card contains the name of the food item, its price, and dining hall
+       User can tap on the heart to remove the card from My Yeats
+       User can add up to 10 favorites
+     */
     render() {
         return (
             
@@ -214,29 +208,18 @@ class MyYeatsScreen extends React.Component {
                 <ScrollView style={styles.container}>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         {this.state.showCard1 ? (
-                            <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                            <Card  containerStyle={styles.cardContainer}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 10, top: -10 }} > {this.state.arr[1]}
+                                           style = {styles.cardTitleStyle} >{this.state.arr[1]}
                                            </Text>
                                        </View>
                                    }>
-                                <Icon
-                                    name='location-on'
-                                    color='#153b50'
-                                    size={15}
-                                    iconStyle={{
-                                        top: 71,
-                                        right: 130
-                                    }}
-                                />
-                                <Text style = {styles.diningHallStyle}>{this.state.arr[2]} </Text>
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[2]}</Text>
+                                <Text style = {styles.priceStyle}>{this.state.arr[3]}</Text>
 
-                                <Text style = {styles.priceStyle}> {this.state.arr[3]} </Text>
-
-
-                                <View style = {{ top: -180, right: -120 }}>
+                                <View style = {styles.heartStyle}>
                                     <Icon
                                         name='heart'
                                         type='font-awesome'
@@ -249,30 +232,18 @@ class MyYeatsScreen extends React.Component {
                         ) : null}
 
                         {this.state.showCard2 ? (
-                            <Card  containerStyle={{ width: 300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                            <Card  containerStyle={styles.cardContainer}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10,}} > {this.state.arr[5]}
+                                           style = {styles.cardTitleStyle} >{this.state.arr[5]}
                                            </Text>
                                        </View>
                                    }>
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[6]}</Text>
+                                <Text style = {styles.priceStyle}>{this.state.arr[7]}</Text>
 
-                                <Icon
-                                    name='location-on'
-                                    color='#153b50'
-                                    size={15}
-                                    iconStyle={{
-                                        top: 71,
-                                        right: 130
-                                    }}
-                                />
-
-                                <Text style = {styles.diningHallStyle}> {this.state.arr[6]} </Text>
-
-                                <Text style = {styles.priceStyle}> {this.state.arr[7]} </Text>
-
-                                <View style = {{ top: -180, right: -120 }}>
+                                <View style = {styles.heartStyle}>
                                     <Icon
                                         name='heart'
                                         type='font-awesome'
@@ -287,29 +258,18 @@ class MyYeatsScreen extends React.Component {
 
                         {this.state.showCard3 ? (
 
-                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                            <Card  containerStyle={styles.cardContainer}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[9]}
+                                           style = {styles.cardTitleStyle} >{this.state.arr[9]}
                                            </Text>
                                        </View>
                                    }>
-                                <Icon
-                                    name='location-on'
-                                    color='#153b50'
-                                    size={15}
-                                    iconStyle={{
-                                        top: 71,
-                                        right: 130
-                                    }}
-                                />
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[10]}</Text>
+                                <Text style = {styles.priceStyle}>{this.state.arr[11]}</Text>
 
-                                <Text style = {styles.diningHallStyle}> {this.state.arr[10]} </Text>
-
-                                <Text style = {styles.priceStyle}> {this.state.arr[11]} </Text>
-
-                                <View style = {{ top: -180, right: -120 }}>
+                                <View style = {styles.heartStyle}>
                                     <Icon
                                         name='heart'
                                         type='font-awesome'
@@ -325,29 +285,18 @@ class MyYeatsScreen extends React.Component {
 
                         {this.state.showCard4 ? (
 
-                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                            <Card  containerStyle={styles.cardContainer}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[13]}
+                                           style = {styles.cardTitleStyle} >{this.state.arr[13]}
                                            </Text>
                                        </View>
                                    }>
-                                <Icon
-                                    name='location-on'
-                                    color='#153b50'
-                                    size={15}
-                                    iconStyle={{
-                                        top: 71,
-                                        right: 130
-                                    }}
-                                />
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[14]}</Text>
+                                <Text style = {styles.priceStyle}>{this.state.arr[15]}</Text>
 
-                                <Text style = {styles.diningHallStyle}> {this.state.arr[14]} </Text>
-
-                                <Text style = {styles.priceStyle}> {this.state.arr[15]} </Text>
-
-                                <View style = {{ top: -180, right: -120 }}>
+                                <View style = {styles.heartStyle}>
                                     <Icon
                                         name='heart'
                                         type='font-awesome'
@@ -363,29 +312,18 @@ class MyYeatsScreen extends React.Component {
 
                         {this.state.showCard5 ? (
 
-                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                            <Card  containerStyle={styles.cardContainer}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[17]}
+                                           style = {styles.cardTitleStyle} >{this.state.arr[17]}
                                            </Text>
                                        </View>
                                    }>
-                                <Icon
-                                    name='location-on'
-                                    color='#153b50'
-                                    size={15}
-                                    iconStyle={{
-                                        top: 71,
-                                        right: 130
-                                    }}
-                                />
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[18]}</Text>
+                                <Text style = {styles.priceStyle}>{this.state.arr[19]}</Text>
 
-                                <Text style = {styles.diningHallStyle}> {this.state.arr[18]} </Text>
-
-                                <Text style = {styles.priceStyle}> {this.state.arr[19]} </Text>
-
-                                <View style = {{ top: -180, right: -120 }}>
+                                <View style = {styles.heartStyle}>
                                     <Icon
                                         name='heart'
                                         type='font-awesome'
@@ -401,29 +339,18 @@ class MyYeatsScreen extends React.Component {
 
                         {this.state.showCard6 ? (
 
-                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                            <Card  containerStyle={styles.cardContainer}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[21]}
+                                           style = {styles.cardTitleStyle} >{this.state.arr[21]}
                                            </Text>
                                        </View>
                                    }>
-                                <Icon
-                                    name='location-on'
-                                    color='#153b50'
-                                    size={15}
-                                    iconStyle={{
-                                        top: 71,
-                                        right: 130
-                                    }}
-                                />
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[22]}</Text>
+                                <Text style = {styles.priceStyle}>{this.state.arr[23]}</Text>
 
-                                <Text style = {styles.diningHallStyle}> {this.state.arr[22]} </Text>
-
-                                <Text style = {styles.priceStyle}> {this.state.arr[23]} </Text>
-
-                                <View style = {{ top: -180, right: -120 }}>
+                                <View style = {styles.heartStyle}>
                                     <Icon
                                         name='heart'
                                         type='font-awesome'
@@ -439,29 +366,18 @@ class MyYeatsScreen extends React.Component {
 
                         {this.state.showCard7 ? (
 
-                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                            <Card  containerStyle={styles.cardContainer}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[25]}
+                                           style = {styles.cardTitleStyle} > {this.state.arr[25]}
                                            </Text>
                                        </View>
                                    }>
-                                <Icon
-                                    name='location-on'
-                                    color='#153b50'
-                                    size={15}
-                                    iconStyle={{
-                                        top: 71,
-                                        right: 130
-                                    }}
-                                />
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[26]}</Text>
+                                <Text style = {styles.priceStyle}>{this.state.arr[27]}</Text>
 
-                                <Text style = {styles.diningHallStyle}> {this.state.arr[26]} </Text>
-
-                                <Text style = {styles.priceStyle}> {this.state.arr[27]} </Text>
-
-                                <View style = {{ top: -180, right: -120 }}>
+                                <View style = {styles.heartStyle}>
                                     <Icon
                                         name='heart'
                                         type='font-awesome'
@@ -477,29 +393,18 @@ class MyYeatsScreen extends React.Component {
 
                         {this.state.showCard8 ? (
 
-                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                            <Card  containerStyle={styles.cardContainer}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[29]}
+                                           style = {styles.cardTitleStyle} >{this.state.arr[29]}
                                            </Text>
                                        </View>
                                    }>
-                                <Icon
-                                    name='location-on'
-                                    color='#153b50'
-                                    size={15}
-                                    iconStyle={{
-                                        top: 71,
-                                        right: 130
-                                    }}
-                                />
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[30]}</Text>
+                                <Text style = {styles.priceStyle}>{this.state.arr[31]}</Text>
 
-                                <Text style = {styles.diningHallStyle}> {this.state.arr[30]} </Text>
-
-                                <Text style = {styles.priceStyle}> {this.state.arr[31]} </Text>
-
-                                <View style = {{ top: -180, right: -120 }}>
+                                <View style = {styles.heartStyle}>
                                     <Icon
                                         name='heart'
                                         type='font-awesome'
@@ -515,29 +420,18 @@ class MyYeatsScreen extends React.Component {
 
                         {this.state.showCard9 ? (
 
-                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                            <Card  containerStyle={styles.cardContainer}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[33]}
+                                           style = {styles.cardTitleStyle} >{this.state.arr[33]}
                                            </Text>
                                        </View>
                                    }>
-                                <Icon
-                                    name='location-on'
-                                    color='#153b50'
-                                    size={15}
-                                    iconStyle={{
-                                        top: 71,
-                                        right: 130
-                                    }}
-                                />
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[34]}</Text>
+                                <Text style = {styles.priceStyle}>{this.state.arr[35]}</Text>
 
-                                <Text style = {styles.diningHallStyle}> {this.state.arr[34]} </Text>
-
-                                <Text style = {styles.priceStyle}> {this.state.arr[35]} </Text>
-
-                                <View style = {{ top: -180, right: -120 }}>
+                                <View style = {styles.heartStyle}>
                                     <Icon
                                         name='heart'
                                         type='font-awesome'
@@ -553,29 +447,18 @@ class MyYeatsScreen extends React.Component {
 
                         {this.state.showCard10 ? (
 
-                            <Card  containerStyle={{ width:300, height: 150, backgroundColor: '#39cbd6', borderRadius: 15 }}
+                            <Card  containerStyle={styles.cardContainer}
                                    title = {
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
-                                           style = {{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -10, right: 10 }} > {this.state.arr[37]}
+                                           style = {styles.cardTitleStyle} >{this.state.arr[37]}
                                            </Text>
                                        </View>
                                    }>
-                                <Icon
-                                    name='location-on'
-                                    color='#153b50'
-                                    size={15}
-                                    iconStyle={{
-                                        top: 71,
-                                        right: 130
-                                    }}
-                                />
+                                <Text style = {styles.diningHallStyle}>{this.state.arr[38]}</Text>
+                                <Text style = {styles.priceStyle}>{this.state.arr[39]}</Text>
 
-                                <Text style = {styles.diningHallStyle}> {this.state.arr[38]} </Text>
-
-                                <Text style = {styles.priceStyle}> {this.state.arr[39]} </Text>
-
-                                <View style = {{ top: -180, right: -120 }}>
+                                <View style = {styles.heartStyle}>
                                     <Icon
                                         name='heart'
                                         type='font-awesome'
@@ -593,7 +476,7 @@ class MyYeatsScreen extends React.Component {
                     </View>
                 </ScrollView>
 
-                <View style={{bottom: 0, right: 10, alignItems: 'flex-end', flex: 1, position: 'absolute'}}>
+                <View style={{bottom: 0, left: 10, alignItems: 'flex-end', flex: 1, position: 'absolute'}}>
                     <Icon
                         reverse
                         name='user'
@@ -637,7 +520,6 @@ class ProfileScreen extends React.Component {
 
     }
 
-
     // Get the user's name and email from database
     async readUserNameEmail() {
         var userId = firebase.auth().currentUser.uid;
@@ -655,6 +537,7 @@ class ProfileScreen extends React.Component {
         this.setState({email: userEmail});
     }
 
+    // Displays the user's name, email, and the logout button
     render() {
         return (
             <ScrollView style={styles.profileContainer}>
@@ -704,6 +587,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#153b50',
         textAlign: 'center'
     },
+    cardContainer: {
+        width: 300,
+        height: 150,
+        backgroundColor: '#39cbd6',
+        borderRadius: 15
+    },
     button: {
         backgroundColor: '#153b50',
         borderRadius: 15,
@@ -724,7 +613,7 @@ const styles = StyleSheet.create({
         color: '#00C6D7',
         textAlign: "center",
         fontSize: 20,
-        paddingBottom: 50
+        paddingBottom: 80
     },
     oofImage: {
         width: 200,
@@ -732,20 +621,30 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         paddingTop: 30
     },
+    cardTitleStyle: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 25,
+        top: -10,
+        right: 5,
+    },
     diningHallStyle: {
         color: '#fff',
-        fontSize: 15,
+        fontSize: 18,
         padding: 20,
-        textAlign: 'center',
-        right: 80,
-        top: 35
+        top: -20,
+        right: 25,
     },
     priceStyle: {
         color: '#fff',
-        fontSize: 20,
+        fontSize: 18,
         padding: 20,
-        textAlign: 'center',
-        right: 112,
-        top: -110
+        top: -60,
+        right: 25,
+        marginTop: 0
+    },
+    heartStyle: {
+        top: -50,
+        right: -126
     }
 });
