@@ -7,6 +7,7 @@ import {
   PieChart
 } from 'react-native-chart-kit'
 import { Dimensions } from 'react-native'
+import { Card } from 'react-native-elements';
 
 export default class BudgetScreen extends React.Component {
 
@@ -265,16 +266,29 @@ export default class BudgetScreen extends React.Component {
             // }
                 
             // </Text>);
-  
+
   <ScrollView>
       <View style={styles.header}>
           <Text style={styles.head}>Budget</Text>
       </View>
-      <View style={styles.budgetdisplay}>
-          <Text style={styles.budgettext}>Current Balance: ${this.state.data[0]}</Text>
-          <Text style={styles.budgettext}>Daily Budget: ${this.state.data[1]}</Text>
-          <Text style={styles.budgettext}>Weekly Budget: ${this.state.data[2]}</Text>
-      </View>
+
+      <Card
+          containerStyle={{ alignSelf: 'center', width: 325, height: 200, backgroundColor: '#39cbd6', borderRadius: 15, }}
+          title={
+          <View style={styles.budgetDisplay}>
+              <Text style={styles.budgetTitleOne}>Current Balance</Text>
+              <Text style={styles.budgetText}>${this.state.data[0]}</Text>
+
+              <Text style={styles.budgetTitleTwo}>Daily Budget</Text>
+              <Text style={styles.budgetText}>${this.state.data[1]}</Text>
+
+              <Text style={styles.budgetTitleTwo}>Weekly Budget</Text>
+              <Text style={styles.budgetText}>${this.state.data[2]}</Text>
+          </View>
+      }>
+
+      </Card>
+
   <PieChart
     data = {[{name: 'Spent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
              {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
@@ -368,9 +382,6 @@ export default class BudgetScreen extends React.Component {
             color: '#F5FCFF',
         },
         header: {
-            fontSize: 35,
-            color: '#153b50',
-            fontWeight: 'bold',
             justifyContent: 'center',
             alignItems: 'center',
             paddingTop: 20,
@@ -380,11 +391,22 @@ export default class BudgetScreen extends React.Component {
             color: '#153b50',
             fontWeight: 'bold',
         },
-        budgetdisplay: {
-            paddingTop: 20,
+        budgetDisplay: {
             marginLeft: 5,
         },
-        budgettext: {
+        budgetTitleOne: {
+            fontSize: 24,
+            color: '#fff',
+            fontWeight: 'bold',
+        },
+        budgetTitleTwo: {
+            fontSize: 24,
+            color: '#fff',
+            fontWeight: 'bold',
+            marginTop: 5,
+        },
+        budgetText: {
             fontSize: 20,
+            color: '#fff',
         },
     });
