@@ -78,7 +78,7 @@ export default class LoginScreen extends React.Component {
         }
       } catch(e){
       }
-    }
+    };
   
     /* retrieves Google user info and updates firebase */
     onSignIn = (googleUser) => {
@@ -118,7 +118,7 @@ export default class LoginScreen extends React.Component {
         }
       }.bind(this)
       );
-    }
+    };
   
     //detect the same user
     isUserEqual = (googleUser, firebaseUser) => {
@@ -133,7 +133,7 @@ export default class LoginScreen extends React.Component {
         }
       }
       return false;
-    }
+    };
 
 
   render() {
@@ -179,4 +179,4 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         width: 200
     }
-})
+});

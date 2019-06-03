@@ -284,11 +284,6 @@ const styles = StyleSheet.create({
         right: 15,
     },
     check: {
-        //flex : 1,
-        //flexDirection: 'row',
-        //justifyContent: 'center',
-        //alignItems: 'flex-end',
-        //position: 'absolute',
         top: -20,
         right: -30,
     },
