@@ -448,7 +448,17 @@ export default class HomeScreen extends React.Component {
     async addFavorite(food, currHall, cost) {
 
         var userID = firebase.auth().currentUser.uid;
-
+        let num = 0;
+        var userId = firebase.auth().currentUser.uid;
+        var ref = firebase.database().ref("users/" + userId + "/Favorites");
+        await ref.on('value', (snap) => {
+            snap.forEach((child) => {
+                num++;
+            });
+        });
+        console.log("num is");
+        console.log(num);
+        if (num != 10) {
         firebase.database().ref('/users/' + userID + '/Favorites/' + food).set(
             {
                 name: food,
@@ -457,7 +467,11 @@ export default class HomeScreen extends React.Component {
             });
 
         alert(food + " added to My Yeats!");
-  }
+        }
+        else {
+            alert("You already have 10 yeats!");
+        }
+    }
 
     /*
      * The view of MVC that renders the screen that the user shall see
