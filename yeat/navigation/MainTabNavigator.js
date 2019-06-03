@@ -88,7 +88,7 @@ const BudgetStack = createSwitchNavigator({
     TritonCard: TritonCardLoginScreen,
     Budget: BudgetScreen,
     }, {
-        initialRouteName: 'Starting'
+        initialRouteName: 'Starting',
 });
 
 BudgetStack.navigationOptions = {

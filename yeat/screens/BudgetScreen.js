@@ -1,12 +1,13 @@
 import React from 'react'
 import firebase from 'firebase'
-import { StyleSheet, Text, TextInput, View, Button, Linking } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button, Linking, ScrollView } from 'react-native'
 // import { BarChart, Grid } from 'react-native-svg-charts'
 import {
   BarChart,
   PieChart
 } from 'react-native-chart-kit'
 import { Dimensions } from 'react-native'
+import { Card } from 'react-native-elements';
 
 export default class BudgetScreen extends React.Component {
 
@@ -134,7 +135,7 @@ export default class BudgetScreen extends React.Component {
          balance = parseFloat(snapshot.child("tritoncard/balance").val());
          // then calculate daily and weekly budgets
          dailyBudget = (balance/daysLeft).toFixed(2);
-         weeklyBudget = dailyBudget*7;
+         weeklyBudget = (dailyBudget*7).toFixed(2);
          console.log("daily budget: $" + dailyBudget);
          console.log("weekly budget: $" + weeklyBudget);
          query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
@@ -258,23 +259,39 @@ export default class BudgetScreen extends React.Component {
         return (
             <View>
             {this.state.data === null ?
-                <Text>Loading</Text>
-                :
+                <View style = {{justifyContent: 'center ',alignItems: 'center', top: Dimensions.get('window').height/2}}><Text>Loading...</Text></View> :
             //     <Text> {this.state.data[0]} </Text>
 
 
             // }
                 
             // </Text>);
-  
-  <View>
-  <Text>
 
+  <ScrollView>
+      <View style={styles.header}>
+          <Text style={styles.head}>Budget</Text>
+      </View>
 
-  
-   Bezier Line Chart
-   what is up
-  </Text>
+      <Card
+          containerStyle={{ alignSelf: 'center', width: 325, height: 200, backgroundColor: '#39cbd6', borderRadius: 15, }}
+          title={
+          <View style={styles.budgetDisplay}>
+              <Text style={styles.budgetTitleOne}>Current Balance</Text>
+              <Text style={styles.budgetText}>${this.state.data[0]}</Text>
+
+              <Text style={styles.budgetTitleTwo}>Daily Budget</Text>
+              <Text style={styles.budgetText}>${this.state.data[1]}</Text>
+
+              <Text style={styles.budgetTitleTwo}>Weekly Budget</Text>
+              <Text style={styles.budgetText}>${this.state.data[2]}</Text>
+          </View>
+      }>
+
+      </Card>
+
+      <View>
+          <Text style={styles.chartHeaderDaily}>Daily Spending</Text>
+      </View>
 
   <PieChart
     data = {[{name: 'Spent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
@@ -303,6 +320,10 @@ export default class BudgetScreen extends React.Component {
     absolute
   />
 
+      <View>
+          <Text style={styles.chartHeaderWeekly}>Weekly Spending</Text>
+      </View>
+
   <BarChart
     data={{
       labels: ['3 weeks ago', '2 weeks ago', '1 week ago', 'This week'],
@@ -316,7 +337,7 @@ export default class BudgetScreen extends React.Component {
       }]
     }}
     width={Dimensions.get('window').width} // from react-native
-    height={580}
+    height={Dimensions.get('window').height-200}
     yAxisLabel={'$'}
     chartConfig={{
       paddingTop: 300,
@@ -336,19 +357,19 @@ export default class BudgetScreen extends React.Component {
       borderRadius: 0 // 
     }}
   />
-</View>
+</ScrollView>
 
          }   
 
             
-        </View>);
+            </View>)
     }
 
 
 }
-    
 
-    
+
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -356,10 +377,56 @@ export default class BudgetScreen extends React.Component {
             alignItems: 'center',
             backgroundColor: '#4F6D7A',
         },
+        loading: {
+            fontSize: 20,
+            textAlign: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
         welcome: {
             fontSize: 20,
             textAlign: 'center',
             margin: 10,
             color: '#F5FCFF',
         },
+        header: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingTop: 20,
+        },
+        head: {
+            fontSize: 35,
+            color: '#153b50',
+            fontWeight: 'bold',
+        },
+        budgetDisplay: {
+            marginLeft: 5,
+        },
+        budgetTitleOne: {
+            fontSize: 24,
+            color: '#fff',
+            fontWeight: 'bold',
+        },
+        budgetTitleTwo: {
+            fontSize: 24,
+            color: '#fff',
+            fontWeight: 'bold',
+            marginTop: 5,
+        },
+        budgetText: {
+            fontSize: 20,
+            color: '#fff',
+        },
+        chartHeaderDaily: {
+            color: '#153b50',
+            fontSize: 28,
+            paddingLeft: 15,
+            paddingTop: 20,
+        },
+        chartHeaderWeekly: {
+            color: '#153b50',
+            fontSize: 28,
+            paddingLeft: 15,
+            paddingBottom: 30,
+        }
     });

@@ -224,8 +224,6 @@ export default class HomeScreen extends React.Component {
                             preferences: pref,
                             hour: mealOfTheDay
                         });
-                        console.log(_this.state.preferences);
-                        console.log(_this.state.hour);
                         callback();
                     })
             } else {
