@@ -217,14 +217,16 @@ class MyYeatsScreen extends React.Component {
                 <ScrollView style={styles.container}>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         {this.state.showCard1 ? (
-                            <Card  containerStyle={styles.cardContainer}
-                                   title = {
-                                       <View style = {{ alignItems: 'flex-start' }}>
+                            <Card containerStyle={styles.cardContainer}
+                                    title = {
+                                        <ScrollView horizontal={true}>
+                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
                                            style = {styles.cardTitleStyle} >{this.state.arr[1]}
                                            </Text>
-                                       </View>
-                                   }>
+                                        </View>
+                                        </ScrollView>
+                                    }>
                                 <Text style = {styles.diningHallStyle}>{this.state.arr[2]}</Text>
                                 <Text style = {styles.priceStyle}>{this.state.arr[3]}</Text>
 
@@ -243,11 +245,13 @@ class MyYeatsScreen extends React.Component {
                         {this.state.showCard2 ? (
                             <Card  containerStyle={styles.cardContainer}
                                    title = {
-                                       <View style = {{ alignItems: 'flex-start' }}>
+                                        <ScrollView horizontal={true}>
+                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
                                            style = {styles.cardTitleStyle} >{this.state.arr[5]}
                                            </Text>
-                                       </View>
+                                        </View>
+                                        </ScrollView>
                                    }>
                                 <Text style = {styles.diningHallStyle}>{this.state.arr[6]}</Text>
                                 <Text style = {styles.priceStyle}>{this.state.arr[7]}</Text>
@@ -268,13 +272,15 @@ class MyYeatsScreen extends React.Component {
                         {this.state.showCard3 ? (
 
                             <Card  containerStyle={styles.cardContainer}
-                                   title = {
+                                title = {
+                                    <ScrollView horizontal={true}>
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
                                            style = {styles.cardTitleStyle} >{this.state.arr[9]}
                                            </Text>
                                        </View>
-                                   }>
+                                    </ScrollView>
+                                }>
                                 <Text style = {styles.diningHallStyle}>{this.state.arr[10]}</Text>
                                 <Text style = {styles.priceStyle}>{this.state.arr[11]}</Text>
 
@@ -295,13 +301,15 @@ class MyYeatsScreen extends React.Component {
                         {this.state.showCard4 ? (
 
                             <Card  containerStyle={styles.cardContainer}
-                                   title = {
+                                title = {
+                                    <ScrollView horizontal={true}>
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
                                            style = {styles.cardTitleStyle} >{this.state.arr[13]}
                                            </Text>
                                        </View>
-                                   }>
+                                    </ScrollView>
+                                }>
                                 <Text style = {styles.diningHallStyle}>{this.state.arr[14]}</Text>
                                 <Text style = {styles.priceStyle}>{this.state.arr[15]}</Text>
 
@@ -322,13 +330,15 @@ class MyYeatsScreen extends React.Component {
                         {this.state.showCard5 ? (
 
                             <Card  containerStyle={styles.cardContainer}
-                                   title = {
+                                title = {
+                                    <ScrollView horizontal={true}>
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
                                            style = {styles.cardTitleStyle} >{this.state.arr[17]}
                                            </Text>
                                        </View>
-                                   }>
+                                    </ScrollView>
+                                }>
                                 <Text style = {styles.diningHallStyle}>{this.state.arr[18]}</Text>
                                 <Text style = {styles.priceStyle}>{this.state.arr[19]}</Text>
 
@@ -349,13 +359,15 @@ class MyYeatsScreen extends React.Component {
                         {this.state.showCard6 ? (
 
                             <Card  containerStyle={styles.cardContainer}
-                                   title = {
+                                title = {
+                                    <ScrollView horizontal={true}>    
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
                                            style = {styles.cardTitleStyle} >{this.state.arr[21]}
                                            </Text>
                                        </View>
-                                   }>
+                                    </ScrollView>
+                                }>
                                 <Text style = {styles.diningHallStyle}>{this.state.arr[22]}</Text>
                                 <Text style = {styles.priceStyle}>{this.state.arr[23]}</Text>
 
@@ -376,12 +388,14 @@ class MyYeatsScreen extends React.Component {
                         {this.state.showCard7 ? (
 
                             <Card  containerStyle={styles.cardContainer}
-                                   title = {
+                                title = {
+                                    <ScrollView horizontal={true}>
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
                                            style = {styles.cardTitleStyle} >{this.state.arr[25]}
                                            </Text>
                                        </View>
+                                    </ScrollView>
                                    }>
                                 <Text style = {styles.diningHallStyle}>{this.state.arr[26]}</Text>
                                 <Text style = {styles.priceStyle}>{this.state.arr[27]}</Text>
@@ -403,13 +417,15 @@ class MyYeatsScreen extends React.Component {
                         {this.state.showCard8 ? (
 
                             <Card  containerStyle={styles.cardContainer}
-                                   title = {
+                                title = {
+                                    <ScrollView horizontal={true}>
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
                                            style = {styles.cardTitleStyle} >{this.state.arr[29]}
                                            </Text>
                                        </View>
-                                   }>
+                                    </ScrollView>
+                                }>
                                 <Text style = {styles.diningHallStyle}>{this.state.arr[30]}</Text>
                                 <Text style = {styles.priceStyle}>{this.state.arr[31]}</Text>
 
@@ -430,13 +446,15 @@ class MyYeatsScreen extends React.Component {
                         {this.state.showCard9 ? (
 
                             <Card  containerStyle={styles.cardContainer}
-                                   title = {
+                                title = {
+                                    <ScrollView horizontal={true}>
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
                                            style = {styles.cardTitleStyle} >{this.state.arr[33]}
                                            </Text>
                                        </View>
-                                   }>
+                                    </ScrollView>
+                                }>
                                 <Text style = {styles.diningHallStyle}>{this.state.arr[34]}</Text>
                                 <Text style = {styles.priceStyle}>{this.state.arr[35]}</Text>
 
@@ -457,13 +475,15 @@ class MyYeatsScreen extends React.Component {
                         {this.state.showCard10 ? (
 
                             <Card  containerStyle={styles.cardContainer}
-                                   title = {
+                                title = {
+                                    <ScrollView horizontal={true}>
                                        <View style = {{ alignItems: 'flex-start' }}>
                                            <Text adjustsFontSizeToFit numberOfLines={1}
                                            style = {styles.cardTitleStyle} >{this.state.arr[37]}
                                            </Text>
                                        </View>
-                                   }>
+                                    </ScrollView>
+                                }>
                                 <Text style = {styles.diningHallStyle}>{this.state.arr[38]}</Text>
                                 <Text style = {styles.priceStyle}>{this.state.arr[39]}</Text>
 
@@ -640,22 +660,21 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 25,
-        top: -10,
-        right: 5,
+        top: -5,
     },
     diningHallStyle: {
         color: '#fff',
         fontSize: 18,
         padding: 20,
         top: -20,
-        right: 25,
+        right: 20,
     },
     priceStyle: {
         color: '#fff',
         fontSize: 18,
         padding: 20,
         top: -60,
-        right: 25,
+        right: 20,
         marginTop: 0
     },
     heartStyle: {
