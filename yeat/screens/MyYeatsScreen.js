@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import React from 'react';
-import {Image, StyleSheet, ScrollView, Text, View} from "react-native";
+import {Platform, Image, StyleSheet, ScrollView, Text, View} from "react-native";
 import {Button, Card, Icon} from 'react-native-elements';
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 
@@ -659,7 +659,7 @@ const styles = StyleSheet.create({
         marginTop: 0
     },
     heartStyle: {
-        top: -50,
+        top: Platform.OS === 'ios' ? -50 : -60,
         right: -126
     }
 });

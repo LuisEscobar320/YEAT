@@ -9,9 +9,9 @@ Shows the checkboxes of Dietary Restrictions and Cuisines and the
 user has the ability to check and save their preferences
  */
 export default class PreferencesScreen extends React.Component {
+    //styling for the title
     static navigationOptions = {
         title: 'Preferences',
-
     	headerStyle:{
             backgroundColor: '#fff',
     	    elevation: 0,
@@ -22,17 +22,7 @@ export default class PreferencesScreen extends React.Component {
 	        color: '#153b50',
             fontSize: 35,
             alignSelf: 'flex-end',
-            //code to change it dynamically for android or ios
-            //right: Platform.OS ==='android' ? 0 : 93,
         },
-        /*headerRight: (
-            <Icon size={40} 
-            iconStyle = {{ right: 150, top: Platform.OS === 'android' ? 7 : 3}}
-            name='cog'
-            type='font-awesome'
-            color='#517fa4'
-            />
-        ),*/
     };
 
 

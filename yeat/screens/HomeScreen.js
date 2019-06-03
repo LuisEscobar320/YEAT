@@ -761,7 +761,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
     },
     heartStyle: {
-        top: 22,
+        top: Platform.OS === 'ios' ? 22 : 15,
         right: -137
     }
 });
