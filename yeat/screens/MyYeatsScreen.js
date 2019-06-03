@@ -556,7 +556,8 @@ class ProfileScreen extends React.Component {
         return (
             <ScrollView style={styles.profileContainer}>
                 <View style={{ justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style = {styles.nameStyle}>{this.state.name}</Text>
+                    <Text adjustsFontSizeToFit numberOfLines={1}
+                          style = {styles.nameStyle}>{this.state.name}</Text>
                     <Text style = {styles.emailStyle}>{this.state.email}</Text>
 
                     <Button
