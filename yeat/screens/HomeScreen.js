@@ -487,13 +487,15 @@ export default class HomeScreen extends React.Component {
                     </View>
 
                     <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, top:-5, marginTop: 0 }}
-                          title={
-                              <View style={{ alignItems: 'flex-start' }}>
-                                  <Text adjustsFontSizeToFit numberOfLines={1}
-                                        style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 5, top: -10 }} >
-                                      {this.state.yeatiest.name}
-                                  </Text>
-                              </View>
+                        title={
+                            <ScrollView horizontal={true}>
+                                <View style={{ alignItems: 'flex-start' }}>
+                                    <Text adjustsFontSizeToFit numberOfLines={1}
+                                        style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -5 }} >
+                                        {this.state.yeatiest.name}
+                                    </Text>
+                                </View>
+                            </ScrollView>
                           }>
 
                         <Text style={{color: "#fff", fontSize: 18}}>{this.state.yeatiest.hall}</Text>
@@ -527,13 +529,15 @@ export default class HomeScreen extends React.Component {
 
 
                     <Card containerStyle={{ alignSelf: 'center', width: 325, height: 150, backgroundColor: '#39cbd6', borderRadius: 15, marginTop: 8 }}
-                          title={
-                              <View style={{ alignItems: 'flex-start' }}>
-                                  <Text adjustsFontSizeToFit numberOfLines={1}
-                                        style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, right: 5, top: -10 }} >
-                                      {this.state.yuckiest.name}
-                                  </Text>
-                              </View>
+                        title={
+                            <ScrollView horizontal={true}>
+                                <View style={{ alignItems: 'flex-start' }}>
+                                    <Text adjustsFontSizeToFit numberOfLines={1}
+                                        style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, top: -5 }} >
+                                        {this.state.yuckiest.name}
+                                    </Text>
+                                </View>
+                            </ScrollView>
                           }>
 
                         <Text style={{color: "#fff", fontSize: 18}}>{this.state.yuckiest.hall}</Text>

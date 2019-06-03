@@ -217,7 +217,7 @@ class MyYeatsScreen extends React.Component {
                 <ScrollView style={styles.container}>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         {this.state.showCard1 ? (
-                            <Card  containerStyle={styles.cardContainer}
+                            <Card containerStyle={styles.cardContainer}
                                     title = {
                                         <ScrollView horizontal={true}>
                                         <View style = {{ alignItems: 'flex-start' }}>
@@ -660,22 +660,21 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 25,
-        top: -10,
-        right: 5,
+        top: -5,
     },
     diningHallStyle: {
         color: '#fff',
         fontSize: 18,
         padding: 20,
         top: -20,
-        right: 25,
+        right: 20,
     },
     priceStyle: {
         color: '#fff',
         fontSize: 18,
         padding: 20,
         top: -60,
-        right: 25,
+        right: 20,
         marginTop: 0
     },
     heartStyle: {
