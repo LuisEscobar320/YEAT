@@ -21,24 +21,44 @@ var config = {
   };
 firebase.initializeApp(config);
 
+/*
+ * login screen uses Google login API calls
+ * and updates the loading image accordingly
+ * 
+ * the user will either be logged in through Google
+ * and be taken to the homepage (feed)
+ * or will stay on 
+ */
 export default class LoginScreen extends React.Component {
-  /*static navigationOptions = {
-    title: 'Login',
+  static navigationOptions = {
     headerStyle:{
-      backgroundColor: '#fff',
+      backgroundColor: '#00C6D7',
       elevation: 0,
       borderBottomWidth: 0,
     },
 
-    headerTitleStyle: {
+    /*headerTitleStyle: {
       color: '#153b50',
       fontSize: 35,
-     }
-  };*/
+     }*/
+  };
 
-    // handling login with google
+  /* initializes the state(s) of login
+   *
+   * flag: true  -- processing login info, should display loading gif
+   *       false -- not processing login, should display default img
+   */
+  constructor(props){
+    super(props);
+    this.state = { flag: false }
+  }
 
+    /* handles login with google and uses onsignin to connect to firebase */
     signin = async () => {
+
+      // toggles the flag to display loading gif
+      this.setState({ flag : true });
+
       try{
         const result = await Expo.Google.logInAsync({
           behavior: 'web',
@@ -48,16 +68,19 @@ export default class LoginScreen extends React.Component {
         });
   
         if(result.type==='success'){
+          // updates firebase realtime database
           this.onSignIn(result);
           return result.accessToken;
         } else{
+          // resets the flag to display the default img
+          this.setState({ flag : false });
           return {cancelled: true};
         }
       } catch(e){
-  
       }
     }
   
+    /* retrieves Google user info and updates firebase */
     onSignIn = (googleUser) => {
       console.log('Google Auth Response', googleUser);
       // We need to register an Observer on Firebase Auth to make sure auth is initialized.
@@ -118,7 +141,8 @@ export default class LoginScreen extends React.Component {
       <ScrollView style={styles.container}>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               <Image
-                  source={require('../assets/images/yeatlogo.png')}
+                  source={ this.state.flag ? require('../assets/images/loading.gif')
+                                           : require('../assets/images/yeatlogo.png')}
                   style={styles.welcomeImage}
               />
 
@@ -153,5 +177,6 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#153b50',
         borderRadius: 15,
+        width: 200
     }
 })
