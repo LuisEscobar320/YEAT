@@ -25,7 +25,10 @@ export default class StartingBudgetScreen extends React.Component {
     render() {
         return (
             <View>
-                <ActivityIndicator />
+                <Button
+                    title=""
+                    onPress={() => navigate('TritonCardLoginScreen')}
+                />
             </View>
         );
     }

@@ -1,13 +1,17 @@
-import firebase from 'firebase';
 import React from 'react';
-import {Platform} from 'react-native';
 import {StyleSheet, ScrollView, Text, View} from 'react-native';
-import {Button, CheckBox, Icon} from 'react-native-elements';
+import {Button, CheckBox} from 'react-native-elements';
+import ControllerPreferences from "./ControllerPreferences.js";
 
+/*
+PreferencesScreen class renders the Preferences screen of the app
+Shows the checkboxes of Dietary Restrictions and Cuisines and the
+user has the ability to check and save their preferences
+ */
 export default class PreferencesScreen extends React.Component {
+    //styling for the title
     static navigationOptions = {
         title: 'Preferences',
-
     	headerStyle:{
             backgroundColor: '#fff',
     	    elevation: 0,
@@ -18,17 +22,7 @@ export default class PreferencesScreen extends React.Component {
 	        color: '#153b50',
             fontSize: 35,
             alignSelf: 'flex-end',
-            //code to change it dynamically for android or ios
-            //right: Platform.OS ==='android' ? 0 : 93,
         },
-        /*headerRight: (
-            <Icon size={40} 
-            iconStyle = {{ right: 150, top: Platform.OS === 'android' ? 7 : 3}}
-            name='cog'
-            type='font-awesome'
-            color='#517fa4'
-            />
-        ),*/
     };
 
 
@@ -36,22 +30,22 @@ export default class PreferencesScreen extends React.Component {
         super(props);
        
         // Gets the boolean for all of the boxes
-        this.readUserData("veganCheck");
-        this.readUserData("vegetarianCheck");
-        this.readUserData("noDairyCheck");
-        this.readUserData("noTreeNutsCheck");
-        this.readUserData("noSoyCheck");
-        this.readUserData("noWheatCheck");
-        this.readUserData("noFishCheck");
-        this.readUserData("noShellfishCheck");
-        this.readUserData("noPeanutsCheck");
-        this.readUserData("noEggsCheck");
-        this.readUserData("glutenFreeCheck");
-        this.readUserData("americanCheck");
-        this.readUserData("asianCheck");
-        this.readUserData("indianCheck");
-        this.readUserData("italianCheck");
-        this.readUserData("mexicanCheck");
+        this.setChecks("veganCheck");
+        this.setChecks("vegetarianCheck");
+        this.setChecks("noDairyCheck");
+        this.setChecks("noTreeNutsCheck");
+        this.setChecks("noSoyCheck");
+        this.setChecks("noWheatCheck");
+        this.setChecks("noFishCheck");
+        this.setChecks("noShellfishCheck");
+        this.setChecks("noPeanutsCheck");
+        this.setChecks("noEggsCheck");
+        this.setChecks("glutenFreeCheck");
+        this.setChecks("americanCheck");
+        this.setChecks("asianCheck");
+        this.setChecks("indianCheck");
+        this.setChecks("italianCheck");
+        this.setChecks("mexicanCheck");
 
         this.state = {
             checkbox1: false,
@@ -73,16 +67,11 @@ export default class PreferencesScreen extends React.Component {
         };
     }
 
-            
-    async readUserData(param) {
-        var userId = firebase.auth().currentUser.uid;
-        var ref = firebase.database().ref("users/" + userId);
-        let bool = false;
-        await ref.once("value")
-
-          .then(function(snapshot) {
-            bool = snapshot.child("preferences/" + param).val(); //Gets check val
-        });
+    // Method sets the checkboxes to be checked or unchecked depending
+    // on whether that value in the database is true or false
+    async setChecks(param) {
+        // Calls the controller to get values from the database
+        let bool = await ControllerPreferences.readUserChecks(param);
 
         // Sets the corresponding checkbox to be true or false
         if (param === "veganCheck") {
@@ -137,36 +126,19 @@ export default class PreferencesScreen extends React.Component {
     };
     
     // Method saves the user's preferences to Firebase
-    savePrefs(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11,
+    updateChecks(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11,
             ch12, ch13, ch14, ch15, ch16) {
-        firebase.auth().onAuthStateChanged(user=> {
-            if(user) {
-                firebase.database().ref('/users/' + user.uid + '/preferences/').update(
-                    {
-                        veganCheck: ch1,
-                        vegetarianCheck: ch2,
-                        noDairyCheck: ch3,
-                        noTreeNutsCheck: ch4,
-                        noSoyCheck: ch5,
-                        noWheatCheck: ch6,
-                        noFishCheck: ch7,
-                        noShellfishCheck: ch8,
-                        noPeanutsCheck: ch9,
-                        noEggsCheck: ch10,
-                        glutenFreeCheck: ch11,
-                        americanCheck: ch12,
-                        asianCheck: ch13,
-                        indianCheck: ch14,
-                        italianCheck: ch15,
-                        mexicanCheck: ch16,
-                    });
-            }
-        });
+        // Calls the control to update the database
+        ControllerPreferences.savePrefs(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11,
+            ch12, ch13, ch14, ch15, ch16);
         alert('Preferences saved!')
 
     }
 
-
+    /* Renders the Preferences screen - shows the checkboxes under the
+    headings Dietary Restrictions and Cuisines and the user can check
+    and save their preferences
+    */
     render() {
         return (
             <View style={{ flex: 1, justifyContent: "center" }}>
@@ -279,7 +251,7 @@ export default class PreferencesScreen extends React.Component {
                         title="Save"
                         type="solid"
                         buttonStyle={styles.button}
-                        onPress={() => this.savePrefs(this.state.checkbox1, this.state.checkbox2,
+                        onPress={() => this.updateChecks(this.state.checkbox1, this.state.checkbox2,
                             this.state.checkbox3, this.state.checkbox4, this.state.checkbox5,
                             this.state.checkbox6, this.state.checkbox7, this.state.checkbox8,
                             this.state.checkbox9, this.state.checkbox10, this.state.checkbox11,
