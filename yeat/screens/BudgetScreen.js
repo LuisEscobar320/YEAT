@@ -289,6 +289,10 @@ export default class BudgetScreen extends React.Component {
 
       </Card>
 
+      <View>
+          <Text style={styles.chartHeaderDaily}>Daily Spending</Text>
+      </View>
+
   <PieChart
     data = {[{name: 'Spent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
              {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
@@ -315,6 +319,10 @@ export default class BudgetScreen extends React.Component {
     paddingLeft="-8" // how far pi chart is from left of screen
     absolute
   />
+
+      <View>
+          <Text style={styles.chartHeaderWeekly}>Weekly Spending</Text>
+      </View>
 
   <BarChart
     data={{
@@ -409,4 +417,16 @@ export default class BudgetScreen extends React.Component {
             fontSize: 20,
             color: '#fff',
         },
+        chartHeaderDaily: {
+            color: '#153b50',
+            fontSize: 28,
+            paddingLeft: 15,
+            paddingTop: 20,
+        },
+        chartHeaderWeekly: {
+            color: '#153b50',
+            fontSize: 28,
+            paddingLeft: 15,
+            paddingBottom: 30,
+        }
     });
