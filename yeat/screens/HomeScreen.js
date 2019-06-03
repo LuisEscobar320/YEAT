@@ -456,7 +456,7 @@ export default class HomeScreen extends React.Component {
                 price: cost
             });
 
-        alert("Added to My Yeats!");
+        alert(food + " added to My Yeats!");
   }
 
     /*
@@ -609,7 +609,7 @@ export default class HomeScreen extends React.Component {
                                             </View>
 
                                             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                                              <Text>{food.yeats}         {food.yucks}           </Text>
+                                              <Text>{food.yeats}        {food.yucks}           </Text>
                                             </View>
                                         </Card>
 
