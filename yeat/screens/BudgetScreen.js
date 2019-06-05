@@ -237,8 +237,8 @@ export default class BudgetScreen extends React.Component {
       </View>
 
   <PieChart
-    data = {[{name: '$\nSpent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
-             {name: '$\nRemaining Today', amount: (this.state.data[1] - this.state.data[3]), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
+    data = {[{name: 'Spent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
+             {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]).toFixed(2), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
     width={Dimensions.get('window').width}
     height={200}
     chartConfig={{
