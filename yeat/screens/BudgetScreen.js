@@ -18,7 +18,7 @@ export default class BudgetScreen extends React.Component {
         this.calculateWeeklySpending()
     }
 
-//    async calculateBudget(callback) {
+    async waitForHashmap(callback) {
 //        var userId = firebase.auth().currentUser.uid;
 //       var ref = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2");
 
@@ -58,8 +58,8 @@ export default class BudgetScreen extends React.Component {
 //            console.log("weekly budget: $" + weeklyBudget);
 //            query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
 //        });
-//        return await callback();
-//    }
+        return await callback();
+    }
 
     async gatherSpendingData() {
       /* hashmap to store info from firebase to minimize database access */
@@ -111,7 +111,8 @@ export default class BudgetScreen extends React.Component {
       var endDate = new Date(2019, 5, 14); // hard-coded date for end of academic year
       var daysLeft, balance, dailyBudget, weeklyBudget, thisWeeksTotal, todaysSpending;
       daysLeft = balance = dailyBudget = weeklyBudget = thisWeeksTotal = todaysSpending = 0;
-      var spendingHashmap = await this.gatherSpendingData;
+//      var spendingHashmap = await this.gatherSpendingData;
+      var spendingHashmap = await this.waitForHashmap(this.gatherSpendingData);
 
       /* calculate remaining days left for daily/weekly budget */
       while(currentDate.toDateString() != endDate.toDateString()) {
