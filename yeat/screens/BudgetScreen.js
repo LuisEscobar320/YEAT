@@ -83,7 +83,7 @@ export default class BudgetScreen extends React.Component {
          // then calculate daily and weekly budgets
          dailyBudget = (balance/daysLeft).toFixed(2);
          weeklyBudget = (dailyBudget*7).toFixed(2);
-         query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
+         query = firebase.database().ref("users/" + userId + "/tritoncard/thismonth").orderByKey();
       });
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -129,9 +129,6 @@ export default class BudgetScreen extends React.Component {
                 currentDay.setDate(currentDay.getDate() - 1);
             }
         }
-        console.log("Spending for 1 week ago: $" + previousWeeks[0]);
-        console.log("Spending for 2 weeks ago: $" + previousWeeks[1]);
-        console.log("Spending for 3 weeks ago: $" + previousWeeks[2]);
 	var infoToDisplay = [balance, dailyBudget, weeklyBudget, todaysSpending,
 		             thisWeeksTotal, previousWeeks[0], previousWeeks[1], previousWeeks[2]];
         this.setState({data: infoToDisplay});
@@ -240,8 +237,8 @@ export default class BudgetScreen extends React.Component {
       </View>
 
   <PieChart
-    data = {[{name: 'Spent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
-             {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
+    data = {[{name: '$\nSpent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
+             {name: '$\nRemaining Today', amount: (this.state.data[1] - this.state.data[3]), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
     width={Dimensions.get('window').width}
     height={200}
     chartConfig={{
