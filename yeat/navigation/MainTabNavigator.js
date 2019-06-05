@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
+import { TabNavigator, createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -47,7 +47,9 @@ SettingsStack.navigationOptions = {
 // Creates the My Yeats page
 const MyYeatsStack = createStackNavigator({
     MyYeats: MyYeatsScreen,
-});
+},
+    { headerMode: 'none'},
+);
 
 MyYeatsStack.navigationOptions = {
     tabBarLabel: 'My Yeats',
@@ -86,7 +88,7 @@ const BudgetStack = createSwitchNavigator({
     TritonCard: TritonCardLoginScreen,
     Budget: BudgetScreen,
     }, {
-        initialRouteName: 'Starting'
+        initialRouteName: 'Starting',
 });
 
 BudgetStack.navigationOptions = {
@@ -106,5 +108,5 @@ export default createBottomTabNavigator({
     HomeStack,
     BudgetStack,
     MyYeatsStack,
-    PreferencesStack
+    PreferencesStack,
 });

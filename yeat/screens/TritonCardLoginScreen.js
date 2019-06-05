@@ -58,27 +58,10 @@ export default class TritonCardLoginScreen extends React.Component {
             }
         });
 
-        //var checkUser;
-        //checkUser = ref.child('tritoncard').child('username').once('value', snapshot => {
-        // checkUser = ref.child('tritoncard').child('username').once('value').then((snapshot) => {
-        //     console.log("in here");
-        //     //timeout(5000);
-        //     //var checkUser;
-        //     return snapshot.val();
-        // });
-        // console.log(checkUser)
-
     }
 
 
     render() {
-        // let data;
-        // if (this.state.loading) {
-        //     data = <View style={[styles.container, styles.horizontal]}>
-        //         <ActivityIndicator size="large" color="#000000"/>
-        //     </View>
-        // }
-        //  else {
         return (
             <View style={styles.container}>
                 <Image
@@ -140,10 +123,31 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         borderWidth: 1,
         marginTop: 8,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        borderRadius: 15,
     },
     loginPrompt: {
         fontSize: 18,
-        color: '#fff'
+        color: '#fff',
+    },
+    button: {
+        backgroundColor: '#153b50',
+        borderRadius: 15,
+    },
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 18
+    },
+    loginContainer: {
+        flex: 1,
+        marginLeft: 18,
+        marginRight: 5,
+    },
+    signUpContainer: {
+        flex: 1,
+        marginRight: 18,
+        marginLeft: 5,
     },
 });

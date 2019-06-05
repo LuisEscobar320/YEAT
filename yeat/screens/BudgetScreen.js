@@ -2,11 +2,10 @@ import React from 'react'
 import firebase from 'firebase'
 import { StyleSheet, Text, TextInput, View, Button, Linking, ScrollView, Dimensions } from 'react-native'
 import { BarChart, PieChart } from 'react-native-chart-kit'
+import { Card } from 'react-native-elements';
 
 export default class BudgetScreen extends React.Component {
 
-
-    /* constructor to initiate state.data to null to delay rendering */
     constructor(props) {
         super(props);
         this.state = {
@@ -18,84 +17,38 @@ export default class BudgetScreen extends React.Component {
         this.calculateWeeklySpending()
     }
 
-    async waitForHashmap(callback) {
-//        var userId = firebase.auth().currentUser.uid;
-//       var ref = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2");
-
-//        var currentDate = new Date();
-//        var endDate = new Date(2019, 5, 14); // hard-coded date for end of academic year
-//        var daysLeft = 0;
-//        var balance = 0;
-
-        // this loop condition will never break if currentDate starts after endDate
-//        while(currentDate.toDateString() != endDate.toDateString()) {
-//            daysLeft++;
-//            currentDate.setDate(currentDate.getDate() + 1); // currentDate WILL change
-//        }
-//        var weeksLeft = Math.ceil(daysLeft/7);
-//        var dailyBudget;
-//        var weeklyBudget;
-
-//        console.log(daysLeft + " days left");
-//        console.log(weeksLeft + " weeks left");
-
-        // code to format date string to match format of firebase entry
-        // toDateString method ALWAYS provides string of format "Day ### ## ####" 
-        // endDate.toDateString().substr(4, 11);
-
-        // retrieve user's balance from firebase
-//        var userId = firebase.auth().currentUser.uid;
-//        var query;
-//        var thisWeeksTotal = 0;
-
-  //      await ref.once("value")
-//        .then(function(snapshot) {
-//            balance = parseFloat(snapshot.child("tritoncard/balance").val());
-            // then calculate daily and weekly budgets
-//            dailyBudget = (balance/daysLeft).toFixed(2);
-//            weeklyBudget = dailyBudget*7;
-//            console.log("daily budget: $" + dailyBudget);
-//            console.log("weekly budget: $" + weeklyBudget);
-//            query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
-//        });
+    async calculateBudget(callback) {
         return await callback();
     }
 
-    async gatherSpendingData() {
-      /* hashmap to store info from firebase to minimize database access */
-      /* key: month, day, year; value: total spending for that day */
-      var spendingHashmap = new Map([]);
-      var userId = firebase.auth().currentUser.uid;
-
-      /* gather spending data from current month */
-      var query = firebase.database().ref("users/" + userId + "/tritoncard/thismonth").orderByKey();
-      await query.once("value")
-        .then(function(snapshot) {
-          snapshot.forEach(function(childSnapshot) {
-            if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
-              spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
-            }
-            else {
-              spendingHashmap.set(childSnapshot.key.substr(0, 11), parseFloat(childSnapshot.val()));
-            }
+    async calculateDailySpending() {
+        var userId = firebase.auth().currentUser.uid;
+        var spendingHashmap = new Map([]);
+        var query = firebase.database().ref("users/" + userId + "/tritoncard/thismonth").orderByKey();
+        await query.once("value")
+          .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
+                spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
+              }
+              else {
+                spendingHashmap.set(childSnapshot.key.substr(0, 11), parseFloat(childSnapshot.val()));
+              }
+            });
           });
-        });
-
-      /* gather spending data from previous month */
-      query = firebase.database().ref("users/" + userId + "/tritoncard/lastmonth").orderByKey();
-      await query.once("value")
-        .then(function(snapshot) {
-          snapshot.forEach(function(childSnapshot) {
-            if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
-              spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
-            }
-            else {
-              spendingHashmap.set(childSnapshot.key.substr(0, 11), parseFloat(childSnapshot.val()));
-            }
+        query = firebase.database().ref("users/" + userId + "/tritoncard/lastmonth").orderByKey();
+        await query.once("value")
+          .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
+                spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
+              }
+              else {
+                spendingHashmap.set(childSnapshot.key.substr(0, 11), parseFloat(childSnapshot.val()));
+              }
+            });
           });
-        });
-	    
-      return spendingHashmap;     
+          return spendingHashmap;     
     }
 
     async calculateWeeklySpending() {
@@ -104,101 +57,191 @@ export default class BudgetScreen extends React.Component {
 
       var userId = firebase.auth().currentUser.uid;
       var ref = firebase.database().ref("users/" + userId);
-      var query;
 
       var currentDate = new Date();
-      var today = currentDate;
       var endDate = new Date(2019, 5, 14); // hard-coded date for end of academic year
-      var daysLeft, balance, dailyBudget, weeklyBudget, thisWeeksTotal, todaysSpending;
-      daysLeft = balance = dailyBudget = weeklyBudget = thisWeeksTotal = todaysSpending = 0;
-//      var spendingHashmap = await this.gatherSpendingData;
-      var spendingHashmap = await this.waitForHashmap(this.gatherSpendingData);
+      var daysLeft = 0;
+      var balance = 0;
 
-      /* calculate remaining days left for daily/weekly budget */
+      // this loop condition will never break if currentDate starts after endDate
       while(currentDate.toDateString() != endDate.toDateString()) {
           daysLeft++;
-          currentDate.setDate(currentDate.getDate() + 1);
+          currentDate.setDate(currentDate.getDate() + 1); // currentDate WILL change
       }
+      var weeksLeft = Math.ceil(daysLeft/7);
+      var dailyBudget;
+      var weeklyBudget;
 
-      /* retrieve user's balance and use that to calculate daily/weekly budget */
+      // retrieve user's balance from firebase
+      var userId = firebase.auth().currentUser.uid;
+      var query;
+      var thisWeeksTotal = 0;
+
       await ref.once("value")
       .then(function(snapshot) {
          balance = parseFloat(snapshot.child("tritoncard/balance").val());
+         // then calculate daily and weekly budgets
          dailyBudget = (balance/daysLeft).toFixed(2);
          weeklyBudget = (dailyBudget*7).toFixed(2);
-         query = firebase.database().ref("users/" + userId + "/tritoncard/thismonth").orderByKey();
+         query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
       });
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-//      var spendingHashmap = await this.calculateBudget(this.gatherSpendingData);
-      /* reset currentDate to iterate from today again */
-      currentDate = today;
+      var spendingHashmap = await this.calculateBudget(this.calculateDailySpending);
+      var currentDay = new Date();
+      var today = currentDay;
+      var startDay = currentDay;
+      var thisWeeksTotal = 0;
+      var todaysSpending = 0;
 
       // get today's spending
-      if(spendingHashmap.has(currentDate.toDateString().substr(4, 11))) {
-	todaysSpending = spendingHashmap.get(currentDate.toDateString().substr(4, 11));
+      if(spendingHashmap.has(currentDay.toDateString().substr(4, 11))) {
+	todaysSpending = spendingHashmap.get(currentDay.toDateString().substr(4, 11));
       }
 
       // if starting on a Saturday
-      if(currentDate.getDay() == 6) {
-        if(spendingHashmap.has(currentDate.toDateString().substr(4, 11))) {
-          thisWeeksTotal += spendingHashmap.get(currentDate.toDateString().substr(4, 11));
+      if(currentDay.getDay() == 6) {
+        if(spendingHashmap.has(currentDay.toDateString().substr(4, 11))) {
+          thisWeeksTotal += spendingHashmap.get(currentDay.toDateString().substr(4, 11));
         }
-        currentDate.setDate(currentDate.getDate() - 1);
+        currentDay.setDate(currentDay.getDate() - 1);
       }
 
-      // then iterate to previous Saturday
-      while(currentDate.getDay() != 6) {
-        if(spendingHashmap.has(currentDate.toDateString().substr(4, 11))) {
-          thisWeeksTotal += spendingHashmap.get(currentDate.toDateString().substr(4, 11));
+      // now iterate to previous Saturday
+      while(currentDay.getDay() != 6) {
+        if(spendingHashmap.has(currentDay.toDateString().substr(4, 11))) {
+          thisWeeksTotal += spendingHashmap.get(currentDay.toDateString().substr(4, 11));
         }   
-        currentDate.setDate(currentDate.getDate() - 1);
-      }
-
-      // now calculate previous 3 weeks spending
-      var i, j;
-      var previousWeeks = [0, 0, 0];
-
-      /* "for each previous week" */
-      for(i = 0; i < 3; i++) {
-	/* "for each day of the week" */
-        for(j = 0; j < 7; j++) {
-          if(spendingHashmap.has(currentDate.toDateString().substr(4, 11))) {
-            previousWeeks[i] += spendingHashmap.get(currentDate.toDateString().substr(4, 11));
-          }
-          currentDate.setDate(currentDate.getDate() - 1);
+            currentDay.setDate(currentDay.getDate() - 1);
         }
-      }
-      var infoToDisplay = [balance, dailyBudget, weeklyBudget, todaysSpending,
-		           thisWeeksTotal, previousWeeks[0], previousWeeks[1], previousWeeks[2]];
-      this.setState({data: infoToDisplay});
-      return previousWeeks;
+        console.log("Total spending for this week: $" + thisWeeksTotal);
+
+        // now calculate previous 3 weeks spending
+        var i;
+        var j;
+        var previousWeeks = [0, 0, 0];
+        for(i = 0; i < 3; i++) {
+            for(j = 0; j < 7; j++) {
+                if(spendingHashmap.has(currentDay.toDateString().substr(4, 11))) {
+                    previousWeeks[i] += spendingHashmap.get(currentDay.toDateString().substr(4, 11));
+                }
+                currentDay.setDate(currentDay.getDate() - 1);
+            }
+        }
+        console.log("Spending for 1 week ago: $" + previousWeeks[0]);
+        console.log("Spending for 2 weeks ago: $" + previousWeeks[1]);
+        console.log("Spending for 3 weeks ago: $" + previousWeeks[2]);
+	var infoToDisplay = [balance, dailyBudget, weeklyBudget, todaysSpending,
+		             thisWeeksTotal, previousWeeks[0], previousWeeks[1], previousWeeks[2]];
+        this.setState({data: infoToDisplay});
+        return previousWeeks;
     }
 
+
+
+
+
+
+
+
+
+
     render() {
+        
+
+
+        // this.calculateBudget().then(this.calculateSpending.then());
+        // this.calculateBudget(this.calculateSpending);
+        // this.calculateWeeklySpending();
+        // console.log("hello2");
+        // var weekspending;
+        // (async () => {
+        //     weekspending = await this.calculateWeeklySpending();
+        // })();
+        // console.log("whats" + weekspending[0]);
+
+
+
+    
+        // console.log("this weeks total " +thisWeeksTotal);
+
+        // // then find previous 3 weeks spending
+        // var previousWeeks = [0, 0, 0];
+        // for(var i = 0; i < 3; i++) {
+        //   for(var j = 0; j < 7; j++) {
+        //     query.once("value")
+        //       .then(function(snapshot) {
+        //         snapshot.forEach(function(childSnapshot) {
+        //           if(currentDate.toDateString().substr(4, 3) != childSnapshot.key.substr(0, 3)) {
+        //    query = firebase.database().ref("users/" + userId + "/tritoncard/lastmonth").orderByKey();
+        //  }
+        //    else if(currentDate.toDateString().substr(4, 11) == childSnapshot.key.substr(0, 11)) {
+        //             previousWeeks[i] += parseFloat(childSnapshot.val());
+        //           }
+        //           else if(currentDate.toDateString().substr(4, 11) < childSnapshot.key.substr(0, 11)) {
+        //             return true;
+        //           }
+        //       });
+        //     });
+        //     console.log(previousWeeks);
+
+        //     currentDate.setDate(currentDate.getDate() - 1);
+
+
+
 
         const fill = 'rgb(57, 203, 214)'
         
+        // const data   = [ 50, 50, 40, 95, 40 ]
+        
         const keys = [ 'Wk1', 'Wk2', 'Wk3', 'Wk4', 'Wk4']
+
+//        const data = [
+//  { name: 'Amount Spent Today', amount: 30, color: 'rgba(131, 167, 234, 1)', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+//  { name: 'Remaining Balance for Today', amount: 40, color: '#F00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+//]
 
         return (
             <View>
             {this.state.data === null ?
                 <View style = {{justifyContent: 'center ',alignItems: 'center', top: Dimensions.get('window').height/2}}><Text>Loading...</Text></View> :
-  
+            //     <Text> {this.state.data[0]} </Text>
+
+
+            // }
+                
+            // </Text>);
+
   <ScrollView>
       <View style={styles.header}>
           <Text style={styles.head}>Budget</Text>
       </View>
-      <View style={styles.budgetdisplay}>
-          <Text style={styles.budgettext}>Current Balance: ${this.state.data[0]}</Text>
-          <Text style={styles.budgettext}>Daily Budget: ${this.state.data[1]}</Text>
-          <Text style={styles.budgettext}>Weekly Budget: ${this.state.data[2]}</Text>
+
+      <Card
+          containerStyle={{ alignSelf: 'center', width: 325, height: 200, backgroundColor: '#39cbd6', borderRadius: 15, }}
+          title={
+          <View style={styles.budgetDisplay}>
+              <Text style={styles.budgetTitleOne}>Current Balance</Text>
+              <Text style={styles.budgetText}>${this.state.data[0]}</Text>
+
+              <Text style={styles.budgetTitleTwo}>Daily Budget</Text>
+              <Text style={styles.budgetText}>${this.state.data[1]}</Text>
+
+              <Text style={styles.budgetTitleTwo}>Weekly Budget</Text>
+              <Text style={styles.budgetText}>${this.state.data[2]}</Text>
+          </View>
+      }>
+
+      </Card>
+
+      <View>
+          <Text style={styles.chartHeaderDaily}>Daily Spending</Text>
       </View>
+
   <PieChart
     data = {[{name: 'Spent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
-             {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]).toFixed(2), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
+             {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
     width={Dimensions.get('window').width}
     height={200}
     chartConfig={{
@@ -214,6 +257,7 @@ export default class BudgetScreen extends React.Component {
     }}
     backgroundColor = "#FFFFFF"
     accessor="amount"
+    // backgroundColor="#FFFFFF"
     style= {{
       marginVertical:24,
       borderRadius: 0
@@ -222,11 +266,20 @@ export default class BudgetScreen extends React.Component {
     absolute
   />
 
+      <View>
+          <Text style={styles.chartHeaderWeekly}>Weekly Spending</Text>
+      </View>
+
   <BarChart
     data={{
       labels: ['3 weeks ago', '2 weeks ago', '1 week ago', 'This week'],
       datasets: [{
-        data: [this.state.data[7], this.state.data[6], this.state.data[5], this.state.data[4]]
+        data: [
+          this.state.data[7],
+          this.state.data[6],
+          this.state.data[5],
+	        this.state.data[4]
+        ]
       }]
     }}
     width={Dimensions.get('window').width} // from react-native
@@ -245,8 +298,9 @@ export default class BudgetScreen extends React.Component {
     }}
     bezier
     style={{
-      marginVertical: 0, // How far top edge of graph is from top edge of phone.
-      borderRadius: 0 
+      marginVertical: 0, // How far top edge of graph is from top edge
+                          // of phone.
+      borderRadius: 0 // 
     }}
   />
 </ScrollView>
@@ -259,6 +313,8 @@ export default class BudgetScreen extends React.Component {
 
 
 }
+
+
 
     const styles = StyleSheet.create({
         container: {
@@ -280,9 +336,6 @@ export default class BudgetScreen extends React.Component {
             color: '#F5FCFF',
         },
         header: {
-            fontSize: 35,
-            color: '#153b50',
-            fontWeight: 'bold',
             justifyContent: 'center',
             alignItems: 'center',
             paddingTop: 20,
@@ -292,11 +345,34 @@ export default class BudgetScreen extends React.Component {
             color: '#153b50',
             fontWeight: 'bold',
         },
-        budgetdisplay: {
-            paddingTop: 20,
+        budgetDisplay: {
             marginLeft: 5,
         },
-        budgettext: {
-            fontSize: 20,
+        budgetTitleOne: {
+            fontSize: 24,
+            color: '#fff',
+            fontWeight: 'bold',
         },
+        budgetTitleTwo: {
+            fontSize: 24,
+            color: '#fff',
+            fontWeight: 'bold',
+            marginTop: 5,
+        },
+        budgetText: {
+            fontSize: 20,
+            color: '#fff',
+        },
+        chartHeaderDaily: {
+            color: '#153b50',
+            fontSize: 28,
+            paddingLeft: 15,
+            paddingTop: 20,
+        },
+        chartHeaderWeekly: {
+            color: '#153b50',
+            fontSize: 28,
+            paddingLeft: 15,
+            paddingBottom: 30,
+        }
     });
