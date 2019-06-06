@@ -1,12 +1,7 @@
 import React from 'react'
 import firebase from 'firebase'
-import { StyleSheet, Text, TextInput, View, Button, Linking, ScrollView } from 'react-native'
-// import { BarChart, Grid } from 'react-native-svg-charts'
-import {
-  BarChart,
-  PieChart
-} from 'react-native-chart-kit'
-import { Dimensions } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button, Linking, ScrollView, Dimensions } from 'react-native'
+import { BarChart, PieChart } from 'react-native-chart-kit'
 import { Card } from 'react-native-elements';
 
 export default class BudgetScreen extends React.Component {
@@ -21,53 +16,15 @@ export default class BudgetScreen extends React.Component {
     componentDidMount(){
         this.calculateWeeklySpending()
     }
+
     async calculateBudget(callback) {
-//        var userId = firebase.auth().currentUser.uid;
-//       var ref = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2");
-
-//        var currentDate = new Date();
-//        var endDate = new Date(2019, 5, 14); // hard-coded date for end of academic year
-//        var daysLeft = 0;
-//        var balance = 0;
-
-        // this loop condition will never break if currentDate starts after endDate
-//        while(currentDate.toDateString() != endDate.toDateString()) {
-//            daysLeft++;
-//            currentDate.setDate(currentDate.getDate() + 1); // currentDate WILL change
-//        }
-//        var weeksLeft = Math.ceil(daysLeft/7);
-//        var dailyBudget;
-//        var weeklyBudget;
-
-//        console.log(daysLeft + " days left");
-//        console.log(weeksLeft + " weeks left");
-
-        // code to format date string to match format of firebase entry
-        // toDateString method ALWAYS provides string of format "Day ### ## ####" 
-        // endDate.toDateString().substr(4, 11);
-
-        // retrieve user's balance from firebase
-//        var userId = firebase.auth().currentUser.uid;
-//        var query;
-//        var thisWeeksTotal = 0;
-
-  //      await ref.once("value")
-//        .then(function(snapshot) {
-//            balance = parseFloat(snapshot.child("tritoncard/balance").val());
-            // then calculate daily and weekly budgets
-//            dailyBudget = (balance/daysLeft).toFixed(2);
-//            weeklyBudget = dailyBudget*7;
-//            console.log("daily budget: $" + dailyBudget);
-//            console.log("weekly budget: $" + weeklyBudget);
-//            query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
-//        });
         return await callback();
     }
 
     async calculateDailySpending() {
-        console.log("bet");
+        var userId = firebase.auth().currentUser.uid;
         var spendingHashmap = new Map([]);
-        var query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
+        var query = firebase.database().ref("users/" + userId + "/tritoncard/thismonth").orderByKey();
         await query.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
@@ -79,8 +36,7 @@ export default class BudgetScreen extends React.Component {
               }
             });
           });
-        query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/lastmonth").orderByKey();
-        console.log("hello1");
+        query = firebase.database().ref("users/" + userId + "/tritoncard/lastmonth").orderByKey();
         await query.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
@@ -92,8 +48,6 @@ export default class BudgetScreen extends React.Component {
               }
             });
           });
-          console.log(spendingHashmap.get("May 23 2019"));
-          console.log("hello2");
           return spendingHashmap;     
     }
 
@@ -102,7 +56,7 @@ export default class BudgetScreen extends React.Component {
 ////////////////////////////////////////////////////////////////////////////////////
 
       var userId = firebase.auth().currentUser.uid;
-      var ref = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2");
+      var ref = firebase.database().ref("users/" + userId);
 
       var currentDate = new Date();
       var endDate = new Date(2019, 5, 14); // hard-coded date for end of academic year
@@ -118,13 +72,6 @@ export default class BudgetScreen extends React.Component {
       var dailyBudget;
       var weeklyBudget;
 
-      console.log(daysLeft + " days left");
-      console.log(weeksLeft + " weeks left");
-
-      // code to format date string to match format of firebase entry
-      // toDateString method ALWAYS provides string of format "Day ### ## ####" 
-      // endDate.toDateString().substr(4, 11);
-
       // retrieve user's balance from firebase
       var userId = firebase.auth().currentUser.uid;
       var query;
@@ -136,15 +83,14 @@ export default class BudgetScreen extends React.Component {
          // then calculate daily and weekly budgets
          dailyBudget = (balance/daysLeft).toFixed(2);
          weeklyBudget = (dailyBudget*7).toFixed(2);
-         console.log("daily budget: $" + dailyBudget);
-         console.log("weekly budget: $" + weeklyBudget);
-         query = firebase.database().ref("users/" + "fi6DDOwDZMaCY1WIYNvfZFwUdRx2" + "/tritoncard/thismonth").orderByKey();
+         query = firebase.database().ref("users/" + userId + "/tritoncard/thismonth").orderByKey();
       });
 
 ////////////////////////////////////////////////////////////////////////////////////
 
       var spendingHashmap = await this.calculateBudget(this.calculateDailySpending);
-      var currentDay = new Date(2019, 4, 31);
+      var currentDay = new Date();
+      var today = currentDay;
       var startDay = currentDay;
       var thisWeeksTotal = 0;
       var todaysSpending = 0;
@@ -183,9 +129,6 @@ export default class BudgetScreen extends React.Component {
                 currentDay.setDate(currentDay.getDate() - 1);
             }
         }
-        console.log("Spending for 1 week ago: $" + previousWeeks[0]);
-        console.log("Spending for 2 weeks ago: $" + previousWeeks[1]);
-        console.log("Spending for 3 weeks ago: $" + previousWeeks[2]);
 	var infoToDisplay = [balance, dailyBudget, weeklyBudget, todaysSpending,
 		             thisWeeksTotal, previousWeeks[0], previousWeeks[1], previousWeeks[2]];
         this.setState({data: infoToDisplay});
@@ -295,7 +238,7 @@ export default class BudgetScreen extends React.Component {
 
   <PieChart
     data = {[{name: 'Spent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
-             {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
+             {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]).toFixed(2), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
     width={Dimensions.get('window').width}
     height={200}
     chartConfig={{

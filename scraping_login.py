@@ -61,7 +61,7 @@ def main():
                     balance = balance.replace("$","")
                     balance = balance.replace(",","")
                     ref.child(key).child('tritoncard').update({'balance': balance})
-                    #print(balance)
+                    print("Balance is "+balance)
 
                     chrome.find_element(By.XPATH, "(//a[contains(text(),'" + 'View More'"')])[2]").click()
                     chrome.find_element(By.XPATH, "(//a[contains(text(),'" + 'View'"')])[1]").click()
@@ -75,7 +75,7 @@ def main():
                         cells = row.findAll("td")
                         if cells:
                             sad = cells[0].find(text=True)
-                            sad = sad.replace("9 ","9_")
+                            sad = sad.replace("2019 ","2019_")
                             sad = sad.replace(u'\xa0', u'')
                             evensadder = cells[2].find(text=True)
                             evensadder = evensadder.replace("-","")
@@ -96,7 +96,7 @@ def main():
                         cells = row.findAll("td")
                         if cells:
                             sad = cells[0].find(text=True)
-                            sad = sad.replace("9 ","9_")
+                            sad = sad.replace("2019 ","2019_")
                             sad = sad.replace(u'\xa0', u'')
                             evensadder = cells[2].find(text=True)
                             evensadder = evensadder.replace("-","")
@@ -106,6 +106,7 @@ def main():
 
                     #print(lastMonth_trans)
                     ref.child(key).child('tritoncard').update({'lastmonth': lastMonth_trans})
+                    print("Got transactions")
 
 if __name__ == '__main__':
     main()
