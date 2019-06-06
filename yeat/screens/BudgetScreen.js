@@ -57,26 +57,22 @@ export default class BudgetScreen extends React.Component {
 
       var userId = firebase.auth().currentUser.uid;
       var ref = firebase.database().ref("users/" + userId);
+      var query;
 
-      var currentDate = new Date();
+      var currentDay = new Date();
+      var today = currentDay;
       var endDate = new Date(2019, 5, 14); // hard-coded date for end of academic year
-      var daysLeft = 0;
-      var balance = 0;
+      var daysLeft, weeksLeft, balance, dailyBudget, weeklyBudget, todaysSpending, thisWeeksTotal;
+      daysLeft = weeksLeft = balance = dailyBudget = weeklyBudget = todaysSpending = thisWeeksTotal = 0;
 
-      // this loop condition will never break if currentDate starts after endDate
-      while(currentDate.toDateString() != endDate.toDateString()) {
+      // this loop condition will never break if currentDay starts after endDate
+      while(currentDay.toDateString() != endDate.toDateString()) {
           daysLeft++;
-          currentDate.setDate(currentDate.getDate() + 1); // currentDate WILL change
+          currentDay.setDate(currentDay.getDate() + 1); // currentDay WILL change
       }
-      var weeksLeft = Math.ceil(daysLeft/7);
-      var dailyBudget;
-      var weeklyBudget;
+      weeksLeft = Math.ceil(daysLeft/7);
 
       // retrieve user's balance from firebase
-      var userId = firebase.auth().currentUser.uid;
-      var query;
-      var thisWeeksTotal = 0;
-
       await ref.once("value")
       .then(function(snapshot) {
          balance = parseFloat(snapshot.child("tritoncard/balance").val());
@@ -89,11 +85,7 @@ export default class BudgetScreen extends React.Component {
 ////////////////////////////////////////////////////////////////////////////////////
 
       var spendingHashmap = await this.calculateBudget(this.calculateDailySpending);
-      var currentDay = new Date();
-      var today = currentDay;
-      var startDay = currentDay;
-      var thisWeeksTotal = 0;
-      var todaysSpending = 0;
+      currentDay = today;
 
       // get today's spending
       if(spendingHashmap.has(currentDay.toDateString().substr(4, 11))) {
@@ -115,7 +107,6 @@ export default class BudgetScreen extends React.Component {
         }   
             currentDay.setDate(currentDay.getDate() - 1);
         }
-        console.log("Total spending for this week: $" + thisWeeksTotal);
 
         // now calculate previous 3 weeks spending
         var i;
@@ -163,27 +154,6 @@ export default class BudgetScreen extends React.Component {
     
         // console.log("this weeks total " +thisWeeksTotal);
 
-        // // then find previous 3 weeks spending
-        // var previousWeeks = [0, 0, 0];
-        // for(var i = 0; i < 3; i++) {
-        //   for(var j = 0; j < 7; j++) {
-        //     query.once("value")
-        //       .then(function(snapshot) {
-        //         snapshot.forEach(function(childSnapshot) {
-        //           if(currentDate.toDateString().substr(4, 3) != childSnapshot.key.substr(0, 3)) {
-        //    query = firebase.database().ref("users/" + userId + "/tritoncard/lastmonth").orderByKey();
-        //  }
-        //    else if(currentDate.toDateString().substr(4, 11) == childSnapshot.key.substr(0, 11)) {
-        //             previousWeeks[i] += parseFloat(childSnapshot.val());
-        //           }
-        //           else if(currentDate.toDateString().substr(4, 11) < childSnapshot.key.substr(0, 11)) {
-        //             return true;
-        //           }
-        //       });
-        //     });
-        //     console.log(previousWeeks);
-
-        //     currentDate.setDate(currentDate.getDate() - 1);
 
 
 
