@@ -227,6 +227,7 @@ export default class HomeScreen extends React.Component {
                         callback();
                     })
             } else {
+                _this.componentDidMount()
             }
         });
     }
