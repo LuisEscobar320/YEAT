@@ -23,10 +23,8 @@ export default class BudgetScreen extends React.Component {
 
     async calculateDailySpending() {
         var userId = firebase.auth().currentUser.uid;
-	console.log("hmmm");
         var spendingHashmap = new Map([]);
         var query = firebase.database().ref("users/" + userId + "/tritoncard/thismonth").orderByKey();
-	console.log("maybe");
         await query.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
@@ -59,7 +57,6 @@ export default class BudgetScreen extends React.Component {
               }
             });
           });
-            console.log("right before return");
           return spendingHashmap;
     }
 
@@ -135,9 +132,6 @@ export default class BudgetScreen extends React.Component {
 	var infoToDisplay = [balance, dailyBudget, weeklyBudget, todaysSpending,
 		             thisWeeksTotal, previousWeeks[0], previousWeeks[1], previousWeeks[2]];
         this.setState({data: infoToDisplay});
-        console.log(typeof this.state.data[1]);
-        console.log(typeof this.state.data[3]);
-        console.log(this.state.data[1] - this.state.data[3]);
         return previousWeeks;
     }
 
@@ -254,6 +248,9 @@ export default class BudgetScreen extends React.Component {
           <Text style={styles.chartHeaderWeekly}>Weekly Spending</Text>
       </View>
 
+
+      {this.state.data[7] === 0.00 && this.state.data[6] === 0.00 && this.state.data[5] === 0.00 && this.state.data[4] === 0.00 ?
+          <View style = {{justifyContent: 'center ',alignItems: 'center'}}><Text>You have not spent anything in the past month!</Text></View> :
   <BarChart
     data={{
       labels: ['3 weeks ago', '2 weeks ago', '1 week ago', 'This week'],
@@ -286,7 +283,7 @@ export default class BudgetScreen extends React.Component {
                           // of phone.
       borderRadius: 0 // 
     }}
-  />
+  />}
 </ScrollView>
 
          }   

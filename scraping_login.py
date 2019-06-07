@@ -27,15 +27,17 @@ def main():
             # Only processing users who have clicked LOGIN on TritonCardScreen
             if bool(ref.child(key).child('tritoncard').get()):
                 user = ref.child(key).child('tritoncard').child('username').get()
-                # If they put in an empty string or their information is incorrect
+                # If they put in an empty string or their information is incorrect, save as 'wrong' to Firebase
                 if str(user) == '' or str(user) == 'wrong':
                     ref.child(key).child('tritoncard').set({'username': 'wrong', 'password': 'wrong'})
                 else:
+                    # Getting user TritonCard info to log into the website to initiate scraping
                     USER_NAME = str(user)
                     PASSWORD = str(ref.child(key).child('tritoncard').child('password').get())
                     LOGIN_URL = 'https://services.jsatech.com/login.php?cid=212&'
                     print(USER_NAME)
                     print(PASSWORD)
+                    # Settings for chrome
                     chrome_options = Options()
                     chrome_options.add_argument("--headless")
                     # OPENING THE LOGIN SITE and logging in (change this for Luis)
@@ -54,30 +56,38 @@ def main():
                         ref.child(key).child('tritoncard').set({'username': 'wrong', 'password': 'wrong'})
                         print("Skipping bad user")
                         continue
+
+                    # Finding the tags for getting the balance
                     soup = BeautifulSoup(chrome.page_source, 'lxml')
                     table = soup.find(lambda tag: tag.name=='table' and tag.has_attr('id') and tag['id']=="Dining Dollars")
                     rows = table.find(lambda tag: tag.name=='td' and tag.has_attr('data-bal') and tag['data-bal']==" ", text=True)
+                    # Taking out the dollar sign and commas to store
                     balance = rows.text.strip()
                     balance = balance.replace("$","")
                     balance = balance.replace(",","")
                     ref.child(key).child('tritoncard').update({'balance': balance})
                     print("Balance is "+balance)
 
+                    # Clicking to get transactions
                     chrome.find_element(By.XPATH, "(//a[contains(text(),'" + 'View More'"')])[2]").click()
                     chrome.find_element(By.XPATH, "(//a[contains(text(),'" + 'View'"')])[1]").click()
                     soup = BeautifulSoup(chrome.page_source, 'lxml')
                     table = soup.find('table', attrs={'class': 'jsa_transactions'})
                     table_body = table.find('tbody')
 
-
+                    # Current month's transactions
                     thisMonth_trans = {}
                     for row in table_body.find_all("tr"):
                         cells = row.findAll("td")
                         if cells:
                             sad = cells[0].find(text=True)
+                            # Seeing if they had spent Dining Dollars this month (edge case)
                             if sad == "No transaction history found for this date range.":
+                                # Setting bogus date and time to check for later
                                 thisMonth_trans["Jan 01 1800_09:10PM"] = "0.00"
                                 break
+
+                            # Saving date and time as key to directory
                             sad = sad.replace("2019 ","2019_")
                             sad = sad.replace(u'\xa0', u'')
                             evensadder = cells[2].find(text=True)
@@ -86,22 +96,29 @@ def main():
                             evensadder = evensadder.replace("\n","")
                             thisMonth_trans[sad] = str(evensadder)
 
-                    #print(thisMonth_trans)
+                    # Saving current month's transactions to Firebase
                     ref.child(key).child('tritoncard').update({'thismonth': thisMonth_trans})
 
+                    # Navigating back to the other window to get last month's transactions
                     chrome.back()
                     chrome.find_element(By.XPATH, "(//a[contains(text(),'" + 'View'"')])[2]").click()
                     soup = BeautifulSoup(chrome.page_source, 'lxml')
                     table = soup.find('table', attrs={'class': 'jsa_transactions'})
                     table_body = table.find('tbody')
+
+                    # Getting last month's transactions
                     lastMonth_trans = {}
                     for row in table_body.find_all("tr"):
                         cells = row.findAll("td")
                         if cells:
                             sad = cells[0].find(text=True)
+                            # Seeing if they had spent Dining Dollars last month (edge case)
                             if sad == "No transaction history found for this date range.":
+                                # Setting bogus date and time to check for later
                                 thisMonth_trans["Jan 01 1800_09:10PM"] = "0.00"
                                 break
+
+                            # Saving date and time as key to directory
                             sad = sad.replace("2019 ","2019_")
                             sad = sad.replace(u'\xa0', u'')
                             evensadder = cells[2].find(text=True)
