@@ -49,7 +49,7 @@ export default class TritonCardLoginScreen extends React.Component {
         //this.myFunc()
         this.checkUser().then(tocheck=> {
             if (tocheck === "wrong") {
-                Alert.alert("wrong", "wrong", [
+                Alert.alert("Incorrect Credentials Detected", "Please log in using correct credentials", [
                     {text:'OK', onPress:this.alertbutton}
                 ]);
             } else {

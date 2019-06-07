@@ -23,12 +23,19 @@ export default class BudgetScreen extends React.Component {
 
     async calculateDailySpending() {
         var userId = firebase.auth().currentUser.uid;
+	console.log("hmmm");
         var spendingHashmap = new Map([]);
         var query = firebase.database().ref("users/" + userId + "/tritoncard/thismonth").orderByKey();
+	console.log("maybe");
         await query.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-              if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
+              if(childSnapshot.key.substr(0, 11) === "Jan 01 1800") {
+                  console.log("nothing in this month");
+                  spendingHashmap.set(childSnapshot.key.substr(0,11), 0);
+                  return true;
+              }
+	      else if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
                 spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
               }
               else {
@@ -40,7 +47,11 @@ export default class BudgetScreen extends React.Component {
         await query.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-              if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
+	      if(childSnapshot.key.substr(0, 11) === "Jan 01 1800") {
+	        spendingHashmap.set(childSnapshot.key.substr(0, 11), 0);
+	        return true;
+	      }
+	      else if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
                 spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
               }
               else {
@@ -48,7 +59,8 @@ export default class BudgetScreen extends React.Component {
               }
             });
           });
-          return spendingHashmap;     
+            console.log("right before return");
+          return spendingHashmap;
     }
 
     async calculateWeeklySpending() {
@@ -57,26 +69,22 @@ export default class BudgetScreen extends React.Component {
 
       var userId = firebase.auth().currentUser.uid;
       var ref = firebase.database().ref("users/" + userId);
+      var query;
 
-      var currentDate = new Date();
+      var currentDay = new Date();
+      var today = currentDay;
       var endDate = new Date(2019, 5, 14); // hard-coded date for end of academic year
-      var daysLeft = 0;
-      var balance = 0;
+      var daysLeft, weeksLeft, balance, dailyBudget, weeklyBudget, todaysSpending, thisWeeksTotal;
+      daysLeft = weeksLeft = balance = dailyBudget = weeklyBudget = todaysSpending = thisWeeksTotal = 0;
 
-      // this loop condition will never break if currentDate starts after endDate
-      while(currentDate.toDateString() != endDate.toDateString()) {
+      // this loop condition will never break if currentDay starts after endDate
+      while(currentDay.toDateString() != endDate.toDateString()) {
           daysLeft++;
-          currentDate.setDate(currentDate.getDate() + 1); // currentDate WILL change
+          currentDay.setDate(currentDay.getDate() + 1); // currentDay WILL change
       }
-      var weeksLeft = Math.ceil(daysLeft/7);
-      var dailyBudget;
-      var weeklyBudget;
+      weeksLeft = Math.ceil(daysLeft/7);
 
       // retrieve user's balance from firebase
-      var userId = firebase.auth().currentUser.uid;
-      var query;
-      var thisWeeksTotal = 0;
-
       await ref.once("value")
       .then(function(snapshot) {
          balance = parseFloat(snapshot.child("tritoncard/balance").val());
@@ -89,11 +97,7 @@ export default class BudgetScreen extends React.Component {
 ////////////////////////////////////////////////////////////////////////////////////
 
       var spendingHashmap = await this.calculateBudget(this.calculateDailySpending);
-      var currentDay = new Date();
-      var today = currentDay;
-      var startDay = currentDay;
-      var thisWeeksTotal = 0;
-      var todaysSpending = 0;
+      currentDay = today;
 
       // get today's spending
       if(spendingHashmap.has(currentDay.toDateString().substr(4, 11))) {
@@ -115,7 +119,6 @@ export default class BudgetScreen extends React.Component {
         }   
             currentDay.setDate(currentDay.getDate() - 1);
         }
-        console.log("Total spending for this week: $" + thisWeeksTotal);
 
         // now calculate previous 3 weeks spending
         var i;
@@ -132,6 +135,9 @@ export default class BudgetScreen extends React.Component {
 	var infoToDisplay = [balance, dailyBudget, weeklyBudget, todaysSpending,
 		             thisWeeksTotal, previousWeeks[0], previousWeeks[1], previousWeeks[2]];
         this.setState({data: infoToDisplay});
+        console.log(typeof this.state.data[1]);
+        console.log(typeof this.state.data[3]);
+        console.log(this.state.data[1] - this.state.data[3]);
         return previousWeeks;
     }
 
@@ -163,27 +169,6 @@ export default class BudgetScreen extends React.Component {
     
         // console.log("this weeks total " +thisWeeksTotal);
 
-        // // then find previous 3 weeks spending
-        // var previousWeeks = [0, 0, 0];
-        // for(var i = 0; i < 3; i++) {
-        //   for(var j = 0; j < 7; j++) {
-        //     query.once("value")
-        //       .then(function(snapshot) {
-        //         snapshot.forEach(function(childSnapshot) {
-        //           if(currentDate.toDateString().substr(4, 3) != childSnapshot.key.substr(0, 3)) {
-        //    query = firebase.database().ref("users/" + userId + "/tritoncard/lastmonth").orderByKey();
-        //  }
-        //    else if(currentDate.toDateString().substr(4, 11) == childSnapshot.key.substr(0, 11)) {
-        //             previousWeeks[i] += parseFloat(childSnapshot.val());
-        //           }
-        //           else if(currentDate.toDateString().substr(4, 11) < childSnapshot.key.substr(0, 11)) {
-        //             return true;
-        //           }
-        //       });
-        //     });
-        //     console.log(previousWeeks);
-
-        //     currentDate.setDate(currentDate.getDate() - 1);
 
 
 
@@ -236,9 +221,11 @@ export default class BudgetScreen extends React.Component {
           <Text style={styles.chartHeaderDaily}>Daily Spending</Text>
       </View>
 
+      {this.state.data[1] === "0.00" && this.state.data[3] === 0.00 ?
+          <View style = {{justifyContent: 'center ',alignItems: 'center', paddingTop: 10, paddingBottom: 10}}><Text>You have no Dining Dollars!</Text></View> :
   <PieChart
-    data = {[{name: 'Spent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
-             {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]).toFixed(2), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
+    data = {[{name: 'Spent Today', amount: parseFloat((this.state.data[3]).toFixed(2)), color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
+             {name: 'Remaining Today', amount: parseFloat((this.state.data[1]-this.state.data[3]).toFixed(2)) , color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
     width={Dimensions.get('window').width}
     height={200}
     chartConfig={{
@@ -261,7 +248,7 @@ export default class BudgetScreen extends React.Component {
     }}
     paddingLeft="-8" // how far pi chart is from left of screen
     absolute
-  />
+  /> }
 
       <View>
           <Text style={styles.chartHeaderWeekly}>Weekly Spending</Text>

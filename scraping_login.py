@@ -38,7 +38,7 @@ def main():
                     print(PASSWORD)
                     chrome_options = Options()
                     chrome_options.add_argument("--headless")
-                    # OPENING THE DAMN LOGIN SITE and logging in :3 (change this for Luis)
+                    # OPENING THE LOGIN SITE and logging in (change this for Luis)
                     chrome = webdriver.Chrome(executable_path=r"/Users/tiffanyloo/Downloads/chromedriver", chrome_options=chrome_options)
                     chrome.get(LOGIN_URL)
                     u = chrome.find_element_by_name('loginphrase')
@@ -75,6 +75,9 @@ def main():
                         cells = row.findAll("td")
                         if cells:
                             sad = cells[0].find(text=True)
+                            if sad == "No transaction history found for this date range.":
+                                thisMonth_trans["Jan 01 1800_09:10PM"] = "0.00"
+                                break
                             sad = sad.replace("2019 ","2019_")
                             sad = sad.replace(u'\xa0', u'')
                             evensadder = cells[2].find(text=True)
@@ -96,6 +99,9 @@ def main():
                         cells = row.findAll("td")
                         if cells:
                             sad = cells[0].find(text=True)
+                            if sad == "No transaction history found for this date range.":
+                                thisMonth_trans["Jan 01 1800_09:10PM"] = "0.00"
+                                break
                             sad = sad.replace("2019 ","2019_")
                             sad = sad.replace(u'\xa0', u'')
                             evensadder = cells[2].find(text=True)
