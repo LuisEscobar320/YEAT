@@ -23,12 +23,17 @@ export default class BudgetScreen extends React.Component {
 
     async calculateDailySpending() {
         var userId = firebase.auth().currentUser.uid;
+	console.log("hmmm");
         var spendingHashmap = new Map([]);
         var query = firebase.database().ref("users/" + userId + "/tritoncard/thismonth").orderByKey();
+	console.log("maybe");
         await query.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-              if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
+              if(childSnapshot.key.substr(0, 11) == "Jan 01 1800") {
+		return true;
+              }
+	      else if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
                 spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
               }
               else {
@@ -40,7 +45,10 @@ export default class BudgetScreen extends React.Component {
         await query.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-              if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
+	      if(childSnapshot.key.substr(0, 11) == "Jan 01 1800") {
+	        return true;
+	      }
+	      else if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
                 spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
               }
               else {
