@@ -484,7 +484,67 @@ def AddYeatsAndYucks(time,init=False):
             print('  Yeats: ',yeat)
             print('  Yucks: ',yuck)
 
-            
+
+#move hall information from one time of day to another
+def MoveHallTo(hall,timeFrom,timeTo,init=False):
+   #Initialize the firebase
+  if init is False:
+    # Fetch the service account key JSON file content
+    cred = credentials.Certificate('/Users/luisescobar/YEAT/yeat-dc4bc-firebase-adminsdk-4alun-1010432132.json')
+
+    # Initialize the app with a service account
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://yeat-dc4bc.firebaseio.com/'
+    })
+
+  #Get the users to add an item
+  ref = db.reference()
+
+  food_items = ref.get()[timeFrom][hall]
+
+  #Go through every item in the hall and move it to another location
+  #ref.child(timeTo).update({
+   # hall:''
+  #})
+  print(hall)
+  for food in food_items:
+    #ref.child(timeTo).child(hall).update({
+     # food:''
+    #})
+
+    print('  '+food)
+    #Go though each field in the food and add those
+    items = ref.get()[timeFrom][hall][food]
+
+    for item in items:
+
+      #handle the nutrition
+      if item == 'Nutrition':
+        ref.child(timeTo).child(hall).child(food).update({
+          item:''
+        })
+        print('    '+item)
+        nutrition_facts = ref.get()[timeFrom][hall][food][item]
+        
+        #Go through all the nutrional facts
+        for fact in nutrition_facts:
+          fact_val = ref.get()[timeFrom][hall][food][item][fact]
+          ref.child(timeTo).child(hall).child(food).child(item).update({
+            fact:fact_val
+          })
+          print('      '+fact+':'+str(fact_val))
+
+      #Otherwise add other fields as usual
+      else:
+        item_val = ref.get()[timeFrom][hall][food][item]
+        ref.child(timeTo).child(hall).child(food).update({
+          item:item_val
+        })
+        print('    '+item)
+
+
+
+
 # Get the firebase functioning again
 #updateTimeFood('Breakfast')
 #updateTimeFood('Lunch', True)
@@ -499,7 +559,8 @@ def AddYeatsAndYucks(time,init=False):
 #OrganizeFoodByCuisine('Breakfast')
 #OrganizeFoodByCuisine('Lunch',True)
 #OrganizeFoodByCuisine('Dinner',True)
-AddYeatsAndYucks('Breakfast')
-AddYeatsAndYucks('Lunch',True)
-AddYeatsAndYucks('Dinner',True)
+#AddYeatsAndYucks('Breakfast')
+#AddYeatsAndYucks('Lunch',True)
+#AddYeatsAndYucks('Dinner',True)
+MoveHallTo('OceanView','Lunch','Dinner')
 
