@@ -30,8 +30,10 @@ export default class BudgetScreen extends React.Component {
         await query.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-              if(childSnapshot.key.substr(0, 11) == "Jan 01 1800") {
-		return true;
+              if(childSnapshot.key.substr(0, 11) === "Jan 01 1800") {
+                  console.log("nothing in this month");
+                  spendingHashmap.set(childSnapshot.key.substr(0,11), 0);
+                  return true;
               }
 	      else if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
                 spendingHashmap.set(childSnapshot.key.substr(0, 11), spendingHashmap.get(childSnapshot.key.substr(0, 11)) + parseFloat(childSnapshot.val()));
@@ -45,7 +47,8 @@ export default class BudgetScreen extends React.Component {
         await query.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-	      if(childSnapshot.key.substr(0, 11) == "Jan 01 1800") {
+	      if(childSnapshot.key.substr(0, 11) === "Jan 01 1800") {
+	        spendingHashmap.set(childSnapshot.key.substr(0, 11), 0);
 	        return true;
 	      }
 	      else if(spendingHashmap.has(childSnapshot.key.substr(0, 11))) {
@@ -56,7 +59,8 @@ export default class BudgetScreen extends React.Component {
               }
             });
           });
-          return spendingHashmap;     
+            console.log("right before return");
+          return spendingHashmap;
     }
 
     async calculateWeeklySpending() {
@@ -131,6 +135,9 @@ export default class BudgetScreen extends React.Component {
 	var infoToDisplay = [balance, dailyBudget, weeklyBudget, todaysSpending,
 		             thisWeeksTotal, previousWeeks[0], previousWeeks[1], previousWeeks[2]];
         this.setState({data: infoToDisplay});
+        console.log(typeof this.state.data[1]);
+        console.log(typeof this.state.data[3]);
+        console.log(this.state.data[1] - this.state.data[3]);
         return previousWeeks;
     }
 
@@ -214,9 +221,11 @@ export default class BudgetScreen extends React.Component {
           <Text style={styles.chartHeaderDaily}>Daily Spending</Text>
       </View>
 
+      {this.state.data[1] === "0.00" && this.state.data[3] === 0.00 ?
+          <View style = {{justifyContent: 'center ',alignItems: 'center', paddingTop: 10, paddingBottom: 10}}><Text>You have no Dining Dollars!</Text></View> :
   <PieChart
-    data = {[{name: 'Spent Today', amount: this.state.data[3], color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
-             {name: 'Remaining Today', amount: (this.state.data[1] - this.state.data[3]).toFixed(2), color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
+    data = {[{name: 'Spent Today', amount: parseFloat((this.state.data[3]).toFixed(2)), color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
+             {name: 'Remaining Today', amount: parseFloat((this.state.data[1]-this.state.data[3]).toFixed(2)) , color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
     width={Dimensions.get('window').width}
     height={200}
     chartConfig={{
@@ -239,7 +248,7 @@ export default class BudgetScreen extends React.Component {
     }}
     paddingLeft="-8" // how far pi chart is from left of screen
     absolute
-  />
+  /> }
 
       <View>
           <Text style={styles.chartHeaderWeekly}>Weekly Spending</Text>
