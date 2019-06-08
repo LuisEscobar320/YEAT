@@ -368,7 +368,6 @@ export default class HomeScreen extends React.Component {
                                 });
                                 if (ind >= 0) {
                                     foodedit[i].items.splice(ind, 1); //remove this item from food array
-                                    break;
                                 }
                             }
                             if (count === data.child(key).numChildren()) {
