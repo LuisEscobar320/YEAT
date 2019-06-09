@@ -2,8 +2,6 @@
 
 CSE 110 Spring 2019
 
-![image alt text](image_0.jpg)
-
 **Team OOF**
 
 Luis Matias-Escobar - Project Manager
