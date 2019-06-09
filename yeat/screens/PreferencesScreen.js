@@ -25,11 +25,14 @@ export default class PreferencesScreen extends React.Component {
         },
     };
 
-
+    /*
+    Initiates checkbox values for the PreferencesScreen class
+    by calling setChecks
+    */
     constructor(props) {
         super(props);
        
-        // Gets the boolean for all of the boxes
+        // Gets the boolean for all of the boxes by calling setChecks
         this.setChecks("veganCheck");
         this.setChecks("vegetarianCheck");
         this.setChecks("noDairyCheck");
@@ -67,8 +70,10 @@ export default class PreferencesScreen extends React.Component {
         };
     }
 
-    // Method sets the checkboxes to be checked or unchecked depending
-    // on whether that value in the database is true or false
+    /* Method sets the checkboxes to be checked or unchecked depending
+    on whether that value in the database is true or false
+    param is the check to set
+    */
     async setChecks(param) {
         // Calls the controller to get values from the database
         let bool = await ControllerPreferences.readUserChecks(param);
@@ -125,7 +130,9 @@ export default class PreferencesScreen extends React.Component {
 
     };
     
-    // Method saves the user's preferences to Firebase
+    /* Method saves the user's preferences to Firebase by calling the controller
+    the parameters are the values of the checks in the order that they appear
+    */
     updateChecks(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11,
             ch12, ch13, ch14, ch15, ch16) {
         // Calls the control to update the database
@@ -265,6 +272,9 @@ export default class PreferencesScreen extends React.Component {
     }
 }
 
+/*
+Styles for buttons, checks, container, and title
+*/
 const styles = StyleSheet.create({
     container: {
         flex: 1,
