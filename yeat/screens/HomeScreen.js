@@ -80,7 +80,13 @@ export default class HomeScreen extends React.Component {
                 errorMessage: 'This function is not supported in android emulator',
             });
         } else {
+            var _this = this;
             this._getLocationAsync();
+            _this.checkUserController(() => {
+                _this.getFoodController(() => {
+                    _this.filterController()
+                });
+            });
         }
     }
 
