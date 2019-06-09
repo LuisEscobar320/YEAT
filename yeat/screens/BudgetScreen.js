@@ -73,7 +73,7 @@ export default class BudgetScreen extends React.Component {
       var endDate = new Date(2019, 5, 14); // hard-coded date for end of academic year
       var daysLeft, weeksLeft, balance, dailyBudget, weeklyBudget, todaysSpending, thisWeeksTotal;
       daysLeft = weeksLeft = balance = dailyBudget = weeklyBudget = todaysSpending = thisWeeksTotal = 0;
-r
+
       // this loop condition will never break if currentDay starts after endDate
       while(currentDay.toDateString() != endDate.toDateString()) {
           daysLeft++;
