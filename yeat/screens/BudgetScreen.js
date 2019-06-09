@@ -73,7 +73,7 @@ export default class BudgetScreen extends React.Component {
       var endDate = new Date(2019, 5, 14); // hard-coded date for end of academic year
       var daysLeft, weeksLeft, balance, dailyBudget, weeklyBudget, todaysSpending, thisWeeksTotal;
       daysLeft = weeksLeft = balance = dailyBudget = weeklyBudget = todaysSpending = thisWeeksTotal = 0;
-
+r
       // this loop condition will never break if currentDay starts after endDate
       while(currentDay.toDateString() != endDate.toDateString()) {
           daysLeft++;
@@ -90,15 +90,17 @@ export default class BudgetScreen extends React.Component {
          weeklyBudget = (dailyBudget*7).toFixed(2);
          query = firebase.database().ref("users/" + userId + "/tritoncard/thismonth").orderByKey();
       });
-
+      if(weeklyBudget > balance) {
+            weeklyBudget = balance;
+      }
 ////////////////////////////////////////////////////////////////////////////////////
 
       var spendingHashmap = await this.calculateBudget(this.calculateDailySpending);
-      currentDay = today;
-
+      currentDay = new Date();
       // get today's spending
       if(spendingHashmap.has(currentDay.toDateString().substr(4, 11))) {
 	todaysSpending = spendingHashmap.get(currentDay.toDateString().substr(4, 11));
+	console.log("this is today's spending" + todaysSpending)
       }
 
       // if starting on a Saturday
@@ -131,6 +133,7 @@ export default class BudgetScreen extends React.Component {
         }
 	var infoToDisplay = [balance, dailyBudget, weeklyBudget, todaysSpending,
 		             thisWeeksTotal, previousWeeks[0], previousWeeks[1], previousWeeks[2]];
+        console.log("last week" + previousWeeks[0]);
         this.setState({data: infoToDisplay});
         return previousWeeks;
     }
@@ -218,8 +221,10 @@ export default class BudgetScreen extends React.Component {
       {this.state.data[1] === "0.00" && this.state.data[3] === 0.00 ?
           <View style = {{justifyContent: 'center ',alignItems: 'center', paddingTop: 10, paddingBottom: 10}}><Text>You have no Dining Dollars!</Text></View> :
   <PieChart
-    data = {[{name: 'Spent Today', amount: parseFloat((this.state.data[3]).toFixed(2)), color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
-             {name: 'Remaining Today', amount: parseFloat((this.state.data[1]-this.state.data[3]).toFixed(2)) , color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
+    //data = {[{name: 'Spent Today', amount: parseFloat((this.state.data[3]).toFixed(2)), color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
+           data={[{name: 'Spent Today', amount: parseFloat((this.state.data[3]).toFixed(2)),color: '#153b50', legendFontColor: '#153b50', legendFontSize: 12},
+
+           {name: 'Remaining Today', amount: parseFloat((this.state.data[1]-this.state.data[3]).toFixed(2)) , color: '#39cbd6', legendFontColor: '#153b50', legendFontSize: 12}]}
     width={Dimensions.get('window').width}
     height={200}
     chartConfig={{
