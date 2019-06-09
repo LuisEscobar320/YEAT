@@ -15,7 +15,7 @@ from firebase_admin import db
 
 def main():
     # Steps to initialize Firebase (need to change path for running on Luis's desktop
-    cred = credentials.Certificate("/Users/tiffanyloo/Downloads/yeat-dc4bc-firebase-adminsdk-4alun-e3e233f62a.json")
+    cred = credentials.Certificate("/Users/luisescobar/yeat/yeat-dc4bc-firebase-adminsdk-4alun-1010432132.json")
     firebase_admin.initialize_app(cred, {'databaseURL':'https://yeat-dc4bc.firebaseio.com',
                                              'databaseAuthVariableOverride': None})
     while (1):
@@ -41,7 +41,7 @@ def main():
                     chrome_options = Options()
                     chrome_options.add_argument("--headless")
                     # OPENING THE LOGIN SITE and logging in (change this for Luis)
-                    chrome = webdriver.Chrome(executable_path=r"/Users/tiffanyloo/Downloads/chromedriver", chrome_options=chrome_options)
+                    chrome = webdriver.Chrome(executable_path=r"/Users/luisescobar/Downloads/chromedriver", chrome_options=chrome_options)
                     chrome.get(LOGIN_URL)
                     u = chrome.find_element_by_name('loginphrase')
                     u.send_keys(USER_NAME)

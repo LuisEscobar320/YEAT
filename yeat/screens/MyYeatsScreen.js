@@ -25,6 +25,10 @@ class MyYeatsScreen extends React.Component {
         },
     };
 
+    /*
+    Sets the visibility for the cards,
+    get's the user's yeats by calling getYeats
+    */
     constructor(props) {
         super(props);
         this.getYeats();
@@ -522,6 +526,9 @@ class MyYeatsScreen extends React.Component {
     }
 }
 
+/*
+Shows the user's name and email and allows them to logout
+*/
 class ProfileScreen extends React.Component {
     static navigationOptions = {
         title: 'Profile',
@@ -537,6 +544,7 @@ class ProfileScreen extends React.Component {
         }
     };
 
+    // Gets the user's name and email
     constructor(props) {
         super(props);
 
@@ -598,6 +606,9 @@ class ProfileScreen extends React.Component {
     }
 }
 
+/*
+Creates a navigator to navigate between MyYeats and Profile
+*/
 const AppNavigator = createStackNavigator({
     MyYeats: {
         screen: MyYeatsScreen,
@@ -611,6 +622,9 @@ const AppNavigator = createStackNavigator({
 
 export default createAppContainer(AppNavigator);
 
+/*
+Style for containers, buttons, icons, text
+*/
 const styles = StyleSheet.create({
     container: {
         flex: 1,
