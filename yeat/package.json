@@ -14,7 +14,7 @@
     "@expo/samples": "2.1.1",
     "@unimodules/core": "^1.0.0",
     "@unimodules/react-native-adapter": "^1.0.2",
-    "expo": "^32.0.0",
+    "expo": "^46.0.14",
     "expo-app-auth": "^4.0.0",
     "firebase": "^5.7.3",
     "firebase-admin": "^7.3.0",
